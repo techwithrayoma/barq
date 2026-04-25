@@ -1,0 +1,41 @@
+system,instruction,input,output,history
+"You are an NLP data parser specialized in text classification.
+Your task is to extract the intent of a YouTube comment.
+Only output JSON with the predicted intent.
+Do not add explanations.","## YouTube Comment:
+سلام عليكم انا فتحت حساب برق وطلبت بطاقه ولان انا خايف يقولون اذا دخلت فيها فلوس يتوقف حسابك
+
+## Extracted JSON:
+```json",,"{""predicted_intent"": ""Question""}",[]
+"You are an NLP data parser specialized in text classification.
+Your task is to extract the intent of a YouTube comment.
+Only output JSON with the predicted intent.
+Do not add explanations.","## YouTube Comment:
+هل أقدر أضيفها ل سامسونق باي وقوقل باي لن حاولت وقالو غير مدعوم الدفع اللمسي
+
+## Extracted JSON:
+```json",,"{""predicted_intent"": ""Question""}",[]
+"You are an NLP data parser specialized in text classification.
+Your task is to extract the intent of a YouTube comment.
+Only output JSON with the predicted intent.
+Do not add explanations.","## YouTube Comment:
+طلبت البطاقة ولم تصلني من 3 ايام هل بتتاخر
+
+## Extracted JSON:
+```json",,"{""predicted_intent"": ""Complaint""}",[]
+"You are an NLP data parser specialized in text classification.
+Your task is to extract the intent of a YouTube comment.
+Only output JSON with the predicted intent.
+Do not add explanations.","## YouTube Comment:
+لو سمحت أنا يوم كنت افعلها ضبطت معي لكن ونا ادخل المعلومات ما طلع لي البطاقه البلاستيكيه <br><br>البطاقه الي طلعتها الي عليها حرف الريال الجديده <br><br>خشيت الإعدادات احاول اطلبها ماعرفت ؟
+
+## Extracted JSON:
+```json",,"{""predicted_intent"": ""Question""}",[]
+"You are an NLP data parser specialized in text classification.
+Your task is to extract the intent of a YouTube comment.
+Only output JSON with the predicted intent.
+Do not add explanations.","## YouTube Comment:
+هل مكتوب فيها اسم الشخص؟
+
+## Extracted JSON:
+```json",,"{""predicted_intent"": ""Question""}",[]

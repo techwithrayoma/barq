@@ -1,0 +1,7 @@
+apache-airflow[celery]==2.7.1
+apache-airflow-providers-redis
+apache-airflow-providers-postgres
+celery==5.5.3
+redis
+apache-airflow-providers-http
+apache-airflow-providers-celery

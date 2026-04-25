@@ -1,0 +1,64 @@
+# ---------------------------------------------------------------
+# LLaMA-Factory — Default LoRA Training Config
+# Model : Qwen2.5-1.5B
+# Method: LoRA (PEFT)
+# Task  : Supervised Fine-Tuning (SFT) for intent classification
+#
+# This file is the BASE config.
+# TrainPipeline.prepare_training_assets() merges user_overrides
+# on top of this and saves the result as final_config.yaml to S3.
+# ---------------------------------------------------------------
+
+### Model
+model_name_or_path: Qwen/Qwen2.5-1.5B-Instruct   # downloaded from HuggingFace on RunPod
+
+### Method
+stage: sft
+do_train: true
+finetuning_type: lora
+
+### LoRA hyperparameters
+lora_rank: 8
+lora_alpha: 16
+lora_dropout: 0.05
+lora_target: all   # target all linear layers
+
+### Dataset
+# dataset and dataset_dir are injected by build_llm_training_config()
+# dataset: ladybug_v1_train   ← set at runtime
+# dataset_dir: /workspace/...  ← set at runtime
+template: qwen          # chat template for Qwen2.5
+cutoff_len: 512
+max_samples: 10000
+overwrite_cache: true
+preprocessing_num_workers: 4
+
+### Output
+# output_dir is injected by build_llm_training_config()
+# output_dir: /workspace/...   ← set at runtime
+logging_steps: 10
+save_steps: 100
+plot_loss: true
+overwrite_output_dir: true
+
+### Training hyperparameters (overridable via user_overrides)
+per_device_train_batch_size: 4
+per_device_eval_batch_size: 4
+gradient_accumulation_steps: 4
+learning_rate: 5.0e-5
+num_train_epochs: 3.0
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true                    # use BF16 for Ampere+ GPUs (A100, RTX 4090)
+ddp_timeout: 180000000
+
+### Evaluation
+val_size: 0.1
+evaluation_strategy: steps
+eval_steps: 100
+load_best_model_at_end: true
+metric_for_best_model: eval_loss
+
+### Weights & Biases tracking
+report_to: wandb
+run_name: ladybug-qwen25-lora   # overridden at runtime by build_llm_training_config
