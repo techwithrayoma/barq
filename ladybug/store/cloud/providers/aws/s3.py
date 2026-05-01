@@ -329,18 +329,78 @@ class S3():
 
 
 
+    def exists(self, project, version, stage, filename) -> bool:
+        key = f"{project}/{version}/{stage}/{filename}"
 
+        try:
+            self.s3_client.head_object(
+                Bucket=self.S3_BUCKET_NAME,
+                Key=key,
+            )
+            return True
+        except Exception:
+            return False
 
+    def copy_benchmark_to_version(self, model_name: str, version: str):
+        """
+        Copies latest benchmark files into versioned folder.
 
-    # def test_connection(self):
-    #     try:
-    #         self.s3_client.list_objects_v2(Bucket=self.S3_BUCKET_NAME, MaxKeys=1)
-    #         return True, f"Successfully connected to bucket: {self.S3_BUCKET_NAME}"
-    #     except NoCredentialsError:
-    #         return False, "AWS credentials are invalid or not provided."
-    #     except ClientError as e:
-    #         return False, f"Failed to connect to bucket: {e}"
-    
+        Source:
+            ladybug/benchmarks/
+
+        Destination:
+            ladybug/{version}/benchmark/
+        """
+
+        source_prefix = f"{model_name}/benchmark/"
+        target_prefix = f"{model_name}/{version}/benchmark/"
+
+        paginator = self.s3_client.get_paginator("list_objects_v2")
+
+        copied_files = 0
+
+        for page in paginator.paginate(
+            Bucket=self.S3_BUCKET_NAME,
+            Prefix=source_prefix
+        ):
+            for obj in page.get("Contents", []):
+                key = obj["Key"]
+
+                
+                if key.endswith("/"):
+                    continue
+
+                filename = key.split("/")[-1]
+                
+
+                # OPTIONAL: filter only v1/v2 benchmark files
+                if "benchmark" not in filename:
+                    continue
+
+                copy_source = {
+                    "Bucket": self.S3_BUCKET_NAME,
+                    "Key": key
+                }
+
+                dest_key = f"{target_prefix}{filename}"
+
+                self.s3_client.copy_object(
+                    Bucket=self.S3_BUCKET_NAME,
+                    CopySource=copy_source,
+                    Key=dest_key
+                )
+
+                copied_files += 1
+
+                self.logger.info(
+                    f"[Benchmark] Copied {key} → {dest_key}"
+                )
+
+        self.logger.info(
+            f"[Benchmark] Total copied files: {copied_files}"
+        )
+
+        return copied_files
 
     
     def upload(self, local_file_path: str, s3_key: str = None):

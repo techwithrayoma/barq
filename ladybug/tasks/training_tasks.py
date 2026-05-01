@@ -24,7 +24,7 @@ def build_pipeline(version, model_name, task_id):
         config=settings,
         version=version,
         model_name=model_name,
-        store_s3=False,
+        store_s3=True,
         store_local=True,
         task_id=task_id,
     )
@@ -106,6 +106,7 @@ def task_data_labeling(self, version: str, model_name: str):
     task_id = self.request.id
     task_filter.set_task_id(task_id)
 
+    db = None
     start_time = time.perf_counter()
 
     try:
@@ -115,16 +116,24 @@ def task_data_labeling(self, version: str, model_name: str):
             f"[{PipelineStep.LABELING}] started | version={version} | queue={queue}"
         )
 
+        db = SessionLocal()
+
         pipeline = build_pipeline(version, model_name, task_id)
 
+
         step_start = time.perf_counter()
-        pipeline.data_labeling()
+        pipeline.data_labeling(db)
 
         logger.info(f"[{PipelineStep.LABELING}] done in {time.perf_counter() - step_start:.2f}s")
 
+
     except Exception as e:
-        logger.error(f"[{PipelineStep.LABELING}] failed: {e}", exc_info=True)
+        logger.error(f"[{PipelineStep.INGESTION}] failed: {e}", exc_info=True)
         raise
+
+    finally:
+        if db:
+            db.close()
 
 
 # ================= TRANSFORMATION =================

@@ -1,0 +1,449 @@
+
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'IBM Plex Sans','IBM Plex Sans Arabic',sans-serif;font-size:14px;background:#F7F8FC;color:#0D1526;padding:24px;}
+
+.rde-wrap{max-width:900px;margin:0 auto;}
+
+/* VERDICT CARD */
+.verdict-card{border-radius:16px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden;}
+.verdict-no{background:#ECFDF5;border:2px solid #6EE7B7;}
+.verdict-yes{background:#FEF3F2;border:2px solid #FCA5A5;}
+.verdict-soon{background:#FFFAEB;border:2px solid #FCD34D;}
+.verdict-icon{font-size:48px;line-height:1;margin-bottom:12px;}
+.verdict-headline{font-size:26px;font-weight:700;line-height:1.1;margin-bottom:6px;}
+.verdict-no .verdict-headline{color:#065F46;}
+.verdict-yes .verdict-headline{color:#7F1D1D;}
+.verdict-soon .verdict-headline{color:#78350F;}
+.verdict-sub{font-size:14px;line-height:1.6;max-width:560px;}
+.verdict-no .verdict-sub{color:#047857;}
+.verdict-yes .verdict-sub{color:#991B1B;}
+.verdict-soon .verdict-sub{color:#92400E;}
+.verdict-meta{position:absolute;top:20px;right:24px;text-align:right;}
+.verdict-score-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;}
+.verdict-no .verdict-score-lbl{color:#6EE7B7;}
+.verdict-yes .verdict-score-lbl{color:#FCA5A5;}
+.verdict-soon .verdict-score-lbl{color:#FCD34D;}
+.verdict-score{font-size:40px;font-weight:700;line-height:1;}
+.verdict-no .verdict-score{color:#065F46;}
+.verdict-yes .verdict-score{color:#7F1D1D;}
+.verdict-soon .verdict-score{color:#78350F;}
+.verdict-score-sub{font-size:11px;margin-top:2px;}
+.verdict-no .verdict-score-sub{color:#047857;}
+.verdict-yes .verdict-score-sub{color:#991B1B;}
+.verdict-soon .verdict-score-sub{color:#92400E;}
+
+/* SIGNAL GRID */
+.signals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.signal-card{background:#fff;border-radius:12px;padding:16px;border:1.5px solid #E5E9F2;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.signal-card:hover{box-shadow:0 2px 12px rgba(13,21,38,.08);}
+.signal-card.triggered{border-color:#FCA5A5;background:#FEF3F2;}
+.signal-card.warning{border-color:#FCD34D;background:#FFFAEB;}
+.signal-card.ok{border-color:#6EE7B7;background:#ECFDF5;}
+.sig-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.sig-name{font-size:12px;font-weight:600;color:#4A5568;}
+.sig-status{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;}
+.status-triggered{background:#FEE2E2;color:#991B1B;}
+.status-warning{background:#FEF9C3;color:#78350F;}
+.status-ok{background:#D1FAE5;color:#065F46;}
+.sig-val{font-size:28px;font-weight:700;line-height:1;margin-bottom:2px;}
+.sig-val-ok{color:#065F46;}
+.sig-val-warn{color:#78350F;}
+.sig-val-bad{color:#7F1D1D;}
+.sig-threshold{font-size:11px;color:#9AA3B2;margin-bottom:10px;}
+.sig-bar-wrap{height:6px;background:#E5E9F2;border-radius:3px;overflow:hidden;}
+.sig-bar-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1);}
+.sig-bar-ok{background:#34D399;}
+.sig-bar-warn{background:#FBBF24;}
+.sig-bar-bad{background:#F87171;}
+
+/* EVIDENCE TABLE */
+.evidence-wrap{background:#fff;border-radius:12px;border:1px solid #E5E9F2;margin-bottom:20px;overflow:hidden;}
+.evidence-hd{padding:14px 18px;border-bottom:1px solid #E5E9F2;display:flex;align-items:center;justify-content:space-between;}
+.evidence-title{font-weight:600;font-size:14px;color:#0D1526;}
+.evidence-table{width:100%;border-collapse:collapse;}
+.evidence-table th{font-size:10px;color:#9AA3B2;text-transform:uppercase;letter-spacing:.7px;padding:8px 18px;text-align:left;font-weight:500;background:#F7F8FC;}
+.evidence-table td{padding:11px 18px;border-top:1px solid #F0F2F7;font-size:13px;color:#0D1526;vertical-align:middle;}
+.evidence-table tr:hover td{background:#F7F8FC;}
+.ev-signal{font-weight:500;}
+.ev-value{font-family:'IBM Plex Mono',monospace;font-size:12px;}
+.ev-thresh{font-size:11px;color:#9AA3B2;}
+.ev-impact{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;}
+.impact-high{background:#FEE2E2;color:#991B1B;}
+.impact-med{background:#FEF9C3;color:#78350F;}
+.impact-low{background:#D1FAE5;color:#065F46;}
+.ev-vote{font-size:16px;}
+
+/* TIMELINE */
+.timeline-wrap{background:#fff;border-radius:12px;border:1px solid #E5E9F2;padding:18px;margin-bottom:20px;}
+.tl-title{font-weight:600;font-size:14px;margin-bottom:16px;color:#0D1526;}
+.tl-row{display:flex;gap:0;align-items:flex-start;}
+.tl-step{flex:1;text-align:center;position:relative;}
+.tl-step::before{content:'';position:absolute;top:18px;left:calc(50% + 18px);right:calc(-50% + 18px);height:2px;background:#E5E9F2;z-index:0;}
+.tl-step:last-child::before{display:none;}
+.tl-step.done::before{background:#34D399;}
+.tl-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin:0 auto 8px;position:relative;z-index:1;border:2px solid transparent;}
+.tl-done{background:#D1FAE5;color:#065F46;border-color:#6EE7B7;}
+.tl-active{background:#EEF3FF;color:#1240CC;border-color:#1A56FF;box-shadow:0 0 0 4px #EEF3FF;}
+.tl-next{background:#F7F8FC;color:#9AA3B2;border-color:#E5E9F2;}
+.tl-label{font-size:11px;font-weight:600;color:#0D1526;margin-bottom:2px;}
+.tl-date{font-size:10px;color:#9AA3B2;}
+.tl-note{font-size:10px;color:#1A56FF;font-weight:500;margin-top:2px;}
+
+/* WHAT CHANGES */
+.changes-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.change-card{background:#fff;border-radius:12px;border:1px solid #E5E9F2;padding:16px;}
+.change-hd{display:flex;align-items:center;gap:8px;margin-bottom:12px;}
+.change-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.change-title{font-weight:600;font-size:13px;color:#0D1526;}
+.change-rows{display:flex;flex-direction:column;gap:8px;}
+.change-row{display:flex;align-items:center;gap:10px;font-size:12px;}
+.change-lbl{color:#4A5568;flex:1;}
+.change-before{color:#9AA3B2;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+.change-arrow{color:#9AA3B2;font-size:11px;}
+.change-after{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:700;}
+.after-green{color:#047857;}
+.after-blue{color:#1240CC;}
+
+/* CONTROLS */
+.controls-row{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.ctrl-btn{padding:8px 16px;border-radius:8px;border:1.5px solid #E5E9F2;background:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;color:#4A5568;transition:all .15s;}
+.ctrl-btn:hover{border-color:#C7D7FF;color:#1A56FF;}
+.ctrl-btn.active{background:#1A56FF;color:#fff;border-color:#1A56FF;}
+
+/* CHART */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.chart-card{background:#fff;border-radius:12px;border:1px solid #E5E9F2;padding:16px;}
+.chart-title{font-weight:600;font-size:13px;color:#0D1526;margin-bottom:12px;}
+</style>
+
+<div class="rde-wrap">
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+    <div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#9AA3B2;font-weight:600;margin-bottom:4px;">Barq v2 — Live evaluation</div>
+      <div style="font-size:18px;font-weight:700;color:#0D1526;">Should you retrain the model?</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="ctrl-btn active" onclick="setScenario('current',this)">Current state</button>
+      <button class="ctrl-btn" onclick="setScenario('noaction',this)">If you wait 30d</button>
+      <button class="ctrl-btn" onclick="setScenario('retrained',this)">After retrain</button>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="verdict-card verdict-soon" id="verdictCard">
+    <div class="verdict-icon" id="verdictIcon">⚡</div>
+    <div class="verdict-headline" id="verdictHeadline">Retrain soon — within 2 weeks</div>
+    <div class="verdict-sub" id="verdictSub">2 of 6 signals are triggered. Model accuracy is still healthy at 87%, but complaint-class drift and payment-feature vocabulary shift are approaching critical thresholds. Retraining now is cheap — waiting risks a measurable accuracy drop.</div>
+    <div class="verdict-meta">
+      <div class="verdict-score-lbl" id="verdictScoreLbl">Retrain urgency</div>
+      <div class="verdict-score" id="verdictScore">6.1</div>
+      <div class="verdict-score-sub" id="verdictScoreSub">out of 10</div>
+    </div>
+  </div>
+
+  <!-- SIGNALS -->
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#9AA3B2;font-weight:600;margin-bottom:10px;">6 signals evaluated</div>
+  <div class="signals-grid" id="signalsGrid"></div>
+
+  <!-- EVIDENCE TABLE -->
+  <div class="evidence-wrap">
+    <div class="evidence-hd">
+      <div class="evidence-title">Full signal evidence</div>
+      <div style="font-size:11px;color:#9AA3B2;">Each signal casts a vote: retrain or hold</div>
+    </div>
+    <table class="evidence-table" id="evidenceTable">
+      <thead><tr><th>Signal</th><th>Current value</th><th>Threshold</th><th>Impact</th><th>Vote</th></tr></thead>
+      <tbody id="evidenceTbody"></tbody>
+    </table>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="chart-row">
+    <div class="chart-card">
+      <div class="chart-title">Accuracy + complaint drift over 30 days</div>
+      <div style="display:flex;gap:14px;margin-bottom:8px;flex-wrap:wrap;">
+        <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4A5568"><span style="width:14px;height:3px;background:#1A56FF;display:inline-block;border-radius:2px"></span>Accuracy %</span>
+        <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#4A5568"><span style="width:14px;height:0;display:inline-block;border-top:2px dashed #F04438"></span>Complaint ratio %</span>
+        <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:#F79009"><span style="width:14px;height:0;display:inline-block;border-top:2px dotted #F79009"></span>Retrain trigger</span>
+      </div>
+      <div style="position:relative;height:180px;"><canvas id="driftChart" role="img" aria-label="Accuracy trend and complaint ratio drift with retrain threshold line over 30 days">Accuracy stable near 87%, complaint ratio rising from 32% toward 38%, threshold at 40%.</canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Signal health — all 6 indicators</div>
+      <div style="position:relative;height:204px;"><canvas id="radarChart" role="img" aria-label="Radar chart showing 6 drift signals: accuracy, label shift, PSI, new labels, confidence, F1">Radar showing 5 green signals and 1 amber/red signal.</canvas></div>
+    </div>
+  </div>
+
+  <!-- WHAT CHANGES IF YOU RETRAIN -->
+  <div style="font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:#9AA3B2;font-weight:600;margin-bottom:10px;">What changes if you retrain now → Barq v3</div>
+  <div class="changes-grid">
+    <div class="change-card">
+      <div class="change-hd"><div class="change-icon" style="background:#EEF3FF;">📈</div><div class="change-title">Model performance</div></div>
+      <div class="change-rows">
+        <div class="change-row"><div class="change-lbl">Accuracy</div><div class="change-before">87%</div><div class="change-arrow">→</div><div class="change-after after-green">89–90%</div></div>
+        <div class="change-row"><div class="change-lbl">Complaint-class recall</div><div class="change-before">78%</div><div class="change-arrow">→</div><div class="change-after after-green">83–85%</div></div>
+        <div class="change-row"><div class="change-lbl">Payment keyword PSI</div><div class="change-before">0.19</div><div class="change-arrow">→</div><div class="change-after after-green">~0.03</div></div>
+        <div class="change-row"><div class="change-lbl">Confidence avg</div><div class="change-before">91%</div><div class="change-arrow">→</div><div class="change-after after-green">93–94%</div></div>
+      </div>
+    </div>
+    <div class="change-card">
+      <div class="change-hd"><div class="change-icon" style="background:#ECFDF5;">💰</div><div class="change-title">Dashboard impact</div></div>
+      <div class="change-rows">
+        <div class="change-row"><div class="change-lbl">Complaint detection rate</div><div class="change-before">38.2%</div><div class="change-arrow">→</div><div class="change-after after-blue">~41%</div></div>
+        <div class="change-row"><div class="change-lbl">Urgency index sensitivity</div><div class="change-before">7.4</div><div class="change-arrow">→</div><div class="change-after after-blue">~8.1</div></div>
+        <div class="change-row"><div class="change-lbl">GPT fallback rate</div><div class="change-before">3%</div><div class="change-arrow">→</div><div class="change-after after-green">~1.5%</div></div>
+        <div class="change-row"><div class="change-lbl">Trend detection speed</div><div class="change-before">1 hr</div><div class="change-arrow">→</div><div class="change-after after-green">~45 min</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RETRAIN TIMELINE -->
+  <div class="timeline-wrap">
+    <div class="tl-title">Retrain pipeline — Barq v3 roadmap</div>
+    <div class="tl-row">
+      <div class="tl-step done">
+        <div class="tl-dot tl-done">✓</div>
+        <div class="tl-label">Dataset v3</div>
+        <div class="tl-date">May 10</div>
+      </div>
+      <div class="tl-step done">
+        <div class="tl-dot tl-done">✓</div>
+        <div class="tl-label">Barq v2 live</div>
+        <div class="tl-date">May 10</div>
+      </div>
+      <div class="tl-step done">
+        <div class="tl-dot tl-done">✓</div>
+        <div class="tl-label">Monitoring</div>
+        <div class="tl-date">May 10–now</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot tl-active">→</div>
+        <div class="tl-label">Label v4</div>
+        <div class="tl-date">By Jun 1</div>
+        <div class="tl-note">306 queued</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot tl-next">5</div>
+        <div class="tl-label">Train v3</div>
+        <div class="tl-date">Jun 1–7</div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-dot tl-next">6</div>
+        <div class="tl-label">Barq v3 live</div>
+        <div class="tl-date">Jun 8</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const SCENARIOS = {
+  current: {
+    verdict: 'soon',
+    icon: '⚡',
+    headline: 'Retrain soon — within 2 weeks',
+    sub: '2 of 6 signals are triggered. Model accuracy is still healthy at 87%, but complaint-class drift and payment-feature vocabulary shift are approaching critical thresholds. Retraining now is cheap — waiting risks a measurable accuracy drop.',
+    score: '6.1',
+    signals: [
+      { name:'Accuracy', val:'87%', display:'87%', pct:87, thresh:'< 85% = retrain', state:'ok', status:'OK' },
+      { name:'Label dist. shift', val:'+6.2pp', display:'+6.2pp', pct:62, thresh:'> 5pp = warning', state:'warning', status:'Warning' },
+      { name:'Payment PSI', val:'0.19', display:'0.19', pct:95, thresh:'> 0.20 = retrain', state:'warning', status:'Watch' },
+      { name:'New labels', val:'306', display:'306', pct:76, thresh:'> 200 = ready', state:'ok', status:'Ready' },
+      { name:'Confidence avg', val:'91%', display:'91%', pct:91, thresh:'< 80% = retrain', state:'ok', status:'OK' },
+      { name:'F1 score', val:'0.84', display:'0.84', pct:84, thresh:'< 0.78 = retrain', state:'ok', status:'OK' },
+    ],
+    rows: [
+      { sig:'Accuracy drop', cur:'87%', thresh:'< 85%', impact:'high', vote:'hold', note:'Still above floor' },
+      { sig:'Label distribution drift', cur:'+6.2pp complaints', thresh:'> 5pp shift', impact:'high', vote:'retrain', note:'Complaint class overrepresented in live data' },
+      { sig:'Feature PSI — payment vocab', cur:'0.19', thresh:'> 0.20', impact:'high', vote:'retrain', note:'One update away from threshold breach' },
+      { sig:'New labeled samples', cur:'306 ready', thresh:'> 200 samples', impact:'med', vote:'hold', note:'Enough data ready for v3 training' },
+      { sig:'Confidence avg', cur:'91%', thresh:'< 80%', impact:'med', vote:'hold', note:'Model still confident on most predictions' },
+      { sig:'F1 score drift', cur:'0.84 (stable)', thresh:'< 0.78', impact:'low', vote:'hold', note:'No significant drift from baseline' },
+    ]
+  },
+  noaction: {
+    verdict: 'yes',
+    icon: '🚨',
+    headline: 'Retrain NOW — accuracy is degrading',
+    sub: 'You waited 30 days without retraining. Payment PSI breached 0.20, complaint recall dropped to 71%, and false negatives are rising. Every day of delay means missed complaints and degraded urgency index accuracy.',
+    score: '9.2',
+    signals: [
+      { name:'Accuracy', val:'82%', display:'82%', pct:82, thresh:'< 85% = retrain', state:'triggered', status:'Triggered' },
+      { name:'Label dist. shift', val:'+11pp', display:'+11pp', pct:100, thresh:'> 5pp = warning', state:'triggered', status:'Critical' },
+      { name:'Payment PSI', val:'0.31', display:'0.31', pct:100, thresh:'> 0.20 = retrain', state:'triggered', status:'Breached' },
+      { name:'New labels', val:'580', display:'580', pct:100, thresh:'> 200 = ready', state:'ok', status:'Ready' },
+      { name:'Confidence avg', val:'83%', display:'83%', pct:83, thresh:'< 80% = retrain', state:'warning', status:'Dropping' },
+      { name:'F1 score', val:'0.76', display:'0.76', pct:76, thresh:'< 0.78 = retrain', state:'triggered', status:'Triggered' },
+    ],
+    rows: [
+      { sig:'Accuracy drop', cur:'82%', thresh:'< 85%', impact:'high', vote:'retrain', note:'Breached the 85% floor' },
+      { sig:'Label distribution drift', cur:'+11pp complaints', thresh:'> 5pp shift', impact:'high', vote:'retrain', note:'Distribution severely mismatched' },
+      { sig:'Feature PSI — payment vocab', cur:'0.31', thresh:'> 0.20', impact:'high', vote:'retrain', note:'Well beyond threshold' },
+      { sig:'New labeled samples', cur:'580 ready', thresh:'> 200 samples', impact:'med', vote:'retrain', note:'Ample data to train immediately' },
+      { sig:'Confidence avg', cur:'83%', thresh:'< 80%', impact:'med', vote:'retrain', note:'Confidence trending toward threshold' },
+      { sig:'F1 score drift', cur:'0.76', thresh:'< 0.78', impact:'low', vote:'retrain', note:'F1 has breached the minimum floor' },
+    ]
+  },
+  retrained: {
+    verdict: 'no',
+    icon: '✅',
+    headline: 'No retrain needed — Barq v3 is healthy',
+    sub: 'All 6 signals are green. Barq v3 was trained on dataset v4 including 580 fresh labels with updated payment vocabulary. Accuracy improved to 89.4%, complaint recall jumped to 84%, and PSI scores reset near zero.',
+    score: '1.4',
+    signals: [
+      { name:'Accuracy', val:'89%', display:'89%', pct:89, thresh:'< 85% = retrain', state:'ok', status:'Excellent' },
+      { name:'Label dist. shift', val:'+0.3pp', display:'+0.3pp', pct:3, thresh:'> 5pp = warning', state:'ok', status:'Stable' },
+      { name:'Payment PSI', val:'0.02', display:'0.02', pct:2, thresh:'> 0.20 = retrain', state:'ok', status:'Healthy' },
+      { name:'New labels', val:'12', display:'12', pct:6, thresh:'> 200 = ready', state:'ok', status:'Accumulating' },
+      { name:'Confidence avg', val:'93%', display:'93%', pct:93, thresh:'< 80% = retrain', state:'ok', status:'Strong' },
+      { name:'F1 score', val:'0.87', display:'0.87', pct:87, thresh:'< 0.78 = retrain', state:'ok', status:'Improved' },
+    ],
+    rows: [
+      { sig:'Accuracy drop', cur:'89.4%', thresh:'< 85%', impact:'high', vote:'hold', note:'4.4pp above retrain floor' },
+      { sig:'Label distribution drift', cur:'+0.3pp', thresh:'> 5pp shift', impact:'high', vote:'hold', note:'Distribution matches training data' },
+      { sig:'Feature PSI — payment vocab', cur:'0.02', thresh:'> 0.20', impact:'high', vote:'hold', note:'Reset after retraining on v4 dataset' },
+      { sig:'New labeled samples', cur:'12 new', thresh:'> 200 samples', impact:'med', vote:'hold', note:'Not enough yet — accumulating' },
+      { sig:'Confidence avg', cur:'93%', thresh:'< 80%', impact:'med', vote:'hold', note:'Highest confidence since launch' },
+      { sig:'F1 score drift', cur:'0.87', thresh:'< 0.78', impact:'low', vote:'hold', note:'Best F1 across all versions' },
+    ]
+  }
+};
+
+let driftChartInst, radarChartInst;
+
+function renderSignals(signals) {
+  const g = document.getElementById('signalsGrid');
+  g.innerHTML = signals.map(s => {
+    const stateClass = s.state === 'triggered' ? 'triggered' : s.state === 'warning' ? 'warning' : 'ok';
+    const statusClass = s.state === 'triggered' ? 'status-triggered' : s.state === 'warning' ? 'status-warning' : 'status-ok';
+    const valClass = s.state === 'triggered' ? 'sig-val-bad' : s.state === 'warning' ? 'sig-val-warn' : 'sig-val-ok';
+    const barClass = s.state === 'triggered' ? 'sig-bar-bad' : s.state === 'warning' ? 'sig-bar-warn' : 'sig-bar-ok';
+    const barPct = Math.min(s.pct, 100);
+    return `<div class="signal-card ${stateClass}">
+      <div class="sig-top">
+        <div class="sig-name">${s.name}</div>
+        <div class="sig-status ${statusClass}">${s.status}</div>
+      </div>
+      <div class="sig-val ${valClass}">${s.display}</div>
+      <div class="sig-threshold">Threshold: ${s.thresh}</div>
+      <div class="sig-bar-wrap"><div class="sig-bar-fill ${barClass}" style="width:${barPct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+function renderTable(rows) {
+  const tb = document.getElementById('evidenceTbody');
+  tb.innerHTML = rows.map(r => {
+    const impactClass = r.impact === 'high' ? 'impact-high' : r.impact === 'med' ? 'impact-med' : 'impact-low';
+    const vote = r.vote === 'retrain'
+      ? '<span style="color:#991B1B;font-weight:700;font-size:13px;">✕ Retrain</span>'
+      : '<span style="color:#065F46;font-weight:700;font-size:13px;">✓ Hold</span>';
+    return `<tr>
+      <td><div class="ev-signal">${r.sig}</div><div style="font-size:11px;color:#9AA3B2;margin-top:2px;">${r.note}</div></td>
+      <td><span class="ev-value">${r.cur}</span></td>
+      <td><span class="ev-thresh">${r.thresh}</span></td>
+      <td><span class="ev-impact ${impactClass}">${r.impact}</span></td>
+      <td>${vote}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderVerdict(sc) {
+  const d = SCENARIOS[sc];
+  const card = document.getElementById('verdictCard');
+  card.className = 'verdict-card verdict-' + d.verdict;
+  document.getElementById('verdictIcon').textContent = d.icon;
+  document.getElementById('verdictHeadline').textContent = d.headline;
+  document.getElementById('verdictSub').textContent = d.sub;
+  document.getElementById('verdictScore').textContent = d.score;
+}
+
+function setScenario(sc, btn) {
+  document.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const d = SCENARIOS[sc];
+  renderVerdict(sc);
+  renderSignals(d.signals);
+  renderTable(d.rows);
+  updateCharts(sc);
+}
+
+function updateCharts(sc) {
+  const driftData = {
+    current: { acc:[87,88,87,87,86,87,88,87,87,86,87,87,88,87,87], comp:[32,33,33,34,34,35,35,36,36,37,37,37,38,38,38.2] },
+    noaction: { acc:[87,86,86,85,84,84,83,83,82,82,81,82,81,81,82], comp:[32,33,34,35,36,37,38,39,40,41,42,43,44,45,46] },
+    retrained: { acc:[87,87,88,88,89,89,89,89,89,90,89,89,89,89,89.4], comp:[32,32,31,30,30,29,28,27,27,26,25,25,24,24,23.7] }
+  };
+  const rd = driftData[sc];
+  if (driftChartInst) {
+    driftChartInst.data.datasets[0].data = rd.acc;
+    driftChartInst.data.datasets[1].data = rd.comp;
+    driftChartInst.update();
+  }
+  const radarData = {
+    current: [87, 38, 81, 76, 91, 84],
+    noaction: [82, 11, 31, 100, 83, 76],
+    retrained: [89, 97, 99, 6, 93, 87]
+  };
+  if (radarChartInst) {
+    radarChartInst.data.datasets[0].data = radarData[sc];
+    radarChartInst.update();
+  }
+}
+
+driftChartInst = new Chart(document.getElementById('driftChart'), {
+  type: 'line',
+  data: {
+    labels: ['D1','D3','D5','D7','D9','D11','D13','D15','D17','D19','D21','D23','D25','D27','D30'],
+    datasets: [
+      { label:'Accuracy %', data:[87,88,87,87,86,87,88,87,87,86,87,87,88,87,87], borderColor:'#1A56FF', backgroundColor:'rgba(26,86,255,0.06)', tension:.4, fill:true, borderWidth:2, pointRadius:2, yAxisID:'y' },
+      { label:'Complaint ratio %', data:[32,33,33,34,34,35,35,36,36,37,37,37,38,38,38.2], borderColor:'#F04438', backgroundColor:'rgba(240,68,56,0.04)', tension:.4, fill:false, borderWidth:2, pointRadius:2, borderDash:[5,3], yAxisID:'y2' },
+      { label:'Retrain trigger', data:[40,40,40,40,40,40,40,40,40,40,40,40,40,40,40], borderColor:'#F79009', borderWidth:1.5, borderDash:[6,4], pointRadius:0, fill:false, tension:0, yAxisID:'y2' }
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false} },
+    scales:{
+      x:{ grid:{color:'rgba(0,0,0,0.04)'}, ticks:{color:'#9AA3B2',font:{size:10}} },
+      y:{ position:'right', min:75, max:95, grid:{color:'rgba(0,0,0,0.04)'}, ticks:{color:'#1A56FF',font:{size:10},callback:v=>v+'%'} },
+      y2:{ position:'left', min:20, max:55, grid:{display:false}, ticks:{color:'#F04438',font:{size:10},callback:v=>v+'%'} }
+    }
+  }
+});
+
+radarChartInst = new Chart(document.getElementById('radarChart'), {
+  type: 'radar',
+  data: {
+    labels: ['Accuracy','Label stability','Feature PSI','New labels','Confidence','F1 score'],
+    datasets: [{
+      label:'Barq v2',
+      data: [87, 38, 81, 76, 91, 84],
+      borderColor:'#1A56FF',
+      backgroundColor:'rgba(26,86,255,0.12)',
+      borderWidth:2,
+      pointBackgroundColor:'#1A56FF',
+      pointRadius:4
+    }]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false} },
+    scales:{
+      r:{
+        min:0, max:100,
+        ticks:{ display:false, stepSize:25 },
+        grid:{ color:'rgba(0,0,0,0.07)' },
+        pointLabels:{ font:{size:10}, color:'#4A5568' },
+        angleLines:{ color:'rgba(0,0,0,0.07)' }
+      }
+    }
+  }
+});
+
+setScenario('current', null);
+</script>

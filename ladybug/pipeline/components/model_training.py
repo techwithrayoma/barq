@@ -4,6 +4,9 @@ import subprocess
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from ladybug.core.logger import pipeline_logger
+import mlflow
+import time
+
 
 logger = pipeline_logger
 
@@ -44,37 +47,88 @@ class ModelTraining:
     #  DATA SPLIT                                                          #
     # ------------------------------------------------------------------ #
     def split_data(
-        self,
-        test_size:  float = 0.10,
-        val_size:   float = 0.10,
-        random_state: int = 42,
-    ):
-        """
-        Split DataFrame into train / val / test.
+            self,
+            val_size: float = 0.1,
+            random_state: int = 42,
+            ensure_all_classes_in_val: bool = True,
+        ):
+            """
+            Split DataFrame into train / validation.
 
-        Returns:
-            train_df, val_df, test_df  (pandas DataFrames)
-        """
-        train_val_df, test_df = train_test_split(
-            self.df,
-            test_size=test_size,
-            random_state=random_state,
-            stratify=self.df["output"] if "output" in self.df.columns else None,
-        )
+            Features:
+            - Stratified split (if possible)
+            - Handles small datasets
+            - Verifies class distribution
+            - Optionally guarantees all classes in validation
+            """
 
-        relative_val = val_size / (1 - test_size)
-        train_df, val_df = train_test_split(
-            train_val_df,
-            test_size=relative_val,
-            random_state=random_state,
-            stratify=train_val_df["output"] if "output" in train_val_df.columns else None,
-        )
+            # -----------------------------
+            # Basic checks
+            # -----------------------------
+            if "output" not in self.df.columns:
+                raise ValueError("DataFrame must contain 'output' column")
 
-        logger.info(
-            f"[ModelTraining] Split — train={len(train_df)} | "
-            f"val={len(val_df)} | test={len(test_df)}"
-        )
-        return train_df, val_df, test_df
+            df = self.df.copy()
+
+            # -----------------------------
+            # Class distribution BEFORE
+            # -----------------------------
+            logger.info("📊 Full dataset distribution:")
+            logger.info(f"\n{df['output'].value_counts()}")
+
+            # -----------------------------
+            # Decide stratification
+            # -----------------------------
+            stratify_col = df["output"]
+
+            if len(df) < 50 or df["output"].value_counts().min() < 2:
+                stratify_col = None
+                logger.warning("⚠️ Dataset too small or rare classes → disabling stratification")
+
+            # -----------------------------
+            # Split
+            # -----------------------------
+            train_df, val_df = train_test_split(
+                df,
+                test_size=val_size,
+                random_state=random_state,
+                stratify=stratify_col,
+            )
+
+            # -----------------------------
+            # Ensure ALL classes in val
+            # -----------------------------
+            if ensure_all_classes_in_val:
+                missing_classes = set(df["output"]) - set(val_df["output"])
+
+                if missing_classes:
+                    logger.warning(f"⚠️ Missing classes in val: {missing_classes}")
+                    logger.warning("🔁 Fixing validation set to include all classes...")
+
+                    # Move one sample per missing class from train → val
+                    for cls in missing_classes:
+                        sample = train_df[train_df["output"] == cls].sample(
+                            n=1, random_state=random_state
+                        )
+                        val_df = val_df.append(sample)
+                        train_df = train_df.drop(sample.index)
+
+            # -----------------------------
+            # Final distribution check
+            # -----------------------------
+            logger.info("\n📊 Train distribution:")
+            logger.info(f"\n{train_df['output'].value_counts()}")
+
+            logger.info("\n📊 Validation distribution:")
+            logger.info(f"\n{val_df['output'].value_counts()}")
+
+            logger.info(
+                f"\n✅ Final Split — train={len(train_df)} | val={len(val_df)}"
+            )
+
+            return train_df.reset_index(drop=True), val_df.reset_index(drop=True)
+
+
 
     # ------------------------------------------------------------------ #
     #  DATASET REGISTRATION (LLaMA-Factory dataset_info.json format)      #
@@ -108,6 +162,7 @@ class ModelTraining:
         }
         logger.info("[ModelTraining] dataset_info.json built")
         return dataset_info
+
 
     # ------------------------------------------------------------------ #
     #  YAML CONFIG BUILDER                                                 #
@@ -144,44 +199,122 @@ class ModelTraining:
         logger.info(f"[ModelTraining] Final YAML config built: {list(config.keys())}")
         return config
 
-    # ------------------------------------------------------------------ #
-    #  RUN LLAMA-FACTORY TRAINING                                          #
-    # ------------------------------------------------------------------ #
-    def run_llamafactory_training(self, config_path: str) -> None:
-        """
-        Execute LLaMA-Factory fine-tuning via CLI.
 
-        This is called by TrainPipeline.run_model_training() on the RunPod
-        GPU worker.  It blocks until training completes (or raises on failure).
+    def run_llamafactory_training(self, config_path: str):
+        
+        mlflow.set_tracking_uri("http://0.0.0.0:57321")
 
-        Args:
-            config_path : Absolute path to the final_config.yaml on disk
-                          (already downloaded from S3 by StorageManager)
+        mlflow.set_experiment(f"{self.project}-{self.version}")
 
-        Raises:
-            RuntimeError : if llamafactory-cli exits with a non-zero code
-        """
-        cmd = ["llamafactory-cli", "train", config_path]
+        start_time = time.time()
 
-        logger.info(f"[ModelTraining] Launching: {' '.join(cmd)}")
+        with mlflow.start_run() as run:
 
-        # Stream stdout/stderr live so Celery logs show training progress
-        process = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            bufsize=1,
-        )
+            run_id = run.info.run_id
 
-        for line in process.stdout:
-            logger.info(f"[LLaMA-Factory] {line.rstrip()}")
+            # ----------------------------
+            # BASIC PARAMS
+            # ----------------------------
+            mlflow.log_param("project", self.project)
+            mlflow.log_param("version", self.version)
 
-        process.wait()
 
-        if process.returncode != 0:
-            raise RuntimeError(
-                f"llamafactory-cli exited with code {process.returncode}"
+            # ----------------------------
+            # 🔥 CONFIG LOGGING
+            # ----------------------------
+            mlflow.log_dict(self.config, "training_config.json")
+
+            # ----------------------------
+            # RUN TRAINING
+            # ----------------------------
+            cmd = ["llamafactory-cli", "train", config_path]
+
+            process = subprocess.Popen(
+                cmd,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
             )
 
-        logger.info("[ModelTraining] LLaMA-Factory training finished successfully")
+            for line in process.stdout:
+                logger.info(line)
+
+            process.wait()
+
+            if process.returncode != 0:
+                raise RuntimeError("Training failed")
+
+            # ----------------------------
+            # METRICS
+            # ----------------------------
+            duration_sec = time.time() - start_time
+            gpu_hours = duration_sec / 3600
+            cost = gpu_hours * 1.5  # adjust later
+
+            mlflow.log_metric("training_time_sec", duration_sec)
+            mlflow.log_metric("gpu_hours", gpu_hours)
+            mlflow.log_metric("cost_usd", cost)
+
+            logger.info(f"[MLFLOW] Run ID: {run_id}")
+
+            return run_id
+
+        
+
+
+
+
+
+
+### ignore for now 
+# def _save_model_metadata(self, db, training_cutoff, total_cost):
+#     from models import Model
+
+#     model = Model(
+#         model_name=self.model_name,
+#         model_version=self.version,
+#         training_run_type="runpod",
+#         dataset_dvc_hash=None,  # or later
+#         total_training_cost_usd=total_cost,
+#         gpu_type="A100",  # example
+#         gpu_hours=1.5,    # example
+#         created_at=datetime.now(timezone.utc)
+#     )
+
+#     db.add(model)
+#     db.commit()
+
+
+# a snapshot of EXACT training dataset used for a model run
+# def create_dvc_snapshot(self, train_df, val_df, storage_path: str):
+#     """
+#     Create a reproducible dataset fingerprint (DVC-style hash).
+#     """
+
+#     def hash_df(df):
+#         # stable hash of dataset content
+#         return hashlib.sha256(
+#             pd.util.hash_pandas_object(df, index=True).values
+#         ).hexdigest()
+
+#     train_hash = hash_df(train_df)
+#     val_hash   = hash_df(val_df)
+
+#     dvc_snapshot = {
+#         "project": self.project,
+#         "version": self.version,
+#         "train_hash": train_hash,
+#         "val_hash": val_hash,
+#         "rows_train": len(train_df),
+#         "rows_val": len(val_df),
+#     }
+
+#     # save locally (or via storage manager)
+#     path = os.path.join(storage_path, "dvc_snapshot.json")
+
+#     with open(path, "w") as f:
+#         json.dump(dvc_snapshot, f, indent=2)
+
+#     logger.info(f"[DVC] Snapshot created: {dvc_snapshot}")
+
+#     return dvc_snapshot

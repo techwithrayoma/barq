@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>BarqPulse — Customer Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --blue: #1A56FF;
+  --blue-dark: #1240CC;
+  --blue-light: #EEF3FF;
+  --blue-mid: #C7D7FF;
+  --text: #0D1526;
+  --text2: #4A5568;
+  --text3: #9AA3B2;
+  --bg: #F7F8FC;
+  --white: #FFFFFF;
+  --border: #E5E9F2;
+  --border2: #CDD3E0;
+  --green: #12B76A;
+  --green-bg: #ECFDF5;
+  --red: #F04438;
+  --red-bg: #FEF3F2;
+  --amber: #F79009;
+  --amber-bg: #FFFAEB;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --shadow: 0 1px 4px rgba(13,21,38,0.07), 0 4px 16px rgba(13,21,38,0.05);
+  --shadow-sm: 0 1px 3px rgba(13,21,38,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans Arabic','IBM Plex Sans',sans-serif;font-size:14px;min-height:100vh;}
+[lang="en"] body,[dir="ltr"]{font-family:'IBM Plex Sans','IBM Plex Sans Arabic',sans-serif;}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;right:0;top:0;bottom:0;width:230px;
+  background:var(--white);border-left:1px solid var(--border);
+  display:flex;flex-direction:column;z-index:100;
+}
+[dir="ltr"] .sidebar{right:auto;left:0;border-left:none;border-right:1px solid var(--border);}
+.logo-area{padding:20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;}
+.logo-icon{width:36px;height:36px;border-radius:10px;background:var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo-icon svg{width:20px;height:20px;fill:#fff;}
+.logo-text{font-weight:700;font-size:16px;line-height:1.1;color:var(--text);}
+.logo-sub{font-size:10px;color:var(--text3);font-weight:400;}
+.nav{flex:1;padding:14px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;}
+.nav-section{font-size:10px;color:var(--text3);letter-spacing:.8px;text-transform:uppercase;padding:12px 8px 4px;font-weight:500;}
+.nav-item{
+  display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:var(--radius-sm);
+  cursor:pointer;color:var(--text2);font-size:13px;font-weight:400;transition:all .15s;
+}
+.nav-item:hover{background:var(--bg);color:var(--text);}
+.nav-item.active{background:var(--blue-light);color:var(--blue);font-weight:500;}
+.nav-icon{width:16px;text-align:center;font-size:14px;flex-shrink:0;}
+.badge-red{margin-right:auto;background:var(--red);color:#fff;font-size:10px;padding:1px 7px;border-radius:20px;}
+[dir="ltr"] .badge-red{margin-right:0;margin-left:auto;}
+.sidebar-footer{padding:14px;border-top:1px solid var(--border);}
+.live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;margin-left:6px;animation:pulse-dot 2s infinite;}
+[dir="ltr"] .live-dot{margin-left:0;margin-right:6px;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.3);}}
+
+/* MAIN */
+.main{margin-right:230px;min-height:100vh;}
+[dir="ltr"] .main{margin-right:0;margin-left:230px;}
+
+/* TOPBAR */
+.topbar{
+  position:sticky;top:0;z-index:50;background:rgba(247,248,252,.9);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);padding:12px 24px;
+  display:flex;align-items:center;gap:10px;
+}
+.topbar-title{font-weight:600;font-size:16px;color:var(--text);}
+.topbar-cat{font-size:11px;color:var(--blue);background:var(--blue-light);padding:2px 9px;border-radius:20px;font-weight:500;border:1px solid var(--blue-mid);}
+.topbar-right{margin-right:auto;display:flex;align-items:center;gap:8px;}
+[dir="ltr"] .topbar-right{margin-right:0;margin-left:auto;}
+.period-sel{display:flex;border:1px solid var(--border2);border-radius:var(--radius-sm);overflow:hidden;}
+.period-btn{padding:5px 11px;font-size:12px;cursor:pointer;background:transparent;color:var(--text2);border:none;font-family:inherit;transition:all .15s;font-weight:400;}
+.period-btn:hover{background:var(--bg);color:var(--text);}
+.period-btn.active{background:var(--blue);color:#fff;font-weight:500;}
+
+/* LANG TOGGLE */
+.lang-toggle{display:flex;border:1px solid var(--border2);border-radius:var(--radius-sm);overflow:hidden;}
+.lang-btn{padding:5px 12px;font-size:12px;cursor:pointer;background:transparent;color:var(--text2);border:none;font-family:inherit;transition:all .15s;font-weight:500;}
+.lang-btn.active{background:var(--text);color:#fff;}
+
+/* CONTENT */
+.content{padding:22px 24px;}
+.section-hd{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.section-title{font-weight:600;font-size:13px;color:var(--text);white-space:nowrap;}
+.section-line{flex:1;height:1px;background:var(--border);}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:22px;}
+.kpi-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow-sm);transition:box-shadow .2s,border-color .2s;}
+.kpi-card:hover{box-shadow:var(--shadow);border-color:var(--border2);}
+.kpi-card.accent{border-color:var(--blue-mid);background:var(--blue-light);}
+.kpi-label{font-size:11px;color:var(--text3);font-weight:500;margin-bottom:8px;text-transform:uppercase;letter-spacing:.6px;}
+.kpi-val{font-size:26px;font-weight:700;line-height:1;margin-bottom:6px;color:var(--text);}
+.kpi-meta{font-size:11px;display:flex;align-items:center;gap:5px;}
+.up{color:var(--green);}
+.down{color:var(--red);}
+.neutral{color:var(--text3);}
+.urgency-wrap{display:flex;align-items:center;gap:10px;margin-top:4px;}
+.urgency-label{font-size:11px;font-weight:600;color:var(--blue);}
+
+/* CHARTS ROW */
+.charts-row{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:22px;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.card-title{font-weight:600;font-size:14px;color:var(--text);}
+.legend{display:flex;gap:14px;flex-wrap:wrap;}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
+.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+
+/* ALERT CHANGED */
+.changed-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:22px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;}
+.changed-card::before{content:'';position:absolute;top:0;right:0;bottom:0;width:3px;background:var(--red);}
+[dir="ltr"] .changed-card::before{right:auto;left:0;}
+.alert-badge-red{display:inline-flex;align-items:center;gap:5px;background:var(--red-bg);color:var(--red);font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid rgba(240,68,56,.2);font-weight:500;margin-bottom:12px;}
+.insights-list{display:flex;flex-direction:column;gap:8px;}
+.ins-row{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);}
+.ins-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.ins-text{font-size:13px;color:var(--text);line-height:1.55;}
+.ins-text strong{color:var(--blue);font-weight:600;}
+
+/* MIDDLE */
+.middle-row{display:grid;grid-template-columns:1fr 1.5fr;gap:14px;margin-bottom:22px;}
+
+/* THEMES */
+.themes-list{display:flex;flex-direction:column;gap:9px;}
+.theme-item{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;cursor:pointer;transition:all .15s;}
+.theme-item:hover{background:var(--white);border-color:var(--blue-mid);box-shadow:var(--shadow-sm);}
+.th-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
+.th-name{font-weight:600;font-size:13px;color:var(--text);}
+.th-count{font-size:11px;color:var(--text3);}
+.th-bar{height:3px;background:var(--border);border-radius:2px;margin-bottom:8px;overflow:hidden;}
+.th-fill{height:100%;border-radius:2px;}
+.th-tags{display:flex;flex-wrap:wrap;gap:5px;}
+.th-tag{font-size:10px;padding:2px 8px;border-radius:20px;background:var(--white);color:var(--text2);border:1px solid var(--border);font-weight:400;}
+
+/* COMMENTS */
+.comments-list{display:flex;flex-direction:column;gap:8px;max-height:390px;overflow-y:auto;}
+.comments-list::-webkit-scrollbar{width:4px;}
+.comments-list::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.cmt{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px;transition:all .15s;}
+.cmt:hover{border-color:var(--blue-mid);box-shadow:var(--shadow-sm);}
+.cmt-top{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
+.pill{font-size:10px;padding:2px 9px;border-radius:20px;font-weight:500;}
+.pill-c{background:var(--red-bg);color:var(--red);border:1px solid rgba(240,68,56,.2);}
+.pill-q{background:var(--blue-light);color:var(--blue);border:1px solid var(--blue-mid);}
+.pill-p{background:var(--green-bg);color:var(--green);border:1px solid rgba(18,183,106,.2);}
+.pill-s{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(247,144,9,.2);}
+.sev{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.sev-h{background:var(--red);}
+.sev-m{background:var(--amber);}
+.sev-l{background:var(--green);}
+.cmt-text{font-size:13px;color:var(--text);margin-bottom:5px;line-height:1.55;}
+.cmt-meta{font-size:11px;color:var(--text3);display:flex;gap:10px;}
+.filter-row{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.fchip{padding:4px 11px;border-radius:20px;border:1px solid var(--border2);font-size:11px;color:var(--text2);cursor:pointer;transition:all .15s;background:var(--white);font-family:inherit;font-weight:400;}
+.fchip:hover{color:var(--text);}
+.fchip.active{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* AI ROW */
+.ai-row{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-bottom:22px;}
+.ai-panel{background:var(--white);border:1px solid var(--blue-mid);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);}
+.ai-badge{display:inline-flex;align-items:center;gap:5px;background:var(--blue-light);color:var(--blue);font-size:10px;padding:3px 10px;border-radius:20px;border:1px solid var(--blue-mid);font-weight:600;margin-bottom:12px;}
+.ai-sec{margin-bottom:14px;}
+.ai-sec-title{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.7px;font-weight:600;margin-bottom:6px;}
+.ai-text{font-size:13px;color:var(--text);line-height:1.65;}
+.ai-risk{display:flex;gap:8px;background:var(--red-bg);border:1px solid rgba(240,68,56,.15);border-radius:var(--radius-sm);padding:10px;font-size:13px;color:var(--text);line-height:1.5;}
+.rec-list{display:flex;flex-direction:column;gap:7px;}
+.rec-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text);}
+.rec-num{min-width:20px;height:20px;border-radius:50%;background:var(--blue);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* ASK */
+.ask-panel{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;}
+.ask-title{font-weight:600;font-size:14px;color:var(--text);margin-bottom:3px;display:flex;align-items:center;gap:7px;}
+.ask-sub{font-size:12px;color:var(--text3);margin-bottom:12px;}
+.quick-asks{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px;}
+.qask{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border2);color:var(--text2);cursor:pointer;background:var(--bg);transition:all .15s;font-family:inherit;}
+.qask:hover{color:var(--blue);border-color:var(--blue-mid);}
+.chat-msgs{flex:1;display:flex;flex-direction:column;gap:7px;margin-bottom:10px;min-height:130px;max-height:180px;overflow-y:auto;}
+.chat-msgs::-webkit-scrollbar{width:3px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--border2);}
+.msg{padding:9px 12px;border-radius:var(--radius-sm);font-size:12.5px;line-height:1.55;max-width:90%;}
+.msg-u{background:var(--blue);color:#fff;align-self:flex-end;}
+[dir="ltr"] .msg-u{align-self:flex-end;}
+.msg-a{background:var(--bg);border:1px solid var(--border);color:var(--text);align-self:flex-start;}
+.msg-a .typed::after{content:'▋';animation:blink 1s infinite;color:var(--blue);}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.ask-row{display:flex;gap:8px;}
+.ask-inp{flex:1;background:var(--bg);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:8px 12px;color:var(--text);font-size:13px;font-family:inherit;outline:none;transition:border-color .15s;}
+.ask-inp:focus{border-color:var(--blue);}
+.ask-inp::placeholder{color:var(--text3);}
+.ask-send{background:var(--blue);color:#fff;border:none;border-radius:var(--radius-sm);padding:0 16px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:500;transition:background .15s;}
+.ask-send:hover{background:var(--blue-dark);}
+
+/* ALERTS */
+.alerts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:24px;}
+.alert-card{border-radius:var(--radius-sm);padding:14px;border:1px solid;display:flex;gap:10px;align-items:flex-start;background:var(--white);box-shadow:var(--shadow-sm);}
+.alert-d{border-color:rgba(240,68,56,.25);}
+.alert-w{border-color:rgba(247,144,9,.25);}
+.alert-i{border-color:var(--blue-mid);}
+.alert-ic{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;}
+.ic-d{background:var(--red-bg);}
+.ic-w{background:var(--amber-bg);}
+.ic-i{background:var(--blue-light);}
+.alert-title{font-weight:600;font-size:13px;margin-bottom:3px;}
+.alert-desc{font-size:11px;color:var(--text2);line-height:1.4;}
+.alert-time{font-size:10px;color:var(--text3);margin-top:4px;}
+
+/* ADD TO CART style CTA */
+.cta-bar{background:var(--blue-light);border:1px solid var(--blue-mid);border-radius:var(--radius);padding:16px 20px;display:flex;align-items:center;gap:14px;margin-bottom:24px;}
+.cta-text{flex:1;font-size:13px;color:var(--text);line-height:1.5;}
+.cta-text strong{color:var(--blue);font-weight:700;}
+.cta-btn{background:var(--blue);color:#fff;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s;white-space:nowrap;}
+.cta-btn:hover{background:var(--blue-dark);}
+.cta-features{display:flex;gap:16px;flex-wrap:wrap;}
+.cta-feat{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text2);}
+
+@media(max-width:1100px){
+  .kpi-grid{grid-template-columns:repeat(3,1fr);}
+  .charts-row,.middle-row,.ai-row{grid-template-columns:1fr;}
+  .alerts-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(100%);}
+  [dir="ltr"] .sidebar{transform:translateX(-100%);}
+  .main{margin-right:0;margin-left:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo-area">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+    </div>
+    <div>
+      <div class="logo-text">Barq</div>
+      <div class="logo-sub" data-ar="نظام ذكاء العملاء" data-en="Customer Intelligence OS">نظام ذكاء العملاء</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="nav-section" data-ar="نظرة عامة" data-en="Overview">نظرة عامة</div>
+    <div class="nav-item active">
+      <span class="nav-icon">⬛</span>
+      <span data-ar="مركز القيادة" data-en="Command Center">مركز القيادة</span>
+    </div>
+    <!-- <div class="nav-item">
+      <span class="nav-icon">📈</span>
+      <span data-ar="الاتجاهات" data-en="Trends">الاتجاهات</span>
+    </div> -->
+    <div class="nav-item">
+      <span class="nav-icon">🔔</span>
+      <span data-ar="التنبيهات" data-en="Alerts">التنبيهات</span>
+      <span class="badge-red">3</span>
+    </div>
+    <div class="nav-section" data-ar="التحليل" data-en="Analysis">التحليل</div>
+    <div class="nav-item">
+      <span class="nav-icon">💬</span>
+      <span data-ar="التعليقات" data-en="Comments">التعليقات</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">🧩</span>
+      <span data-ar="المجموعات" data-en="Theme Clusters">المجموعات</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">🎯</span>
+      <span data-ar="مستكشف النوايا" data-en="Intent Explorer">مستكشف النوايا</span>
+    </div>
+    <div class="nav-section" data-ar="الذكاء الاصطناعي" data-en="Intelligence">الذكاء الاصطناعي</div>
+    <div class="nav-item">
+      <span class="nav-icon">🤖</span>
+      <span data-ar="المحلل الذكي" data-en="AI Analyst">المحلل الذكي</span>
+    </div>
+    <!-- <div class="nav-item">
+      <span class="nav-icon">📋</span>
+      <span data-ar="التقارير" data-en="Reports">التقارير</span>
+    </div>
+    <div class="nav-item">
+      <span class="nav-icon">⚙️</span>
+      <span data-ar="الإعدادات" data-en="Settings">الإعدادات</span>
+    </div> -->
+  </nav>
+  <div class="sidebar-footer">
+    <div style="font-size:11px;color:var(--text3);display:flex;align-items:center;">
+      <span class="live-dot"></span>
+      <span data-ar="مباشر • آخر مزامنة منذ دقيقتين" data-en="Live • Last sync 2m ago">مباشر • آخر مزامنة منذ دقيقتين</span>
+    </div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="topbar-cat" data-ar="مبيعات" data-en="SALES">مبيعات</div>
+    <div class="topbar-title" data-ar="مركز ذكاء العملاء" data-en="Customer Intelligence Command Center">مركز ذكاء العملاء</div>
+    <div class="topbar-right">
+      <div class="period-sel">
+        <button class="period-btn" onclick="setPeriod(this)">7D</button>
+        <button class="period-btn active" onclick="setPeriod(this)">30D</button>
+        <button class="period-btn" onclick="setPeriod(this)">90D</button>
+      </div>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btnAr" onclick="setLang('ar')">ع</button>
+        <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div class="content">
+
+    <!-- CTA BAR (product-page style) -->
+    <!-- <div class="cta-bar">
+      <div>
+        <div class="cta-features">
+          <div class="cta-feat">💡 <span data-ar="تحليل فوري" data-en="Real-time analysis">تحليل فوري</span></div>
+          <div class="cta-feat">🎯 <span data-ar="تصنيف بالذكاء الاصطناعي" data-en="AI classification">تصنيف بالذكاء الاصطناعي</span></div>
+          <div class="cta-feat">📊 <span data-ar="لوحة تفاعلية" data-en="Interactive dashboard">لوحة تفاعلية</span></div>
+          <div class="cta-feat">🌐 <span data-ar="عربي وإنجليزي" data-en="Arabic & English">عربي وإنجليزي</span></div>
+        </div>
+      </div>
+      <button class="cta-btn" data-ar="تصدير التقرير →" data-en="Export Report →">تصدير التقرير →</button>
+    </div> -->
+
+
+
+
+    
+    <!-- KPI -->
+     
+    <div class="section-hd">
+      <span class="section-title" data-ar="المؤشرات الرئيسية" data-en="Key Metrics">المؤشرات الرئيسية</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label" data-ar="التعليقات المحللة" data-en="Comments Analyzed">التعليقات المحللة</div>
+        <div class="kpi-val">12,847</div>
+        <div class="kpi-meta"><span class="up">↑ 18%</span><span class="neutral" data-ar="مقارنة بالشهر الماضي" data-en="vs last month">مقارنة بالشهر الماضي</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label" data-ar="نسبة الشكاوى" data-en="Complaint Rate">نسبة الشكاوى</div>
+        <div class="kpi-val" style="color:var(--red)">38.2%</div>
+        <div class="kpi-meta"><span class="down">↑ 23%</span><span class="neutral" data-ar="هذا الأسبوع" data-en="this week">هذا الأسبوع</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label" data-ar="نسبة الأسئلة" data-en="Question Rate">نسبة الأسئلة</div>
+        <div class="kpi-val" style="color:var(--blue)">24.7%</div>
+        <div class="kpi-meta"><span class="down">↑ 8%</span><span class="neutral" data-ar="إشارة تشويش" data-en="confusion signal">إشارة تشويش</span></div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label" data-ar="متوسط المشاعر" data-en="Avg Sentiment">متوسط المشاعر</div>
+        <div class="kpi-val" style="color:var(--red)">-0.34</div>
+        <div class="kpi-meta"><span class="down" data-ar="↓ منخفض" data-en="↓ dropping">↓ منخفض</span><span class="neutral">-1→1</span></div>
+      </div>
+      <div class="kpi-card accent">
+        <div class="kpi-label" data-ar="مؤشر الإلحاح™" data-en="Urgency Index™">مؤشر الإلحاح™</div>
+        <div class="kpi-val" style="color:var(--blue)">7.4<span style="font-size:13px;font-weight:400;color:var(--text3)">/10</span></div>
+        <div class="kpi-meta">
+          <span style="background:var(--red);color:#fff;padding:1px 8px;border-radius:20px;font-size:10px;font-weight:600;" data-ar="مرتفع" data-en="HIGH">مرتفع</span>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- TREND + DONUT -->
+    <div class="section-hd">
+      <span class="section-title" data-ar="الاتجاهات الزمنية" data-en="Trend Timeline">الاتجاهات الزمنية</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="charts-row">
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title" data-ar="نوايا التعليقات عبر الزمن" data-en="Comment Intent Over Time">نوايا التعليقات عبر الزمن</div>
+          <div class="legend">
+            <div class="leg-item"><div class="leg-dot" style="background:#F04438"></div><span data-ar="شكاوى" data-en="Complaints">شكاوى</span></div>
+            <div class="leg-item"><div class="leg-dot" style="background:#1A56FF"></div><span data-ar="أسئلة" data-en="Questions">أسئلة</span></div>
+            <div class="leg-item"><div class="leg-dot" style="background:#12B76A"></div><span data-ar="إطراء" data-en="Praise">إطراء</span></div>
+          </div>
+        </div>
+        <div style="position:relative;height:220px"><canvas id="trendChart" role="img" aria-label="Line chart showing complaints, questions and praise over 8 weeks">Trend data.</canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title" data-ar="توزيع النوايا" data-en="Intent Distribution">توزيع النوايا</div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+          <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:10px;height:10px;border-radius:2px;background:#F04438;display:inline-block"></span><span data-ar="شكاوى 38%" data-en="Complaint 38%">شكاوى 38%</span></span>
+          <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:10px;height:10px;border-radius:2px;background:#1A56FF;display:inline-block"></span><span data-ar="أسئلة 25%" data-en="Question 25%">أسئلة 25%</span></span>
+          <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:10px;height:10px;border-radius:2px;background:#12B76A;display:inline-block"></span><span data-ar="إطراء 20%" data-en="Praise 20%">إطراء 20%</span></span>
+          <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:10px;height:10px;border-radius:2px;background:#F79009;display:inline-block"></span><span data-ar="اقتراح 12%" data-en="Suggestion 12%">اقتراح 12%</span></span>
+          <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:10px;height:10px;border-radius:2px;background:#9AA3B2;display:inline-block"></span><span data-ar="أخرى 5%" data-en="Statement 5%">أخرى 5%</span></span>
+        </div>
+        <div style="position:relative;height:185px"><canvas id="intentChart" role="img" aria-label="Donut chart of intent distribution">Intent breakdown.</canvas></div>
+      </div>
+    </div>
+
+
+
+    <!-- WHAT CHANGED -->
+    <div class="section-hd">
+      <span class="section-title" data-ar="ما الذي تغيّر هذا الأسبوع؟" data-en="What Changed This Week?">ما الذي تغيّر هذا الأسبوع؟</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="changed-card">
+      <div class="alert-badge-red">⚠ <span data-ar="تم رصد شذوذ" data-en="Anomaly Detected">تم رصد شذوذ</span></div>
+      <div class="insights-list">
+        <div class="ins-row">
+          <div class="ins-icon">🔺</div>
+          <div class="ins-text">
+            <span data-ar="ارتفعت الشكاوى بنسبة" data-en="Complaints increased by">ارتفعت الشكاوى بنسبة</span>
+            <strong> +23% </strong>
+            <span data-ar="عقب إصدار تحديث البطاقة في 14 مايو. تمثّل مشكلات الدفع الآن 62% من إجمالي الشكاوى." data-en="following the new card update release on May 14th. Payment-related issues now represent 62% of all complaints.">عقب إصدار تحديث البطاقة في 14 مايو. تمثّل مشكلات الدفع الآن 62% من إجمالي الشكاوى.</span>
+          </div>
+        </div>
+        <div class="ins-row">
+          <div class="ins-icon">📱</div>
+          <div class="ins-text">
+            <span data-ar="أبرز مشكلة ناشئة: " data-en="Top emerging issue: ">أبرز مشكلة ناشئة: </span>
+            <strong data-ar="رفض محفظتي Apple Pay وSamsung Pay" data-en="Apple Pay & Samsung Pay wallet rejection">رفض محفظتي Apple Pay وSamsung Pay</strong>
+            <span data-ar=" — ذُكرت في 847 تعليقًا فريدًا هذا الأسبوع." data-en=" — mentioned in 847 unique comments this week."> — ذُكرت في 847 تعليقًا فريدًا هذا الأسبوع.</span>
+          </div>
+        </div>
+        <div class="ins-row">
+          <div class="ins-icon">📉</div>
+          <div class="ins-text">
+            <span data-ar="انخفض مؤشر المشاعر من " data-en="Sentiment score dropped from ">انخفض مؤشر المشاعر من </span>
+            <strong>+0.12 → -0.34</strong>
+            <span data-ar=" خلال 7 أيام. تراجعت تعليقات الإطراء 31% وارتفع الأسلوب السلبي عبر جميع المصادر." data-en=" in 7 days. Praise declined 31% and negative tone increased across all video sources."> خلال 7 أيام. تراجعت تعليقات الإطراء 31% وارتفع الأسلوب السلبي عبر جميع المصادر.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- EXPLORER -->
+    <div class="section-hd">
+      <span class="section-title" data-ar="مستكشف الرؤى" data-en="Insights Explorer">مستكشف الرؤى</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="middle-row">
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title" data-ar="مجموعات المواضيع" data-en="Theme Clusters">مجموعات المواضيع</div>
+          <span style="font-size:11px;color:var(--text3)" data-ar="تجميع تلقائي" data-en="Auto-clustered">تجميع تلقائي</span>
+        </div>
+        <div class="themes-list" id="themesGrid"></div>
+      </div>
+      <div class="card">
+        <div class="card-hd">
+          <div class="card-title" data-ar="سيل التعليقات" data-en="Live Comment Feed">سيل التعليقات</div>
+        </div>
+        <div class="filter-row">
+          <button class="fchip active" onclick="filterCmt(this,'all')" data-ar="الكل" data-en="All">الكل</button>
+          <button class="fchip" onclick="filterCmt(this,'complaint')" data-ar="شكاوى" data-en="Complaints">شكاوى</button>
+          <button class="fchip" onclick="filterCmt(this,'question')" data-ar="أسئلة" data-en="Questions">أسئلة</button>
+        </div>
+        <div class="comments-list" id="commentsList"></div>
+      </div>
+    </div>
+
+
+
+
+    <!-- AI -->
+    <div class="section-hd">
+      <span class="section-title" data-ar="المحلل الذكي" data-en="AI Analyst">المحلل الذكي</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="ai-row">
+      <div class="ai-panel">
+        <div class="ai-badge">✦ <span data-ar="ملخص تنفيذي بالذكاء الاصطناعي" data-en="LLM Executive Summary">ملخص تنفيذي بالذكاء الاصطناعي</span></div>
+        <div class="ai-sec">
+          <div class="ai-sec-title" data-ar="ملخص الأسبوع" data-en="Weekly Summary">ملخص الأسبوع</div>
+          <div class="ai-text" data-ar="يواجه المستخدمون احتكاكًا متزايدًا في تكامل المحفظة الرقمية — تمثّل أعطال Apple Pay وSamsung Pay القفزة الكبيرة في حجم الشكاوى هذا الأسبوع. يشير النمط إلى تراجع ناجم عن تحديث البطاقة v2.4 وليس مشكلة قائمة مسبقًا." data-en="Users are increasingly facing friction with digital wallet integration. Apple Pay and Samsung Pay failures drive the major complaint surge this week. The pattern suggests a regression from the v2.4 card update rather than a pre-existing issue.">يواجه المستخدمون احتكاكًا متزايدًا في تكامل المحفظة الرقمية — تمثّل أعطال Apple Pay وSamsung Pay القفزة الكبيرة في حجم الشكاوى هذا الأسبوع. يشير النمط إلى تراجع ناجم عن تحديث البطاقة v2.4 وليس مشكلة قائمة مسبقًا.</div>
+        </div>
+        <div class="ai-sec">
+          <div class="ai-sec-title" data-ar="المخاطر الرئيسية" data-en="Key Risk">المخاطر الرئيسية</div>
+          <div class="ai-risk">
+            <span style="font-size:15px;flex-shrink:0">⚠</span>
+            <span data-ar="قد يُحدث الاحتكاك في الإعداد اضطرابًا مبكرًا في الاحتفاظ بحاملي البطاقات الجدد — وهذه الفئة هي الأكثر حساسية والأعلى في معدلات الشكاوى." data-en="Wallet onboarding friction may trigger early churn among newly activated cardholders — this demographic has the lowest retention threshold and highest complaint frequency.">قد يُحدث الاحتكاك في الإعداد اضطرابًا مبكرًا في الاحتفاظ بحاملي البطاقات الجدد — وهذه الفئة هي الأكثر حساسية والأعلى في معدلات الشكاوى.</span>
+          </div>
+        </div>
+        <div class="ai-sec">
+          <div class="ai-sec-title" data-ar="التوصيات" data-en="Recommendations">التوصيات</div>
+          <div class="rec-list">
+            <div class="rec-item"><div class="rec-num">1</div><span data-ar="نشر دليل استكشاف أخطاء Apple Pay وSamsung Pay في مركز المساعدة داخل التطبيق." data-en="Publish a troubleshooting guide for Apple Pay & Samsung Pay setup in the in-app help center.">نشر دليل استكشاف أخطاء Apple Pay وSamsung Pay في مركز المساعدة داخل التطبيق.</span></div>
+            <div class="rec-item"><div class="rec-num">2</div><span data-ar="تثبيت تعليق على مقاطع يوتيوب المتأثرة يُقرّ بالمشكلة ويُرشد المستخدمين للدعم." data-en="Pin a comment on affected YouTube videos acknowledging the issue and linking to support.">تثبيت تعليق على مقاطع يوتيوب المتأثرة يُقرّ بالمشكلة ويُرشد المستخدمين للدعم.</span></div>
+            <div class="rec-item"><div class="rec-num">3</div><span data-ar="تنبيه الفريق الهندسي للتحقيق في سجلات بوابة الدفع لنافذة نشر 14 مايو." data-en="Alert engineering to investigate payment gateway logs for the May 14th deployment window.">تنبيه الفريق الهندسي للتحقيق في سجلات بوابة الدفع لنافذة نشر 14 مايو.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="ask-panel">
+        <div class="ask-title">🤖 <span data-ar="اسأل Barq" data-en="Ask BarqPulse">اسأل BarqPulse</span></div>
+        <div class="ask-sub" data-ar="استعلم عن بياناتك بلغة طبيعية" data-en="Query your data with natural language">استعلم عن بياناتك بلغة طبيعية</div>
+        <div class="quick-asks" id="quickAsks">
+          <button class="qask" onclick="quickAsk(this)" data-ar="لماذا ترتفع الشكاوى؟" data-en="Why are complaints rising?">لماذا ترتفع الشكاوى؟</button>
+          <button class="qask" onclick="quickAsk(this)" data-ar="أبرز مشكلات الأسبوع؟" data-en="Top issues this week?">أبرز مشكلات الأسبوع؟</button>
+          <button class="qask" onclick="quickAsk(this)" data-ar="أي فيديو الأسوأ مشاعرًا؟" data-en="Which video has worst sentiment?">أي فيديو الأسوأ مشاعرًا؟</button>
+        </div>
+        <div class="chat-msgs" id="chatMsgs">
+          <div class="msg msg-a" data-ar="مرحبًا! أنا BarqPulse AI. اسألني أي شيء عن بيانات تعليقات عملائك." data-en="Hello! I'm BarqPulse AI. Ask me anything about your customer feedback data.">مرحبًا! أنا BarqPulse AI. اسألني أي شيء عن بيانات تعليقات عملائك.</div>
+        </div>
+        <div class="ask-row">
+          <input class="ask-inp" id="askInp" placeholder="" data-placeholder-ar="مثال: ما الذي يقوله المستخدمون عن التحديث الجديد؟" data-placeholder-en="e.g. What are users saying about the new update?" onkeydown="if(event.key==='Enter')sendAsk()"/>
+          <button class="ask-send" onclick="sendAsk()" data-ar="إرسال" data-en="Send →">إرسال</button>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <!-- ALERTS -->
+    <div class="section-hd">
+      <span class="section-title" data-ar="التنبيهات الذكية" data-en="Smart Alerts">التنبيهات الذكية</span>
+      <div class="section-line"></div>
+    </div>
+    <div class="alerts-grid">
+      <div class="alert-card alert-d">
+        <div class="alert-ic ic-d">🚨</div>
+        <div>
+          <div class="alert-title" style="color:var(--red)" data-ar="ارتفاع الشكاوى +40%" data-en="Complaint Spike +40%">ارتفاع الشكاوى +40%</div>
+          <div class="alert-desc" data-ar="طفرة غير عادية في شكاوى الدفع. المتوسط المتحرك لـ 3 أيام تجاوز العتبة." data-en="Unusual surge in payment complaints. 3-day rolling average exceeds threshold.">طفرة غير عادية في شكاوى الدفع. المتوسط المتحرك لـ 3 أيام تجاوز العتبة.</div>
+          <div class="alert-time" data-ar="منذ 4 ساعات" data-en="4 hours ago">منذ 4 ساعات</div>
+        </div>
+      </div>
+      <div class="alert-card alert-w">
+        <div class="alert-ic ic-w">⚡</div>
+        <div>
+          <div class="alert-title" style="color:var(--amber)" data-ar="مشكلة ناشئة جديدة" data-en="New Emerging Issue">مشكلة ناشئة جديدة</div>
+          <div class="alert-desc" data-ar="مجموعة كلمات أعطال تسجيل الدخول ظهرت قبل 3 أيام — 128 ذكرًا، تنمو بنسبة 15% يوميًا." data-en="Login failure keyword cluster appeared 3 days ago — 128 mentions, growing 15% daily.">مجموعة كلمات أعطال تسجيل الدخول ظهرت قبل 3 أيام — 128 ذكرًا، تنمو بنسبة 15% يوميًا.</div>
+          <div class="alert-time" data-ar="منذ يوم واحد" data-en="1 day ago">منذ يوم واحد</div>
+        </div>
+      </div>
+      <div class="alert-card alert-i">
+        <div class="alert-ic ic-i">📊</div>
+        <div>
+          <div class="alert-title" style="color:var(--blue)" data-ar="انخفاض المشاعر — فيديو #7" data-en="Sentiment Drop — Video #7">انخفاض المشاعر — فيديو #7</div>
+          <div class="alert-desc" data-ar="فيديو البطاقة الافتراضية انخفض من +0.3 إلى -0.5 خلال 48 ساعة." data-en="Virtual card video sentiment fell from +0.3 to -0.5 in 48 hours.">فيديو البطاقة الافتراضية انخفض من +0.3 إلى -0.5 خلال 48 ساعة.</div>
+          <div class="alert-time" data-ar="منذ يومين" data-en="2 days ago">منذ يومين</div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+  </div>
+</main>
+
+<script>
+// ---- LANG ----
+let currentLang = 'ar';
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.documentElement;
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.getElementById('btnAr').classList.toggle('active', lang==='ar');
+  document.getElementById('btnEn').classList.toggle('active', lang==='en');
+  document.querySelectorAll('[data-ar]').forEach(el => {
+    if (el.tagName !== 'INPUT') el.textContent = el.getAttribute('data-'+lang);
+  });
+  const inp = document.getElementById('askInp');
+  inp.placeholder = inp.getAttribute('data-placeholder-'+lang);
+  inp.style.textAlign = lang === 'ar' ? 'right' : 'left';
+  renderThemes();
+  renderComments(currentFilter);
+  renderQuickAsks();
+}
+
+// ---- CHARTS ----
+
+
+
+let trendChart;
+
+trendChart = new Chart(document.getElementById('trendChart'), {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+      {
+        label: 'Complaints',
+        data: [],
+        borderColor: '#F04438',
+        backgroundColor: 'rgba(240,68,56,0.07)',
+        tension: .4,
+        fill: true,
+        borderWidth: 2,
+        pointRadius: 3
+      },
+      {
+        label: 'Questions',
+        data: [],
+        borderColor: '#1A56FF',
+        backgroundColor: 'rgba(26,86,255,0.05)',
+        tension: .4,
+        fill: true,
+        borderWidth: 2,
+        pointRadius: 3,
+        borderDash: [4,2]
+      },
+      {
+        label: 'Praise',
+        data: [],
+        borderColor: '#12B76A',
+        backgroundColor: 'rgba(18,183,106,0.05)',
+        tension: .4,
+        fill: true,
+        borderWidth: 2,
+        pointRadius: 3,
+        borderDash: [2,4]
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#9AA3B2', font: { size: 11 } } },
+      y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#9AA3B2', font: { size: 11 } } }
+    }
+  }
+});
+
+async function loadTrendData() {
+  try {
+    const res = await fetch('http://localhost:8000/analytics/monthly-trends');
+    const data = await res.json();
+
+    trendChart.data.labels = data.months;
+    trendChart.data.datasets[0].data = data.complaints;
+    trendChart.data.datasets[1].data = data.questions;
+    trendChart.data.datasets[2].data = data.praise;
+
+    trendChart.update();
+
+  } catch (err) {
+    console.error("Error loading chart data:", err);
+  }
+}
+
+loadTrendData();
+
+
+
+new Chart(document.getElementById('intentChart'), {
+  type:'doughnut',
+  data:{
+    labels:['Complaint','Question','Praise','Suggestion','Statement'],
+    datasets:[{data:[38,25,20,12,5],backgroundColor:['#F04438','#1A56FF','#12B76A','#F79009','#9AA3B2'],borderWidth:2,borderColor:'#ffffff',hoverOffset:6}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{display:false}}}
+});
+
+
+
+
+
+
+
+// ---- THEMES ----
+const themesData = {
+  ar:[
+    {name:'💳 مشكلات الدفع',count:'847',pct:85,color:'#F04438',tags:['فشل Apple Pay','رفض Samsung Pay','تفعيل البطاقة']},
+    {name:'🚚 توصيل البطاقة',count:'392',pct:42,color:'#F79009',tags:['تأخر أكثر من 10 أيام','لم تصل','التتبع']},
+    {name:'🔐 تسجيل الدخول',count:'284',pct:30,color:'#1A56FF',tags:['إعادة كلمة المرور','مشكلة 2FA','حساب مقفل']},
+    {name:'🌟 تجربة إيجابية',count:'251',pct:26,color:'#12B76A',tags:['واجهة سهلة','تحويل سريع','تصميم جميل']},
+    {name:'❓ أسئلة الميزات',count:'198',pct:21,color:'#a78bfa',tags:['حد الائتمان','البطاقة الافتراضية','الكاشباك']},
+  ],
+  en:[
+    {name:'💳 Payment Issues',count:'847',pct:85,color:'#F04438',tags:['Apple Pay fail','Samsung Pay rejected','Card activation']},
+    {name:'🚚 Card Delivery',count:'392',pct:42,color:'#F79009',tags:['Delay 10+ days','Not received','Tracking']},
+    {name:'🔐 Login & Access',count:'284',pct:30,color:'#1A56FF',tags:['Password reset','2FA issue','Account locked']},
+    {name:'🌟 Positive UX',count:'251',pct:26,color:'#12B76A',tags:['Easy UI','Fast transfers','Nice design']},
+    {name:'❓ Feature Questions',count:'198',pct:21,color:'#a78bfa',tags:['Credit limit','Virtual card','Cashback']},
+  ]
+};
+function renderThemes() {
+  const d = themesData[currentLang];
+  const g = document.getElementById('themesGrid');
+  const countLabel = currentLang === 'ar' ? 'تعليق' : 'comments';
+  g.innerHTML = d.map(t=>`
+    <div class="theme-item">
+      <div class="th-hd"><div class="th-name">${t.name}</div><div class="th-count">${t.count} ${countLabel}</div></div>
+      <div class="th-bar"><div class="th-fill" style="width:${t.pct}%;background:${t.color}"></div></div>
+      <div class="th-tags">${t.tags.map(tg=>`<span class="th-tag">${tg}</span>`).join('')}</div>
+    </div>`).join('');
+}
+renderThemes();
+
+// ---- COMMENTS ----
+const cmtData = {
+  ar:[
+    {text:'جيت اضيف البطاقه بمحفظة سامسنج باي يرفض ولا يقبل البطاقة',intent:'complaint',pillar:'pill-c',label:'شكوى',sev:'sev-h',video:'Samsung Pay',time:'منذ ساعتين'},
+    {text:'هل يمكن تفعيل Apple Pay مع بطاقة بارق؟ جربت كل شي وما ضبط معي',intent:'question',pillar:'pill-q',label:'سؤال',sev:'sev-m',video:'تفعيل البطاقة',time:'منذ 3 ساعات'},
+    {text:'التطبيق ممتاز والتصميم راقي جداً، الأفضل بين البنوك الرقمية',intent:'praise',pillar:'pill-p',label:'إطراء',sev:'sev-l',video:'نظرة عامة',time:'منذ 5 ساعات'},
+    {text:'البطاقة ما وصلت بعد أسبوعين، متابع مع الدعم بدون حل',intent:'complaint',pillar:'pill-c',label:'شكوى',sev:'sev-h',video:'توصيل',time:'منذ 6 ساعات'},
+    {text:'ما قدرت أعمل reset للباسورد، الرابط ما يشتغل',intent:'complaint',pillar:'pill-c',label:'شكوى',sev:'sev-h',video:'دعم',time:'منذ 7 ساعات'},
+    {text:'أقترح تضيفون خاصية تقسيم المدفوعات بين أصدقاء',intent:'suggestion',pillar:'pill-s',label:'اقتراح',sev:'sev-l',video:'اقتراحات',time:'منذ 8 ساعات'},
+  ],
+  en:[
+    {text:'Tried adding card to Samsung Pay wallet — keeps rejecting it, won\'t accept.',intent:'complaint',pillar:'pill-c',label:'Complaint',sev:'sev-h',video:'Samsung Pay',time:'2h ago'},
+    {text:'Is Apple Pay supported with Barq card? Tried everything, nothing works.',intent:'question',pillar:'pill-q',label:'Question',sev:'sev-m',video:'Card Activation',time:'3h ago'},
+    {text:'The app is excellent, great design — best among digital banks.',intent:'praise',pillar:'pill-p',label:'Praise',sev:'sev-l',video:'App Overview',time:'5h ago'},
+    {text:'Card still not arrived after two weeks, support has no solution.',intent:'complaint',pillar:'pill-c',label:'Complaint',sev:'sev-h',video:'Delivery FAQ',time:'6h ago'},
+    {text:'Could not reset password, the reset link is not working.',intent:'complaint',pillar:'pill-c',label:'Complaint',sev:'sev-h',video:'Support',time:'7h ago'},
+    {text:'Suggest adding a split payment feature between friends.',intent:'suggestion',pillar:'pill-s',label:'Suggestion',sev:'sev-l',video:'Features',time:'8h ago'},
+  ]
+};
+let currentFilter = 'all';
+function renderComments(filter='all') {
+  currentFilter = filter;
+  const d = cmtData[currentLang].filter(c => filter==='all' || c.intent===filter);
+  document.getElementById('commentsList').innerHTML = d.map(c=>`
+    <div class="cmt">
+      <div class="cmt-top">
+        <span class="pill ${c.pillar}">${c.label}</span>
+        <span class="sev ${c.sev}"></span>
+        <span style="font-size:10px;color:var(--text3)">${c.video}</span>
+      </div>
+      <div class="cmt-text">${c.text}</div>
+      <div class="cmt-meta"><span>${c.time}</span></div>
+    </div>`).join('');
+}
+renderComments();
+function filterCmt(el, filter) {
+  document.querySelectorAll('.fchip').forEach(c=>c.classList.remove('active'));
+  el.classList.add('active');
+  renderComments(filter);
+}
+
+// ---- QUICK ASKS ----
+const quickAsksData = {
+  ar:['لماذا ترتفع الشكاوى؟','أبرز مشكلات الأسبوع؟','أي فيديو الأسوأ مشاعرًا؟','تفاصيل مشكلات الدفع؟'],
+  en:['Why are complaints rising?','Top issues this week?','Which video has worst sentiment?','Payment issue breakdown?']
+};
+function renderQuickAsks() {
+  document.getElementById('quickAsks').innerHTML = quickAsksData[currentLang].map(q=>`<button class="qask" onclick="quickAsk(this)">${q}</button>`).join('');
+}
+
+// ---- ASK ----
+const aiReplies = {
+  ar:{
+    'لماذا ترتفع الشكاوى؟':'ارتفعت الشكاوى 23% عقب تحديث البطاقة في 14 مايو. السبب الرئيسي: رفض محفظة Apple Pay وSamsung Pay — 847 ذكرًا هذا الأسبوع. السبب الثانوي: مشكلة في إعادة كلمة المرور.',
+    'أبرز مشكلات الأسبوع؟':'1. أعطال تكامل المحفظة (38% من الشكاوى)\n2. تأخر توصيل البطاقة (18%)\n3. مشكلات تسجيل الدخول (14%)\n4. أخطاء تفعيل البطاقة (12%)',
+    'أي فيديو الأسوأ مشاعرًا؟':'فيديو "البطاقة الافتراضية" وصل إلى -0.52 — الأدنى بين 12 فيديو مراقبًا. يُنصح بتثبيت تعليق دعم.',
+    'تفاصيل مشكلات الدفع؟':'Apple Pay: 412 ذكر، Samsung Pay: 278 ذكر، تفعيل البطاقة: 157 ذكر. ارتفعت الثلاثة عقب تحديث v2.4 في 14 مايو.'
+  },
+  en:{
+    'Why are complaints rising?':'Complaints rose 23% after the May 14th card update. Primary driver: Apple Pay and Samsung Pay wallet rejection — 847 mentions this week. Secondary: password reset flow is broken for some users.',
+    'Top issues this week?':'1. Wallet integration failures (38%)\n2. Card delivery delays (18%)\n3. Login & auth issues (14%)\n4. Card activation errors (12%)',
+    'Which video has worst sentiment?':'"Virtual Card" video hit -0.52 sentiment — lowest across 12 monitored videos. Consider pinning a support comment.',
+    'Payment issue breakdown?':'Apple Pay: 412 mentions, Samsung Pay: 278, Card activation: 157. All three spiked after v2.4 update on May 14th.'
+  }
+};
+function sendAsk() {
+  const inp = document.getElementById('askInp');
+  const q = inp.value.trim(); if(!q) return;
+  const msgs = document.getElementById('chatMsgs');
+  msgs.innerHTML += `<div class="msg msg-u">${q}</div>`;
+  inp.value = ''; msgs.scrollTop = msgs.scrollHeight;
+  const reply = (aiReplies[currentLang] && aiReplies[currentLang][q]) ||
+    (currentLang==='ar' ? 'جارٍ تحليل استعلامك عبر 12,847 تعليقًا مصنّفًا... استنادًا إلى البيانات الحالية، يبدو هذا مرتبطًا بمجموعة مشكلات الدفع التي تمثّل 38% من التعليقات الأخيرة.'
+    : 'Analyzing your query across 12,847 classified comments... Based on current data, this appears related to the payment issue cluster affecting 38% of recent feedback.');
+  setTimeout(()=>{
+    const el = document.createElement('div'); el.className='msg msg-a';
+    el.innerHTML='<span class="typed"></span>'; msgs.appendChild(el);
+    msgs.scrollTop = msgs.scrollHeight;
+    const sp = el.querySelector('.typed'); let i=0;
+    const iv = setInterval(()=>{
+      if(i<reply.length){sp.textContent+=reply[i++];msgs.scrollTop=msgs.scrollHeight;}
+      else{sp.classList.remove('typed');clearInterval(iv);}
+    },20);
+  },500);
+}
+function quickAsk(el){document.getElementById('askInp').value=el.textContent;sendAsk();}
+
+// ---- PERIOD ----
+function setPeriod(btn){document.querySelectorAll('.period-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');}
+
+// ---- INIT lang ----
+document.getElementById('askInp').placeholder = 'مثال: ما الذي يقوله المستخدمون عن التحديث الجديد؟';
+</script>
+</body>
+</html>

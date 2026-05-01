@@ -1,0 +1,18 @@
+{
+  "ladybug_v1_train": {
+    "file_name": "train.jsonl",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  },
+  "ladybug_v1_val": {
+    "file_name": "val.jsonl",
+    "columns": {
+      "prompt": "instruction",
+      "query": "input",
+      "response": "output"
+    }
+  }
+}

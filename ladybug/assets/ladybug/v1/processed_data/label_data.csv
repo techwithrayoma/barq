@@ -1,18 +1,568 @@
-comment,intent,raw,messages,prompt_tokens,completion_tokens,total_tokens
-سلام عليكم انا فتحت حساب برق وطلبت بطاقه ولان انا خايف يقولون اذا دخلت فيها فلوس يتوقف حسابك,Question,"{
-  ""predicted_intent"": ""Question""
-}","[{'role': 'system', 'content': ""You are an NLP data parser specialized in text classification.\nYou will be provided with a YouTube comment in Arabic or English and a Pydantic schema.\nYour task is to extract the comment's intent as JSON following the schema.\nOnly extract the intent, do not add explanations or extra text.\nKeep the output strictly in JSON format.""}, {'role': 'user', 'content': ""## YouTube Comment:\nسلام عليكم انا فتحت حساب برق وطلبت بطاقه ولان انا خايف يقولون اذا دخلت فيها فلوس يتوقف حسابك\n\n## Pydantic Schema:\npredicted_intent: Literal['Question','Statement','Complaint','Praise','Suggestion']\n\nReturn JSON only.""}]",141,12,153
-هل أقدر أضيفها ل سامسونق باي وقوقل باي لن حاولت وقالو غير مدعوم الدفع اللمسي,Question,"{
-  ""predicted_intent"": ""Question""
-}","[{'role': 'system', 'content': ""You are an NLP data parser specialized in text classification.\nYou will be provided with a YouTube comment in Arabic or English and a Pydantic schema.\nYour task is to extract the comment's intent as JSON following the schema.\nOnly extract the intent, do not add explanations or extra text.\nKeep the output strictly in JSON format.""}, {'role': 'user', 'content': ""## YouTube Comment:\nهل أقدر أضيفها ل سامسونق باي وقوقل باي لن حاولت وقالو غير مدعوم الدفع اللمسي\n\n## Pydantic Schema:\npredicted_intent: Literal['Question','Statement','Complaint','Praise','Suggestion']\n\nReturn JSON only.""}]",141,12,153
-طلبت البطاقة ولم تصلني من 3 ايام هل بتتاخر,Complaint,"{
-  ""predicted_intent"": ""Complaint""
-}","[{'role': 'system', 'content': ""You are an NLP data parser specialized in text classification.\nYou will be provided with a YouTube comment in Arabic or English and a Pydantic schema.\nYour task is to extract the comment's intent as JSON following the schema.\nOnly extract the intent, do not add explanations or extra text.\nKeep the output strictly in JSON format.""}, {'role': 'user', 'content': ""## YouTube Comment:\nطلبت البطاقة ولم تصلني من 3 ايام هل بتتاخر\n\n## Pydantic Schema:\npredicted_intent: Literal['Question','Statement','Complaint','Praise','Suggestion']\n\nReturn JSON only.""}]",127,12,139
-لو سمحت أنا يوم كنت افعلها ضبطت معي لكن ونا ادخل المعلومات ما طلع لي البطاقه البلاستيكيه <br><br>البطاقه الي طلعتها الي عليها حرف الريال الجديده <br><br>خشيت الإعدادات احاول اطلبها ماعرفت ؟,Question,"```json
-{
-  ""predicted_intent"": ""Question""
-}
-```","[{'role': 'system', 'content': ""You are an NLP data parser specialized in text classification.\nYou will be provided with a YouTube comment in Arabic or English and a Pydantic schema.\nYour task is to extract the comment's intent as JSON following the schema.\nOnly extract the intent, do not add explanations or extra text.\nKeep the output strictly in JSON format.""}, {'role': 'user', 'content': ""## YouTube Comment:\nلو سمحت أنا يوم كنت افعلها ضبطت معي لكن ونا ادخل المعلومات ما طلع لي البطاقه البلاستيكيه <br><br>البطاقه الي طلعتها الي عليها حرف الريال الجديده <br><br>خشيت الإعدادات احاول اطلبها ماعرفت ؟\n\n## Pydantic Schema:\npredicted_intent: Literal['Question','Statement','Complaint','Praise','Suggestion']\n\nReturn JSON only.""}]",176,16,192
-هل مكتوب فيها اسم الشخص؟,Question,"{
-  ""predicted_intent"": ""Question""
-}","[{'role': 'system', 'content': ""You are an NLP data parser specialized in text classification.\nYou will be provided with a YouTube comment in Arabic or English and a Pydantic schema.\nYour task is to extract the comment's intent as JSON following the schema.\nOnly extract the intent, do not add explanations or extra text.\nKeep the output strictly in JSON format.""}, {'role': 'user', 'content': ""## YouTube Comment:\nهل مكتوب فيها اسم الشخص؟\n\n## Pydantic Schema:\npredicted_intent: Literal['Question','Statement','Complaint','Praise','Suggestion']\n\nReturn JSON only.""}]",117,12,129
+comment,intent,source,confidence,latency_ms,cost_usd,stage
+عطنا رابطهم لاهنت,Question,gpt-4o-mini,0.95,4556.61,2.5e-05,training
+لارابط ولا اسم ولا صورة ولاشيء,Complaint,gpt-4o-mini,0.95,1872.62,2.5e-05,training
+64b2214dccgcr,Statement,gpt-4o-mini,0.95,1771.2,2.7e-05,training
+كودي 6d5a0497degcr شغال 100% برق جربته أنا وا لعبت العبه جبت 27ريال 🤍,Statement,gpt-4o-mini,0.95,1479.43,2.9e-05,training
+cf00efd9c2gcr  كودي اللي يبي يلعب معي ويكسب,Statement,gpt-4o-mini,0.95,955.27,2.7e-05,training
+كودي <br>d89fcb27c9gcr<br>اللهم ارزقني وارزق مني,Statement,gpt-4o-mini,0.95,878.82,2.7e-05,training
+كم المده وتوصل,Question,gpt-4o-mini,0.95,926.89,2.5e-05,training
+اخوي شاركت الكود لا اكثر من شخصين ولا جتني محاولة وشهو الحل ؟,Question,gpt-4o-mini,0.95,892.11,2.7e-05,training
+كودي في برق 1394742ea7gcr,Statement,gpt-4o-mini,0.95,1054.68,2.6e-05,training
+أنا عندي 11.30 ريال في العبه كيف حوله في المحفظه  كمان عندي بطاقة رصيدي حالي 0,Question,gpt-4o-mini,0.95,1826.2,2.8e-05,training
+البطاقة البلاستيكية جربتها عبر نقاط البيع تم رفضها واضفتها في محفظة مدى باي تم رفضها ويش المشكلة تتوقعون رغم تم تنشيطها,Question,gpt-4o-mini,0.95,1458.67,3e-05,training
+يا هلا! ✨<br><br>مليييووون ريال في مركز الألعاب في برق ⚡️⚡️<br><br>العب باستخدام (دعوتي) عشان يجيك تجربة لعب مجانية ومكافآت توصل لمليووون ريال 💸.<br><br>سجّل والعب الحين! <br>رمز الدعوة - 4f9b66b359gcr <br><br>🚀 🚀 🚀,Statement,gpt-4o-mini,0.95,681.94,4.2e-05,training
+طيب كيف اعرف اذا البطاقة جايتني,Question,gpt-4o-mini,0.95,621.64,2.5e-05,training
+مش راضي يطلب بطاقه بيقولي الخدمه غير متوفره,Complaint,gpt-4o-mini,0.95,1023.17,2.7e-05,training
+يا هلا! ✨<br><br>مليييووون ريال في مركز الألعاب في برق ⚡️⚡️<br><br>العب باستخدام (دعوتي) عشان يجيك تجربة لعب مجانية ومكافآت توصل لمليووون ريال 💸.<br> <br>سجّل والعب الحين! <br> رمز الدعوة - 9cb9485497gcr <br><br>🚀 🚀 🚀,Statement,gpt-4o-mini,0.95,1150.0,4.2e-05,training
+"‏5 ,محاولات ادا ما جت كلمني.  c4ac76af92gcr",Statement,gpt-4o-mini,0.95,996.67,2.7e-05,training
+هل هي بفلوس ولا ؟,Question,gpt-4o-mini,0.95,791.21,2.5e-05,training
+اخوي كيف اعرف بتوصلني لاني قربت سفرتي وصار ٤ ايام طلبتها للبيت,Question,gpt-4o-mini,0.95,985.09,2.8e-05,training
+d7a858686agcr,Statement,gpt-4o-mini,0.95,1002.9,2.7e-05,training
+اقدر اشتري من اي مكان واعبي من اي محطة؟؟,Question,gpt-4o-mini,0.95,2850.71,2.6e-05,training
+بقدر اعملها في الجزائر,Question,gpt-4o-mini,0.95,1360.85,2.5e-05,training
+07af005acagcr,Statement,gpt-4o-mini,0.95,953.35,2.7e-05,training
+طيب الله يعافيك كيف افعل بطاقة,Question,gpt-4o-mini,0.95,1253.55,2.5e-05,training
+طيب تجيني مكالمه إذا وصلت ؟,Question,gpt-4o-mini,0.95,771.46,2.5e-05,training
+البطاقه بفلوس تطلبه ؟,Question,gpt-4o-mini,0.95,1773.84,2.5e-05,training
+لي 5 ايام طالبها م جات فيه احد جاته ؟,Question,gpt-4o-mini,0.95,771.72,2.6e-05,training
+ياخي خايف من التطبيق ذا مضمون ؟,Question,gpt-4o-mini,0.95,874.48,2.5e-05,training
+السلام عليكم ، جاني اتصال منهم عشان التاكد بس يتكلمون انجليزي و مدري وش قاعدين يقولون,Question,gpt-4o-mini,0.95,979.0,2.8e-05,training
+هل يستخدم في سلطنه عمان ولا السعوديه بس,Question,gpt-4o-mini,0.95,818.59,2.5e-05,training
+ae3642bc14gcr :دعوة صديق,Statement,gpt-4o-mini,0.95,1076.35,2.6e-05,training
+ردت اسجل بي مايصير بل عراق عله رقمنه ليش,Question,gpt-4o-mini,0.95,708.92,2.6e-05,training
+هل التطبيق موجود على الاندرويد,Question,gpt-4o-mini,0.95,860.49,2.5e-05,training
+ياغالي عندي سؤال لو سمحت هل اقدر ان افعلها وانا في الامارات ؟,Question,gpt-4o-mini,0.95,809.62,2.7e-05,training
+اذا اقامتي منتهية اقدر؟,Question,gpt-4o-mini,0.95,831.76,2.5e-05,training
+كاعد ادخل رقمي يكلي الرقم غير صحيح ؟؟؟ عراقي ؟؟,Complaint,gpt-4o-mini,0.95,967.26,2.6e-05,training
+رد على الاخوان اللي يسألون عن رسوم البطاقه احب اقولهم البطاقه مجانية مدى الحياة حسب ماهو موضح فالتطبيق وبدون رسوم وكذالك محفظة برق هي محفظة رقمية سعودية ولا تعمل الا على رقم تلفون سعودي ،، وشكرا للاخ احمد اللذي قام على اعداد هذا الفيديو الأكثر من رائع واللذي وضح فيه بكل احترافيه جميع مايتعلق بالبطاقه من الاف الي الياء ،، تقبل تحياتي استاذ احمد وبارك الله فيك وفي جهودك 🌹🌹,Praise,gpt-4o-mini,0.95,772.11,4.5e-05,training
+bf3a3cb972gcr<br><br><br>كودي الله يسعدكم ويرزقكم يارب,Praise,gpt-4o-mini,0.95,809.62,2.8e-05,training
+4d8e49ecdagcr الكود حقي لاتقصرون,Statement,gpt-4o-mini,0.95,733.86,2.6e-05,training
+اقدر اطلب من المواقع الاجنبيه زي ايهرب بهذه البطاقة؟,Question,gpt-4o-mini,0.95,655.36,2.6e-05,training
+كيف أفعلها بطاقه,Question,gpt-4o-mini,0.95,1002.79,2.5e-05,training
+كيف افعل بطاقة,Question,gpt-4o-mini,0.95,826.18,2.4e-05,training
+طبعا هذا حاليا لين يجيهم عدد من الناس و ثم فجاة تتغير الشروط والامتيازات ذي و تصير دبل و ثري,Statement,gpt-4o-mini,0.95,669.27,2.9e-05,training
+جزاك الله خير وبارك الله فيك,Praise,gpt-4o-mini,0.95,796.75,2.5e-05,training
+‏يا جماعة الرد الآلي يتكلم إنجليزي وأنا ما افهم إنجليزي وش الحل😂,Question,gpt-4o-mini,0.95,936.49,2.7e-05,training
+هل يمكن التعامل مع هذه البطاقه بالعملات الرقمية ؟؟؟,Question,gpt-4o-mini,0.95,906.97,2.6e-05,training
+‏0b03aabab5gcr,Statement,gpt-4o-mini,0.95,752.19,2.8e-05,training
+الكود 51396be18bgcr,Statement,gpt-4o-mini,0.95,1383.5,2.5e-05,training
+ياخي مو مرتاح اخاف انه يعتبر قمار اللي يعرف حكمه يعلمني ؟,Question,gpt-4o-mini,0.95,764.61,2.7e-05,training
+في buk برق ١٣ ريال كيف اطلعها,Question,gpt-4o-mini,0.95,768.94,2.5e-05,training
+سلام لما احط تفعيل معرفة الوجه يحط ان فيه مشكله من الاعدادات ومافيه شي كل شي مفعل ايش الحل,Question,gpt-4o-mini,0.95,811.55,2.8e-05,training
+و هل يعمل هنا في الجزائر اخي,Question,gpt-4o-mini,0.95,824.54,2.5e-05,training
+السلام عليكم ورحمة الله وبركاته <br>انا نزلت التطبيق بحول اسجل بديني الرقم خطا,Complaint,gpt-4o-mini,0.95,947.89,2.7e-05,training
+17dca2f795gcr,Statement,gpt-4o-mini,0.95,810.87,2.7e-05,training
+بيقولي رقم التليفون غلط,Complaint,gpt-4o-mini,0.95,810.79,2.5e-05,training
+598e5e2f0cgcr,Statement,gpt-4o-mini,0.95,845.03,2.8e-05,training
+طيب كيف افعل البطاقه,Question,gpt-4o-mini,0.95,697.89,2.5e-05,training
+طلبت من 15 يوم ماوصلت ليه😭,Complaint,gpt-4o-mini,0.95,790.33,2.6e-05,training
+لو سمحتم طلعت بطاقة ولم تتفعل عندي <br>وتم تنشيط البطاقه <br>عندي <br>ولم اقدر اسحب من نقاط البيع,Complaint,gpt-4o-mini,0.95,1411.03,3e-05,training
+كيف اسجل من جديد في تطبيق,Question,gpt-4o-mini,0.95,764.0,2.5e-05,training
+ارجو الرد علا سألي هلا عندهم بطاقة مدى ولا بس فيزا,Question,gpt-4o-mini,0.95,826.22,2.6e-05,training
+ياعيال انا عندي بنك الرياض بعد ماطلعتها يضرها ولا ؟,Question,gpt-4o-mini,0.95,765.93,2.6e-05,training
+انا باجي ادخل رقمي ما بيرضاش,Complaint,gpt-4o-mini,0.95,870.08,2.5e-05,training
+انا باجي ادخل رقمي ما بيرضاش هو لازم ابقى موجود في السعوديه عشان يشتغل,Complaint,gpt-4o-mini,0.95,650.36,2.7e-05,training
+80b5157d61gcr,Statement,gpt-4o-mini,0.95,681.34,2.7e-05,training
+عندي سؤال بس هل اقدر استخدم اس تي سي باي الفيزا في علي اكسبرس,Question,gpt-4o-mini,0.95,1645.03,2.7e-05,training
+ممكن شرح التحويل الدولي ؟,Question,gpt-4o-mini,0.95,702.58,2.5e-05,training
+أنا عندي إس تي سي باي هل إذا فعلت برق هل يضر <br>أرجو الإفادة🌹,Question,gpt-4o-mini,0.95,790.35,2.8e-05,training
+حولت مبلغ على محفظة برق وماوصلني ايش السبب,Question,gpt-4o-mini,0.95,1431.54,2.6e-05,training
+طيب في الصرافة والدفع مرفوووضة ليش ؟,Question,gpt-4o-mini,0.95,790.39,2.6e-05,training
+اقدر اسحب من اي صراف داخل المملكه؟؟ وبدون مصارف سحب؟؟,Question,gpt-4o-mini,0.95,787.75,2.7e-05,training
+كيف إلغاء خروج من تطبيق برق نهائي و كل ما احط رقم جوالي ما يجي رمز تحقق,Question,gpt-4o-mini,0.95,930.87,2.7e-05,training
+كم حساب اقدر اسوي ؟ يعني كم بطاقة اقدر اصدر,Question,gpt-4o-mini,0.95,805.45,2.6e-05,training
+"والله انك ماصدقت انا سحبت في النمسا 50 يورو ويشهد الله انهم خصموا 5 يورو زياده<br>وهذا الدليل<br>سحب صراف آلي دولي<br>بطاقة فيزا: **٠٠٠٠٠٠<br>مبلغ: 54.95 eur (226.16 sar) <br>لدى :seegasse 12<br>في: 2024-10-12 <a href=""https://www.youtube.com/watch?v=3sn0mnruadw&amp;t=1284"">21:24</a><br>وانا اصلا سحبت 50 يورو بس",Complaint,gpt-4o-mini,0.95,819.68,4.8e-05,training
+تشتغل في اي دوله,Question,gpt-4o-mini,0.95,1431.9,2.5e-05,training
+انا طلعت لون احمر في التطبيق لاكن لما وصلتني البطاقه طلع لونه أزرق  ماحبيت دا لون  هل اقدر أرجعه  ويبادلوني بنفس اللون زي إلي في التطبيق  أحمر  وكيف الطريقه,Question,gpt-4o-mini,0.95,736.2,3.2e-05,training
+يعيال أنا سجلت وماطلعت لي الالعاب,Complaint,gpt-4o-mini,0.95,795.65,2.6e-05,training
+هل أستطيع استخدامها في استئجار السيارات بالخارج كبطاقة إئتمانية  ؟<br>هل استطيع استخدامها في السوبر ماركت مثل بطاقة مدى  ؟,Question,gpt-4o-mini,0.95,811.34,2.9e-05,training
+طيب انا يجيني انصال وش اضغط ولا انتظر تخلص المكالمه,Question,gpt-4o-mini,0.95,732.03,2.6e-05,training
+الله يتزك خير اخي ❤,Praise,gpt-4o-mini,0.95,993.49,2.5e-05,training
+محد شرح بالنسبه لتحويل العملة,Question,gpt-4o-mini,0.95,823.32,2.5e-05,training
+هل فيه رسوم لمن أحول من بطاقتي الاساسيه لمحفظة برق ؟,Question,gpt-4o-mini,0.95,756.21,2.6e-05,training
+يخوان عندي مشكله انا مسجل وكل شي ولكن سويت تسجيل خروج ولما اسجل ثاني مره واحط رقمي مايقول رمز تحقق يحول على خانه اكتب رقم هويتك ومتى انولدت ولما اكتب يقولي خطاء في التحقق؟,Complaint,gpt-4o-mini,0.95,846.91,3.5e-05,training
+نزلت التطبيق وعند التسجيل يقول رقم الهاتف غير مسجل على هويتك ‏‪,Complaint,gpt-4o-mini,0.95,802.82,2.7e-05,training
+كيف استلم البطاقة وهل في مكان صارفه معين استعملها ولا اقدر استعمل بطاقة برق علي اي صراف الراجحي او الاهلي,Question,gpt-4o-mini,0.95,1134.09,2.8e-05,training
+انا بحول علي مصر فودافون كاش بكتب الاسم بيقولي الاسم غير صحيح ازي مش فاهم الرجاء الرد,Question,gpt-4o-mini,0.95,675.72,2.8e-05,training
+كود الدعوه: ‏0dc50b4b9bgcr<br>يعطيك تجرّبه لعب كل نقطه ب 0.50 ريال ويتدبل كل راوند,Statement,gpt-4o-mini,0.95,805.3,3e-05,training
+شرح كافي وافي شكرا لك.,Praise,gpt-4o-mini,0.95,785.17,2.5e-05,training
+مو راضة احث البطاقهف المحفظة,Complaint,gpt-4o-mini,0.95,937.12,2.6e-05,training
+ممكن رقم دعوه,Question,gpt-4o-mini,0.95,895.89,2.5e-05,training
+التوصيل على أي شركة؟,Question,gpt-4o-mini,0.95,861.74,2.5e-05,training
+لو أنا خارج السعوديه وانا غير سعودي هل استطيع التسجيل,Question,gpt-4o-mini,0.95,890.7,2.6e-05,training
+ترا فيها كاش باك بلعبة عجلة الحظ,Statement,gpt-4o-mini,0.95,1031.65,2.6e-05,training
+c0c9a7d8f6gcrرمز دعوه,Statement,gpt-4o-mini,0.95,623.52,2.6e-05,training
+تطبيق حراميه محول امس1900لواحد <br>الراجحي وما وصلت ندق علي خدمه العملاء مايردووا,Complaint,gpt-4o-mini,0.95,900.14,2.9e-05,training
+طلبتها لها ثلاثه ايام متي رح توصل الرجاء الرد,Question,gpt-4o-mini,0.95,928.06,2.6e-05,training
+جربتها في اغلب الصرافات ماتسحب كاش,Complaint,gpt-4o-mini,0.95,779.9,2.6e-05,training
+ممكن تضيف رمز الدعوة 15d01e6179gcr,Question,gpt-4o-mini,0.95,807.69,2.6e-05,training
+التطبيق والبطاقة غير فعالين حولت منذ أسبوع ولم تصل الحوالة حتى الآن وماعليهم الا فتح تذكرة ومافي حل,Complaint,gpt-4o-mini,0.95,882.73,2.8e-05,training
+b051e839dagcr,Statement,gpt-4o-mini,0.95,753.84,2.7e-05,training
+هل اقدر اطلبها وما عندي.ابشر وهل يمديها يحول لي فيها من اي بنك  وقدر اسحبها وهل فيها رقم ايبان، ااذ ودي يحول لي فيها,Question,gpt-4o-mini,0.95,836.28,3e-05,training
+اللي يتصل علي يتكلم انجليزي ليه ؟,Question,gpt-4o-mini,0.95,854.18,2.6e-05,training
+السلام عليكم كيف لو طلعت بطاقه رقميه كيف استخدمها,Question,gpt-4o-mini,0.95,757.34,2.6e-05,training
+يحتاج رقم دعوة من صديق وماعندى,Question,gpt-4o-mini,0.95,761.41,2.5e-05,training
+هل اقدر اسحب كاش من أي بنك صرافة في السعودي بالبطاقة برق,Question,gpt-4o-mini,0.95,771.79,2.7e-05,training
+في كم يوم توصل؟؟؟,Question,gpt-4o-mini,0.95,787.32,2.5e-05,training
+جربتها جميله وصار لها معي ٤ اشهر<br>في الصين وتركيا ودبي جميله جدا انصحكم فيها,Praise,gpt-4o-mini,0.95,906.84,2.8e-05,training
+حتى اني كنت في تركيا وماسحبت معي مدى بنك الاهلي حمدالله ان برق معي وسحب,Statement,gpt-4o-mini,0.95,726.28,2.7e-05,training
+مو صحيح. انا الامس سحبت منها فلوس في تايلند واخذوا عليي سعر الصرف. بطاقة برق كذب,Complaint,gpt-4o-mini,0.95,1011.03,2.8e-05,training
+تطبيق فاشل مسجل معاهم سنه وكل ما ادخل لابد رقم الجوال وتاريخ الميلاد ورقم الهوية الوطنية <br>كلمة خدمة العملاء بلا نتيجه  مو معقولة كل دخول لابد السجل بياناتك هل في حل ؟,Complaint,gpt-4o-mini,0.95,914.52,3.4e-05,training
+لو سمحت أنا عندي ماجاش اتصل علشان البطاقه تصدر,Complaint,gpt-4o-mini,0.95,797.47,2.7e-05,training
+ابي اطلع بطاقة برق من نفس برنامج برق بس يقول لي لم يتم التحقق من ivr,Complaint,gpt-4o-mini,0.95,1043.76,2.7e-05,training
+طيب اقدر اضيف بطاقة برق نفس الرقم الجوال الي موجود في الراجحي ولا لازم رقم جوال ثاني اتمناء الرد 🩵🩵🩵,Question,gpt-4o-mini,0.95,1127.38,2.9e-05,training
+الكاش باك وينه,Question,gpt-4o-mini,0.95,762.92,2.5e-05,training
+التطبيق يرفع الضغط الموظفين مو فاهين شي فجاه توقفة بدون سبب دقيت خدمة العملاء مو فاهمين شي يرفعون الضغط,Complaint,gpt-4o-mini,0.95,857.83,2.9e-05,training
+ايش احط مكان الميلاد ماقبل,Question,gpt-4o-mini,0.95,727.55,2.5e-05,training
+كيف اتبع البطاقه برق طلبت كيف اعرف متى تجيني ??اتمنى الاجابه,Question,gpt-4o-mini,0.95,818.42,2.7e-05,training
+يااخي نفس stc piy,Statement,gpt-4o-mini,0.95,666.23,2.5e-05,training
+انا شغاله معي بس في قريتنا ماتسحب فيزا هل اقدر اطلع مدى منها ؟,Question,gpt-4o-mini,0.95,877.52,2.7e-05,training
+كيف احوله مدى,Question,gpt-4o-mini,0.95,911.68,2.4e-05,training
+انا عمري 16 هجري اقدر ادخله؟؟,Question,gpt-4o-mini,0.95,1605.26,2.6e-05,training
+اقدر اودع فيها فلوس من صرافه؟,Question,gpt-4o-mini,0.95,1309.3,2.6e-05,training
+يعني اصدار وتوصيل البطاقة ماعليه رسوم؟,Question,gpt-4o-mini,0.95,1798.64,2.6e-05,training
+طيب اشتري فوق ٥ريال عشان تجيني العجله وهل اشتر من البطاقه ولا من محظة ابل بي,Question,gpt-4o-mini,0.95,726.19,2.8e-05,training
+جيت اضيف البطاقه بمحفظة سامسنج باي يرفض يقول راجع البنك,Complaint,gpt-4o-mini,0.95,831.4,2.7e-05,training
+واحد مقلقل ياقلبي,Statement,gpt-4o-mini,0.95,886.36,2.5e-05,training
+هل اقدر اسجل بدون ابشر,Question,gpt-4o-mini,0.95,1228.72,2.5e-05,training
+كداب <br>عملت حواله دوليه بقالي شهر ما وصلت,Complaint,gpt-4o-mini,0.95,619.81,2.6e-05,training
+الله يعطيك العافية شرح وافي وكافي,Praise,gpt-4o-mini,0.95,1248.68,2.5e-05,training
+كيف ارسل دعوة او اطلع رمز الدعوة,Question,gpt-4o-mini,0.95,605.05,2.5e-05,training
+ليش الحوالة  تتأخر  وناس كتير بتشتكي انها ما وصلت,Complaint,gpt-4o-mini,0.95,2301.45,2.7e-05,training
+🤲🤲🤲🤲🤲🤲🤲🤲☝️☝️☝️☝️,Statement,gpt-4o-mini,0.95,763.13,3e-05,training
+لتفعيلها عن طريق nfc يجب وضعها تحت الكاميرا يعني في منتصف الجهاز,Statement,gpt-4o-mini,0.95,601.43,2.7e-05,training
+يااخي انا سويت كل هذي الخطوات لكن طلع اسم الحساب غير والاسم علا البطاقه غير والاسم الي سويته غير هل استطيع اعدل الاسم,Question,gpt-4o-mini,0.95,870.71,2.9e-05,training
+رحت اشتري فيها نقاط بيع  ترفض سحب,Complaint,gpt-4o-mini,0.95,881.11,2.6e-05,training
+بعد اذنك بحاول اضيفها علي سامسونج باي بتترفض,Complaint,gpt-4o-mini,0.95,812.02,2.6e-05,training
+هل يمكن الحصول عليها من خترج السعودية,Question,gpt-4o-mini,0.95,935.18,2.5e-05,training
+انا من المغرب ماقدر اضيف رقم هاتفي,Statement,gpt-4o-mini,0.95,795.82,2.5e-05,training
+إذا فتحت حساب عندهم متى تجي البطاقة؟,Question,gpt-4o-mini,0.95,819.4,2.6e-05,training
+لو سمحت انا طلبت بطاقه بس مافي حد رن عليا وموقف على استلمت بطاقة,Complaint,gpt-4o-mini,0.95,1037.81,2.7e-05,training
+قدمت على البطاقه من شهر ورفعت مذكره بطلب البطاقه ولاوصلني شي,Complaint,gpt-4o-mini,0.95,857.59,2.7e-05,training
+حاسبت وماجتني اللعبه ليش,Complaint,gpt-4o-mini,0.95,865.1,2.5e-05,training
+متا توصل البطاقه بعد الطلب من البرنامج,Question,gpt-4o-mini,0.95,671.11,2.5e-05,training
+لم تضبط معنا,Complaint,gpt-4o-mini,0.95,1006.06,2.4e-05,training
+والله العظيم من اجمل بنوك في المملكه العربيه السعوديه وهو بنك برق شكرا لبنك برق,Praise,gpt-4o-mini,0.95,676.75,2.7e-05,training
+❤❤❤❤❤❤❤❤❤❤❤❤❤❤,Praise,gpt-4o-mini,0.95,755.45,2.6e-05,training
+كم يوم وتجي,Question,gpt-4o-mini,0.95,1032.49,2.4e-05,training
+ياجماعه ماقدرت استفيد رحت النهدي شريت اغراض وجيت ادفع فيها يطلع مرفوضه مطاعم مرفوضه بقالات وش مشكله,Complaint,gpt-4o-mini,0.95,770.13,3e-05,training
+طلبتها لي اسبوع ماوصلت ولا رجعو لي خبر,Complaint,gpt-4o-mini,0.95,808.28,2.6e-05,training
+كيف اشحن البطاقة بالمال؟,Question,gpt-4o-mini,0.95,838.93,2.5e-05,training
+كيف اقدر اعمل عمليه ايداع كاش تابعه لاي بنك ؟,Question,gpt-4o-mini,0.95,1116.27,2.6e-05,training
+عاوز افعل البطاقه مش لاقي الخيار ده الناس بتعمللها بعد كلمه هل استلمت البطاقه انا  مش بتظهر لي الكلمه دي,Question,gpt-4o-mini,0.95,903.43,2.9e-05,training
+اللي بيطلبها يخليها مدى افضل لان هاذي فيزا مابتقدر تدفع الا بالجوال فقط,Suggestion,gpt-4o-mini,0.95,756.45,2.8e-05,training
+ايش اختار بطاقه فيزا او مدى,Question,gpt-4o-mini,0.95,717.22,2.5e-05,training
+هل فيها كاش باك ثابت مسستقر,Question,gpt-4o-mini,0.95,826.14,2.5e-05,training
+نصيحة لوجه الله<br>حولت عليها مبلغ وماوصلت الحوالة وشكوى وتذاكر ولا احد بيرد عليك<br>حسبي الله ونعم الوكيل,Complaint,gpt-4o-mini,0.95,729.78,3e-05,training
+شوفوا ياخوان الموضوع كله نصب مقنن والفلوس ما بتوصل بمواعيد ثابته ممكن تاخد يوم وممكن تاخد شهر وممكن ما تقدر تسترجع فلوسك حتى,Complaint,gpt-4o-mini,0.95,800.96,3.1e-05,training
+طيب أنا يقول تم رفض طلبك,Statement,gpt-4o-mini,0.95,781.67,2.5e-05,training
+افضل محفظة بالنسبة لي 🙏🏼,Praise,gpt-4o-mini,0.95,726.65,2.5e-05,training
+يا عيال أنا طالب البطاقه من ٩ اياًم ماوصلتني ممكن احد يفيدني,Question,gpt-4o-mini,0.95,696.45,2.7e-05,training
+مع انه المذكور خلال ٧ ايام كـ حد اكثر,Statement,gpt-4o-mini,0.95,803.57,2.6e-05,training
+او عطوني رقم او اي وسيله اتواصل معهم,Question,gpt-4o-mini,0.95,853.32,2.5e-05,training
+فاشل,Complaint,gpt-4o-mini,0.95,831.6,2.4e-05,training
+بطاقه مدي تستخدم خارج السعوديه,Question,gpt-4o-mini,0.95,847.73,2.5e-05,training
+ياخي انا عندي مشكلة كل ماجي اطلع بطاقه فيزا يقول تم وصول الحد لي طلب البطاقات لايمكن انشاء بطاقه جديده لي 8 ايام احاول  وهل اقدر اطلعها بعدين يعني يوفرون لي بطاقة ؟,Question,gpt-4o-mini,0.95,753.51,3.2e-05,training
+بخرج لليمن يمدي يصدرها قريبي بأسمه وانا استخدمها في اليمن؟,Question,gpt-4o-mini,0.95,828.98,2.7e-05,training
+اي احسن في الكاش باك فيزا وآله مدي,Question,gpt-4o-mini,0.95,902.77,2.6e-05,training
+انا احاسب فيها وما يجيني كاس باك ليش ؟,Question,gpt-4o-mini,0.95,744.56,2.6e-05,training
+ازي افعل بطاقة برق مدي,Question,gpt-4o-mini,0.95,1019.41,2.5e-05,training
+يا حبيبي كيف اسجل عيا,Question,gpt-4o-mini,0.95,849.57,2.5e-05,training
+الحين اذا جيت ادفع يرفض وراه؟,Question,gpt-4o-mini,0.95,832.83,2.5e-05,training
+لو سمحت أنا طلبها بقالي اسبوعين او اكثر ولحد الآن ما جت استعلم عنها ازاي ولو جت اعرف ازاي اني جت ؟؟,Question,gpt-4o-mini,0.95,1126.19,2.9e-05,training
+أنا حملت التطبيق بس ماطلع لي مركز الالعاب ليش؟؟,Question,gpt-4o-mini,0.95,852.67,2.6e-05,training
+لا نريد رايك الشخصي<br> وإنما نريد رأي الدين في مثل هذا ومدى مشروعيته .. اعتقد انها من انواع القمار,Question,gpt-4o-mini,0.95,751.48,2.9e-05,training
+يعنى م الاخر stc or mobily pay <br>يعنى اشحن واصرف 😂 <br>مو فيزا بهامش ربح فقط تشحن واصرف,Statement,gpt-4o-mini,0.95,898.45,3e-05,training
+ما طلع لي هذا الخيار اول ما طلعت الرقميه ؟ وش السبب,Question,gpt-4o-mini,0.95,675.0,2.6e-05,training
+يجي تابي وتمارا؟,Question,gpt-4o-mini,0.95,1312.72,2.5e-05,training
+انا طلبت بطاقة مدى والفيزا والريال كيف احذف منها ما احتاجها,Question,gpt-4o-mini,0.95,744.06,2.7e-05,training
+طيب انا طلعت مدى وفيزا الحين السوال كيف ابدل بين حساباتي يعني ابي اشحن بطاقه مدى ماقدر محدد ع بطاقه فيزا لاني طلعتها اول شي اتمنى فهمتني,Question,gpt-4o-mini,0.95,854.21,3.1e-05,training
+ممكن خطوات تحويل الدولي  (مصر)  على محفظه اتصالات,Question,gpt-4o-mini,0.95,809.35,2.6e-05,training
+ممكن فيديو لخطوات التحويل الدولي (مصر)  والتحويل المبلغ على محفظه اتصالات,Question,gpt-4o-mini,0.95,2163.05,2.7e-05,training
+لسه من الخلف من الامام تتفعل لاسيلكي,Statement,gpt-4o-mini,0.95,663.04,2.6e-05,training
+"<a href=""https://www.youtube.com/watch?v=zbtyzmnbtsk&amp;t=242"">4:02</a> طيب لو حطيت لا شكرًا وماطلب البلاستيكيه اثناء انشاء الحساب كيف ارجع اطلب البلاستيكيه؟؟",Question,gpt-4o-mini,0.95,1602.36,3.5e-05,training
+طيب كيف احول لمدى برق ؟,Question,gpt-4o-mini,0.95,767.13,2.5e-05,training
+بسألك متى بعرف انها وصلتني؟؟,Question,gpt-4o-mini,0.95,953.15,2.5e-05,training
+الحين طلبت بطاقة مدى وجتني وكل لم اعمل عملية يقولي مرفوضة مع العلم فيها رصيد,Complaint,gpt-4o-mini,0.95,812.34,2.8e-05,training
+الي جربو البطاقه كيف استعمالها,Question,gpt-4o-mini,0.95,750.19,2.5e-05,training
+من وين اطلع رمز الدعوة حقي عشان ارسله للاخرين,Question,gpt-4o-mini,0.95,838.01,2.6e-05,training
+ياخي يقول لازم فوق ١٨ وقت اسجل دخول لكن كل العالم تحت ١٨ ومطلعينها شلون ؟,Question,gpt-4o-mini,0.95,952.84,2.8e-05,training
+يكتبلي يرجى التحقق إذا كنت قد قمت بالفعل بطلب البطاقة والتحقق من حالتها. وش المشكلة?,Question,gpt-4o-mini,0.95,1047.37,2.8e-05,training
+فلوسي راحت علي هذا التطبيق ولا يوجد خدمه عملاء,Complaint,gpt-4o-mini,0.95,635.25,2.6e-05,training
+ليش البطاقة البلاستيكية رقم الحساب مو نفس المحفضه وكيف أحول الفلوس للبطاقه البلاستيكية؟,Question,gpt-4o-mini,0.95,895.17,2.8e-05,training
+هل اذا الاقامه منتهيه لا استطيع اخراجها,Question,gpt-4o-mini,0.95,1437.41,2.6e-05,training
+"<a href=""https://www.youtube.com/watch?v=zbtyzmnbtsk&amp;t=232"">3:52</a> <br>انا مايطلعلي هالخيار بس مكالمة توثيق وخلاص",Statement,gpt-4o-mini,0.95,909.23,3.1e-05,training
+طيب انا معايا بطاقة برق فيزا وبرق مدى <br>عايز احول اموال على مدى عشان احاسب بيها ازاى احول على مدى مش الحساب ؟<br>ولا احول ع الحساب ع طول واحاسب ب اى بطاقة عادى,Question,gpt-4o-mini,0.95,1128.48,3.2e-05,training
+اقدر اسحب فلوسي من بطاقة فيزا ؟,Question,gpt-4o-mini,0.95,717.09,2.5e-05,training
+بنسبه   لي  . مدى  .أذا ماتفعلت  معك  غير الرقم السري من التطبيق ورح  تظبط 👋👋👍👋👋,Suggestion,gpt-4o-mini,0.95,647.01,3e-05,training
+اقدر أودع بها؟,Question,gpt-4o-mini,0.95,886.8,2.5e-05,training
+اهوي محتاجك ضروري ممكن صديق يحول من برق الى ماستر كارد الرافدين العراق,Question,gpt-4o-mini,0.95,921.36,2.7e-05,training
+اشكرك شرح وافي وبكل وضوح,Praise,gpt-4o-mini,0.95,1016.24,2.5e-05,training
+يخي انا معرفت عن هذا مكان ميلاد دخلت كل بنجليزي انا مواليد ف سعوديه وين احصل,Question,gpt-4o-mini,0.95,924.03,2.8e-05,training
+سويت كل الخطوات.. ولكن ما جاني طلب بطاقة بلاستيكية!!!!,Complaint,gpt-4o-mini,0.95,716.57,2.6e-05,training
+طلع لي اكثر من بطاقة وش افضل بطاقة,Question,gpt-4o-mini,0.95,822.76,2.5e-05,training
+ازاي اغير رقم الجوال علي برق,Question,gpt-4o-mini,0.95,815.35,2.5e-05,training
+ياخي الله يسعدك ويحفظك ويوفقك يارب حليت ازمه أنا كنت فيها,Praise,gpt-4o-mini,0.95,1332.64,2.7e-05,training
+طلبت البطاقة اتيجي امته بالله,Question,gpt-4o-mini,0.95,814.01,2.5e-05,training
+انا اول مره عاملو  وطلبت البطاقه اون لاين تيجي بعد كم يوم  بالله,Question,gpt-4o-mini,0.95,720.52,2.7e-05,training
+السلام عليكم ورحمة الله وبركاته كيف احل مشكلة تجميد الحساب تواصلت مع خدمة العملاء بدون اي فايده وعملت تذكرة والمشكله لا زالت موجوده تقريبا 20 يوم,Complaint,gpt-4o-mini,0.95,919.15,3e-05,training
+برق احاول احاسب داخل السعوديه ماتقبل للاسف,Complaint,gpt-4o-mini,0.95,753.64,2.6e-05,training
+طيب العبه ليه ما تطلع عندي,Question,gpt-4o-mini,0.95,821.67,2.5e-05,training
+وشلون احول من الفيزا برق الي مدى ؟,Question,gpt-4o-mini,0.95,780.81,2.5e-05,training
+عندي بطاقة مدى وبطاقة في ا ، كيف اضيف رصيد للفيزا؟ مايطلع لي الا بطاقة مدى لما اجي اضيف اموال,Question,gpt-4o-mini,0.95,1333.6,2.9e-05,training
+لصوص صارلي ٩ ايام محول ماوصلت,Complaint,gpt-4o-mini,0.95,819.8,2.6e-05,training
+٩وايام ماوصلت الحواله,Complaint,gpt-4o-mini,0.95,913.16,2.5e-05,training
+هل برق مدى اقدر استخدمها خارج المملكه وهل عليها رسوم في السحب او الدفع ؟,Question,gpt-4o-mini,0.95,831.0,2.7e-05,training
+الفلوس على التطبيق ولما اعمل تحويل دولي يقول مرفوضة <br>وللحين الفلوس متعلقة عليه ومش عارف اعمل ايه,Complaint,gpt-4o-mini,0.95,1317.82,2.9e-05,training
+طلعت البطاقه اذا بشتري يقولي مرفوضة كيفا أفعلها يرحم والديك,Question,gpt-4o-mini,0.95,755.58,2.8e-05,training
+يطلع عندي يقول لاحقا من نفسه ليش,Question,gpt-4o-mini,0.95,786.48,2.5e-05,training
+السلام عليكم أتمنى ترد عليه أنا وصلتني بطاقة بلاستيكيه  مدى وفيه فلوس فيه بطاقه ثانيه رقميه اللي هي فيزا هل يمديني ادفع منهم الاثنين ؟,Question,gpt-4o-mini,0.95,839.57,3e-05,training
+تبع أي بنك,Question,gpt-4o-mini,0.95,784.83,2.4e-05,training
+ياجماعه هل كاش باك بلعب الحظ حرام ولا حلال؟,Question,gpt-4o-mini,0.95,921.52,2.7e-05,training
+التطبيق سهل وحلو بس تحول الى انجليزي,Suggestion,gpt-4o-mini,0.95,849.49,2.5e-05,training
+كيف نحوله الى عربي,Question,gpt-4o-mini,0.95,991.19,2.5e-05,training
+هل اقدر أودع فيها فلوس عن طريق مصرف الراجحي,Question,gpt-4o-mini,0.95,1035.8,2.6e-05,training
+طيب عندي سؤال ممكن تفيدوني هل بطاقة البرق يوقف مع انتهاء الهوية؟؟  ولا يكون شغال حتى لو الهوية منتهية,Question,gpt-4o-mini,0.95,912.48,2.8e-05,training
+طب لو عايز اعرف ازاي احول على كارت ميزه كيف الطريقه,Question,gpt-4o-mini,0.95,855.18,2.7e-05,training
+انا بحول للمحفظه يقول الخدمه غير متاحه ايه العمل,Question,gpt-4o-mini,0.95,679.68,2.7e-05,training
+ممكن سؤال ينفع ارسلها الي اهلي مصر يسحبون من اابنك الاهاي المصر وياتره الفيزه الي تسحب وله بطاقت مداي,Question,gpt-4o-mini,0.95,759.26,3.2e-05,training
+اسؤا خدمه عملاء شفتها ف السعوديه للاسف,Complaint,gpt-4o-mini,0.95,691.09,2.6e-05,training
+وش هي البطاقه اللي تفيدني ف السفر مدى او فيزا,Question,gpt-4o-mini,0.95,1419.28,2.6e-05,training
+ممكن احد يشرحلي كيف اطلب البطاقة,Question,gpt-4o-mini,0.95,793.71,2.5e-05,training
+حولنا ماتصير يروح الطول نبغي اصدار كيف يروح ع طول افيدوني والكم جزيل الشكر,Question,gpt-4o-mini,0.95,730.32,2.8e-05,training
+هل بطاقه برق فيهاا ايداع يعني اقدر اروح اي بنك وسوي ايداع ؟,Question,gpt-4o-mini,0.95,720.54,2.7e-05,training
+هل بطاقة برق فيزا او مدى عليها رسوم فائدة؟ ولا تعتبر زي بطاقات مسبقة الدفع اشحنها بالرصيد اللي ابغاه بدون مايصير علي فوائد؟ ياليت تفيدوني,Question,gpt-4o-mini,0.95,784.99,3e-05,training
+شكرًا,Praise,gpt-4o-mini,0.95,700.99,2.4e-05,training
+هل لها صرافات طيب كيف اسجل  وكيف توصلني البطاقه,Question,gpt-4o-mini,0.95,859.51,2.7e-05,training
+طيب جربت وفتحت خيار المكافأة فاضي مافيه شي,Complaint,gpt-4o-mini,0.95,819.98,2.6e-05,training
+هل لازم احول العملة قبل استخدمها في الخارج ؟ ولا ادفع بالريال ويتم احتساب فرق العمله ؟ة,Question,gpt-4o-mini,0.95,1018.37,2.8e-05,training
+طيب بطاقة مدي برق تقبل سحب بمصر ولا برق فيزا فقط,Question,gpt-4o-mini,0.95,1237.11,2.6e-05,training
+هههه صدقت برق بدون طابور سجلت وعلى طول طلعت لي البطاقه وطلبت البلاستيكيه وقالوا جايه في الطريق اما البنك التعبان 360 رقم الانتظار فيه 500 الف شخص هههههههههه اتركوه للقلعه,Statement,gpt-4o-mini,0.95,923.4,3.2e-05,training
+مافهمت ولا شي ممكن توضح اسم تطبيق رد تكفى,Question,gpt-4o-mini,0.95,828.89,2.6e-05,training
+كيف اطلع مدى,Question,gpt-4o-mini,0.95,1066.52,2.4e-05,training
+ماطلعلي خيار بطاقة بلاستيكيه واضفتها بالجوال هل اذا حاسبت بالجوال عليها زياده مبلغ ؟!,Question,gpt-4o-mini,0.95,574.36,2.8e-05,training
+هل ينفع اودع فيها فلوس من اي مكينه إيداع,Question,gpt-4o-mini,0.95,825.07,2.6e-05,training
+سافرت لأوروبا و الامارات و المغرب و قبل بالعيد الي راح و جربت بطاقة d360 الصراحة انها اطلق بطاقة 0 رسوم سحب و 0 عمليات شراء دولية الصراحة بطاقة هي الافضل و يكفي انه بنك d360 تابع لصندوق الاستثمارات العامة يعني بنك قوووووووي ♥️,Praise,gpt-4o-mini,0.95,724.5,3.4e-05,training
+وانا اسجل يقولي لازم اوصل لجهات الاتصال وش دخل جهات اتصالي !!!!,Complaint,gpt-4o-mini,0.95,796.47,2.7e-05,training
+"ما يجيني رمز التحقق ؟ ‏‪<a href=""https://www.youtube.com/watch?v=zbtyzmnbtsk&amp;t=50"">0:50</a>‬‏",Question,gpt-4o-mini,0.95,896.45,3.2e-05,training
+هل اقدر اشتري فيها واسحب كاش برا المملكه بطاقه برق مدى,Question,gpt-4o-mini,0.95,720.97,2.7e-05,training
+كم تجلس ايام حتى توصل؟؟,Question,gpt-4o-mini,0.95,922.67,2.5e-05,training
+لو سمحت يا غالي عندي استفسار منك ❤ ربي يسعدك .... طلعت بطاقة برق فيزا + مدى بنفس الوقت داخلي وخارجي كلها .... ووصلتني واتبعت طريقة التفعيل ... بس ما قدرت باقي اسحب منها عن طريق شبكة البقالات هل لها وقت تحديث او مثلا ٢٤ ساعة وتشتغل طبيعي,Question,gpt-4o-mini,0.95,814.89,3.7e-05,training
+وشكلها نفس اللي معاك بس الفرق ... حقتي في مدى فوق كلمة فيزا يعني ثنائية .... واشتريت منها من قبل استخدمها بالجوال قبل توصل البطاقة نفسها,Statement,gpt-4o-mini,0.95,879.58,3e-05,training
+طيب اقدر اطلع بطاقه فيزا من الجوال وكم رسومها؟ وهل منصة ايجار تقبل فيزا,Question,gpt-4o-mini,0.95,786.11,2.8e-05,training
+لازم اطلع بطاقه ولا من الجوال عادي,Question,gpt-4o-mini,0.95,1096.97,2.6e-05,training
+طيب عندي بطاقه مكتوب عليها مدى و visa وش بعني الثنتين سوا,Question,gpt-4o-mini,0.95,596.35,2.7e-05,training
+هل يشتغل هذا التطبيق في اليمن ارجو الرد السريع,Question,gpt-4o-mini,0.95,1087.19,2.6e-05,training
+يمديني اقسط منتج على دفعات من تمارا باستخدام بطاقة برق ولألا,Question,gpt-4o-mini,0.95,1041.08,2.7e-05,training
+هل تاخذ وقت لين توصل البطاقه البلاستيكيه ؟,Question,gpt-4o-mini,0.95,733.72,2.6e-05,training
+طيب ليش تقول صعب تحصل عليها او تطلعها او لحد ماتوصل لها <br><br>ماني فاهم <br><br>إذا كان متاح للجميع فليش الكلام هذا,Question,gpt-4o-mini,0.95,802.95,3e-05,training
+كيف نضيف الاموال فى الفيزه,Question,gpt-4o-mini,0.95,1096.69,2.5e-05,training
+السلام عليكم <br>لو سمحت انا معاي بطاقة برق وجيت اسحب 1000 جنيه جابلي في مشكله اثناء السحب وتم خصم الفلوس من حسابي بارق والفلوس المصري ما طلعت ايش الحل,Complaint,gpt-4o-mini,0.95,761.96,3.2e-05,training
+ماقد جاني 100%,Statement,gpt-4o-mini,0.95,1455.59,2.5e-05,training
+هل فيها ميزة دخول اللونجات بالمطار؟,Question,gpt-4o-mini,0.95,822.72,2.5e-05,training
+كيف أضيف رصيد في بطاقه برق رمز الريال الالكترونيه,Question,gpt-4o-mini,0.95,807.56,2.6e-05,training
+ما عرفت اطلع البطاقة البلاستيكية,Question,gpt-4o-mini,0.95,902.01,2.5e-05,training
+المكافآت ٤ محاولات كلها بالهلل على مين تلعبها,Question,gpt-4o-mini,0.95,1643.79,2.7e-05,training
+اش الفرق بينهم وبين بطاقة البنك اللي بالراجحي ولا الاهلي !؟؟,Question,gpt-4o-mini,0.95,891.09,2.6e-05,training
+الحساب تحظر عايز حل,Complaint,gpt-4o-mini,0.95,845.24,2.5e-05,training
+هل بطاقة فيزا برق أقدر أحاسب فيها عمليات الشراء الإلكترونية و حجوزات الطيران اللي تطلب فيزا ؟,Question,gpt-4o-mini,0.95,920.4,2.8e-05,training
+ماتطلع لي عقب ما اسوي كل الخطوات   مايقولي طلب البطاقه البلاستيكيه,Complaint,gpt-4o-mini,0.95,717.07,2.7e-05,training
+تقريبا انا عملت الأولى اللي هي الرمز السعودي و دي مفيش منها بلاستيكية و النوعين الباقيين برق و مدي هما اللي فيهم بلاستيكية و  الله اعلم.,Statement,gpt-4o-mini,0.95,1124.68,3e-05,training
+كيف اطلب البطاقه البلاستيكيه اضفت بطاقه الكترونيه من زمان و ماطلعت لي خانه البطاقه البلاستيكيه,Question,gpt-4o-mini,0.95,926.57,2.9e-05,training
+حراميه سرقو فلوسي انتبهو,Complaint,gpt-4o-mini,0.95,675.72,2.5e-05,training
+لازم احط الهويه يعني يوم احول لي احد يبان اسمي ؟ ما اقدر اغير اسمي من البرنامج,Question,gpt-4o-mini,0.95,749.93,2.8e-05,training
+السلام عليكم فين البنك ليهم في السعوديه لمي اتمكن من ادع الفلوس او عادي اوضع في اي بنك,Question,gpt-4o-mini,0.95,818.14,2.8e-05,training
+ابسألك عن حساب سنابل للادخار من بنك d360,Question,gpt-4o-mini,0.95,832.14,2.6e-05,training
+👁,Statement,gpt-4o-mini,0.95,943.82,2.7e-05,training
+ليش الحوالة ما تصل؟ هل وجود حل لهذه المشكلة,Question,gpt-4o-mini,0.95,680.01,2.6e-05,training
+هل اقدر اضيف اموال في البطاقه عبر الصرافه,Question,gpt-4o-mini,0.95,920.91,2.6e-05,training
+جدا تطبيق رائع سرعه مصداقيه تحويل دولي مجاني شبكه يدفع كل شيء بكل سهول حتى اعطوني فلوس استغربت <br>ذولي لي يقولون سرقوني كيف صار الدعم متجاوب جدا جدا <br>شكرا برق,Praise,gpt-4o-mini,0.95,1064.98,3.2e-05,training
+كم رمز ‏‪دعوه من صديق,Question,gpt-4o-mini,0.95,715.33,2.5e-05,training
+طيب لو طلعت بطاقه بلاستيكيه يمديني بعدها اضيفها في ابل باي ؟؟,Question,gpt-4o-mini,0.95,681.91,2.7e-05,training
+عندي سوال دحين لو طلعت فيزا مدى يمديني استعملها ف اي دولة ؟؟,Question,gpt-4o-mini,0.95,949.23,2.7e-05,training
+ان شاء الله ينزلون فيزا ❤❤انفنت فرسان منافسة ❤❤,Statement,gpt-4o-mini,0.95,1294.07,2.7e-05,training
+انامايطلعلي لطلب البطاقه البلاستيكيه يطلع حسن تجربتك مع بطاقة برق<br>تحتها لاحقا بس,Question,gpt-4o-mini,0.95,922.01,2.8e-05,training
+هل هناك بطاقة بلاستيكية للبطاقة الي عليها شعار الريال ؟؟؟؟؟,Question,gpt-4o-mini,0.95,793.19,2.6e-05,training
+كيف يعني بدون طابور؟,Question,gpt-4o-mini,0.95,1163.24,2.5e-05,training
+طيب مدى برق اقدر اسحب بيها خارج المملكة؟؟,Question,gpt-4o-mini,0.95,1007.82,2.6e-05,training
+هل اقدر استخدم مدى برق في مصر و اسحب بيها و ما تاخذ عمولة او رسوم سحب,Question,gpt-4o-mini,0.95,1125.83,2.7e-05,training
+إذا أحد جربها في دول الخليج بالسحب من جهاز الصراف يعطينا العلم ؟,Question,gpt-4o-mini,0.95,5642.54,2.7e-05,training
+ياغالي مدى رش انتهت من فتره انا استخدم يطاقات برق حاليا بطاقة اساسيه فقط الكاش باك على عمليات الفيزا.,Statement,gpt-4o-mini,0.95,782.83,2.9e-05,training
+طيب اذا سافرت كيف احول العمله ؟ من التطبيق,Question,gpt-4o-mini,0.95,974.96,2.6e-05,training
+اسم البنك الخاص ببرق,Question,gpt-4o-mini,0.95,998.59,2.5e-05,training
+هو ليه مش قابل فى رقم الهاتف غير 10ارقان فقط ومش عارف اسجل للسبب ده اى المشكله بالضبط,Question,gpt-4o-mini,0.95,720.36,2.8e-05,training
+ماشاء الله شرح كافي ووافي وسلس الله يوفقك,Praise,gpt-4o-mini,0.95,833.81,2.6e-05,training
+طيب ابغى اغير رقم الجوال بشريحة ثانيه كيف الطريقه,Question,gpt-4o-mini,0.95,811.68,2.6e-05,training
+طيب كم اقدر استقبل مبلغ في برق واحول من برق على حساب ايبان سعودي,Question,gpt-4o-mini,0.95,1078.31,2.7e-05,training
+عندي البطاقة ما يحاسب في المحل فيها رصيد,Statement,gpt-4o-mini,0.95,742.14,2.6e-05,training
+هل يمكن للمصري أن يحصل على هذه البطاقة ؟.,Question,gpt-4o-mini,0.95,765.36,2.5e-05,training
+طريقة تجديدها كيف؟,Question,gpt-4o-mini,0.95,672.45,2.5e-05,training
+السلام عليكم مافي مكان او بنك اروح اطلعها منو افضل,Question,gpt-4o-mini,0.95,832.99,2.6e-05,training
+هل بطاقة برق فيزا فيها مبلغ او انت تحول عليها مبلغ,Question,gpt-4o-mini,0.95,808.59,2.6e-05,training
+اقدر اسحب بيها في مصر,Question,gpt-4o-mini,0.95,905.23,2.5e-05,training
+نصيحه لاتحولون منهم مايوصل الحواله إلا بعد يوم او يومين حصلت معي كثير,Suggestion,gpt-4o-mini,0.95,840.65,2.7e-05,training
+وصلتني البطاقه  وادخل التطبيق مو طالع لي سؤال إذا استلمت ولا ولمن اسوي تنشيط وأقرب الجوال للبطاقه يقولي يرجى التحقق من انك طلبت البطاقه شسوي؟,Question,gpt-4o-mini,0.95,748.57,3.2e-05,training
+كم يوم ياخذ من الطلب,Question,gpt-4o-mini,0.95,639.44,2.5e-05,training
+ماقدرت اطلب البطاقة البلاستيكية مالقيت هالخيار,Complaint,gpt-4o-mini,0.95,737.87,2.6e-05,training
+الموسيقى ذنب جاري مالها داعي,Complaint,gpt-4o-mini,0.95,838.58,2.5e-05,training
+جاتني بعد عشره ايام هل قدر سحب ويدع للصرفه ام شراء فقط,Question,gpt-4o-mini,0.95,909.48,2.7e-05,training
+يوصلوها لك الى موقعك او كيف😊,Question,gpt-4o-mini,0.95,688.43,2.5e-05,training
+سىء في تحويل الدولي,Complaint,gpt-4o-mini,0.95,744.79,2.5e-05,training
+هل هوا ظروري ان اكون مقيم ولا عادي,Question,gpt-4o-mini,0.95,789.6,2.6e-05,training
+نصيحه لحد يستخدمها محول ٤٠٠٠ ريال ولي ٢٠ يوم م وصلت,Complaint,gpt-4o-mini,0.95,768.71,2.7e-05,training
+ياغالي عندي ما يطلع خيار طلب البطاقه البلاستيكيه,Question,gpt-4o-mini,0.95,785.11,2.6e-05,training
+تطبيق فاشل مشكله من زمان ماعرفتو تحلوها خيار طلب البطاقه البلاستيكية فيه مشكله مايضهر حلووو المشكله او سكرو التطبيق,Complaint,gpt-4o-mini,0.95,657.49,3e-05,training
+طب انا نزلت البرنامج وكل ما اجي اسجل دخول يقول احضر رمز الدعوه من اصدقائك وانا مش عندي اصدقاء فاتحين برق,Complaint,gpt-4o-mini,0.95,782.2,2.9e-05,training
+طب انا منزل تطبيق برق بيقول لازم ادخل رمز الدعوه وانا مش عارف اجيب رمز الدعوه,Question,gpt-4o-mini,0.95,788.03,2.7e-05,training
+لا تعمل عند الشراء تيجى مرفوضه,Complaint,gpt-4o-mini,0.95,789.38,2.6e-05,training
+الله يجزاك خير ويجعله بميزان حسناتك,Praise,gpt-4o-mini,0.95,1289.17,2.6e-05,training
+خيار البطاقات البلاستيكه غير مفعل حاليا. وهذى كارثه .اصلا ما فتحنا المحفظه الا للحصول على البطاقه البلاستيكه للسحب والشراء خلال السفر,Complaint,gpt-4o-mini,0.95,844.07,3.3e-05,training
+هل مدى فيها كاش باك,Question,gpt-4o-mini,0.95,1529.68,2.5e-05,training
+طلبتها من التطبيق لكن كيف ما حدا تواصل معى لكى اطلبها,Complaint,gpt-4o-mini,0.95,913.42,2.7e-05,training
+تقدر تستخدمها في البقالات والعيادات والمنتجات والمطاعم واماكن السياحة,Statement,gpt-4o-mini,0.95,6838.64,2.7e-05,training
+كيف يفعلو الشراء من التطبيق  مارضت تتفعل الايقونه <br>ملاحظه البطاقه ماقد وصلت,Question,gpt-4o-mini,0.95,912.83,2.8e-05,training
+طيب والعلم السعودي كيف اغيرو ساكنه بالاردن,Question,gpt-4o-mini,0.95,648.74,2.6e-05,training
+اتوقع ماخذين عمولة تحويل العملة البنك نفسه<br>لان ٤٠٠٠ جنية بـ ٣٠٣ريال و٩٨هلله,Statement,gpt-4o-mini,0.95,827.95,2.9e-05,training
+لما حولت من حسابي البنكي لحسابي ببرق اكتشفت ان حسابي ببرق مش بأسمى كيف ؟,Question,gpt-4o-mini,0.95,861.15,2.8e-05,training
+لما اجيت اضيف يول يرجالاتصال علا العملا,Statement,gpt-4o-mini,0.95,945.73,2.6e-05,training
+وانا يقول الرقم غلط,Complaint,gpt-4o-mini,0.95,924.53,2.5e-05,training
+تقدر  تحاسب فيها  المحلات والمطاعم<br>ارجو    الرد       ❤😊,Question,gpt-4o-mini,0.95,1130.7,2.7e-05,training
+انا عندي البطاقة الرقمية .. لكن ما لقيت طلب البطاقة البلاستيكية . كيف الطريقة ؟ هل لاني طلب بطاقة الريال ؟ ولا عادي كلها واحد,Question,gpt-4o-mini,0.95,808.44,2.9e-05,training
+انا طلبتها من اسبوع ولم تصلنا وفي وصلت في بعد فتره من الان ونا قد غيرت موقعي كيف اتصرف حينها لحتى توصل لي للموقع الجديد الذي انتقلت اليه,Question,gpt-4o-mini,0.95,682.17,3e-05,training
+لا تحلف <br>مايخذون عموله برق <br>بس مثل تايلند على كل عملية حسب ياخذون 25 ريال تحويل عمله,Statement,gpt-4o-mini,0.95,751.62,2.9e-05,training
+في خيارت هل انت خاضع للرسوم الدولية وش اختار <br>فيه خيار ( نعم ) وفيه خيار ( لا ),Question,gpt-4o-mini,0.95,1242.87,2.8e-05,training
+طلبت بطاقه برق مكتوب عليها ريال بس ما وصلتني رغم اني استخدمها عادي من ابل باي,Complaint,gpt-4o-mini,0.95,770.75,2.8e-05,training
+جمدو حسابي عشان دخلت من جوالين وللحين مافتح وفلوسس كلها فيه وش اسوي؟؟؟,Complaint,gpt-4o-mini,0.95,747.09,2.8e-05,training
+اقدر استخدمه برا المملكه ؟,Question,gpt-4o-mini,0.95,818.32,2.5e-05,training
+ممكن اعرف اذا الشريحة الالكترونية تشتغل برا حسب الدولة اللي اخترتها تمام او لا,Question,gpt-4o-mini,0.95,1476.9,2.7e-05,training
+اقسم بالله انهم كذابين وحراميه شريت ايفون ب 5200 قبل فتره و لفيت العجله و اعطاني اقل شي صارت معي اكثر من مره دائماً اذا المبلغ عالي يعطوني اقل نسبه للكاش باك و مافيه ولا مره جاني 100% كاش باك العجله حقتهم مبرمجينها على مزاجهم و مستحيل يرجعون لك فلوسك الي دفعتها كامله كل شي تمت برمجته من قبل هالتطبيق الحرامي ولا راح تاخذها ابداً فقط لجذب الناس ورفع تطبيقهم السيئ و الدعم حقهم تكلمهم مايردون عليك ابد يقول جاري نقلك ويسحبون عليك ولا فيه احد يرد,Complaint,gpt-4o-mini,0.95,1017.93,5.1e-05,training
+كم سعر الصرف؟؟,Question,gpt-4o-mini,0.95,677.24,2.5e-05,training
+ياصاحب الفديو انت خسران ٢٦ ريال<br>شوف سعر الصرف ١٣ و٤٠ هلله <br>...لوالمقطع مو  جديد مو قديم,Complaint,gpt-4o-mini,0.95,919.6,3.2e-05,training
+اذا بدفع عن طريق البطاقة هل البنك الدولي ياخذ نسبة؟ لانه برق ماتاخذ بس كيف البنوك الدولية؟كم تاخذ عالدفع بالبطاقة؟,Question,gpt-4o-mini,0.95,928.66,2.9e-05,training
+بطاقة مدى يمديني استخدمها سحب ومشتريات؟,Question,gpt-4o-mini,0.95,949.06,2.6e-05,training
+بنك الاهلي المصري والبنك المصري ماياخذ عمولة فالمقطع صحيح برق تسحب بدون عمولة بس غير البنكين ذولي ياخذو عمولة البنك نفسه نفس اللي المقطع البنك ذا ماخذ عليك عمولة البنك نفسه,Statement,gpt-4o-mini,0.95,678.28,3.1e-05,training
+تدخل صالات مطار  فيزا برق,Statement,gpt-4o-mini,0.95,821.57,2.5e-05,training
+كيف اودع فيها فلوس اذا كانت بلاستيكيه,Question,gpt-4o-mini,0.95,1069.53,2.6e-05,training
+كيف اضيف فيها فلوس,Question,gpt-4o-mini,0.95,814.61,2.5e-05,training
+افضل بطاقه استخدمتها بجميع الدول روووعه والله من سوى هالبطاقه سوا خير فالناس,Praise,gpt-4o-mini,0.95,817.79,2.8e-05,training
+عزالله صدقت الله يجزى من سواها لنا خير,Praise,gpt-4o-mini,0.95,720.32,2.6e-05,training
+❤️,Praise,gpt-4o-mini,0.95,920.07,2.4e-05,training
+طلعت بطاقه رقميه بس ما  طلع معي اصدار بطاقه بلاستيكيه ليش,Question,gpt-4o-mini,0.95,790.0,2.8e-05,training
+يقلي الرجاء ادخال هوية صالحة,Complaint,gpt-4o-mini,0.95,792.73,2.5e-05,training
+سلام عليكم كيفك اخبارك طيب ولي عليه تنفيذ يسحبو من حسابك ايقاف خدمات,Question,gpt-4o-mini,0.95,821.54,2.7e-05,training
+انا لو حولت فيها عشر الاف وسافرت اذربيجان هل استطيع اسحب ببطاقة برق هناك من اي صراف في اذربيجان ولا لها صرافات معينه,Question,gpt-4o-mini,0.95,667.85,3e-05,training
+مافيه بطاقة بالاستكيه,Statement,gpt-4o-mini,0.95,782.84,2.5e-05,training
+وش الفايده من البطاقه,Question,gpt-4o-mini,0.95,851.73,2.5e-05,training
+كيف  اخلي اي  تحويل من الراجحي من شخص ما  لبطاقه برق موراضي يضبط,Question,gpt-4o-mini,0.95,654.04,2.8e-05,training
+بطاقة الانصال الرقميه كيف,Question,gpt-4o-mini,0.95,746.7,2.5e-05,training
+ليش مايمدي اضيف مدى طالع ليي بس فيزا,Question,gpt-4o-mini,0.95,793.46,2.6e-05,training
+طيب هل يجوز الكاش باك فيها؟؟؟,Question,gpt-4o-mini,0.95,822.2,2.5e-05,training
+ما اتكلم عن السحب، عمليات الشراء من برا ياخذون رسوم تحويل عمله وفيزا؟,Question,gpt-4o-mini,0.95,828.81,2.7e-05,training
+يااخي في ثلاث بطايق من برق ايت افضل واحدة من الثلاث,Question,gpt-4o-mini,0.95,926.38,2.6e-05,training
+شرح مختصر ومفهوم 🎉🎉الله يعطيك العافيه,Praise,gpt-4o-mini,0.95,1070.28,2.6e-05,training
+الي فيها علامه الريال مافيها خيار البلاستيكية الى تاريخ اليوم - الي يحتاج البلاستيكية يطلب العادية,Statement,gpt-4o-mini,0.95,788.58,2.8e-05,training
+وش السالفه ناس تقول تاخذ عموله وناس تقول لا <br>بس نرجع ونقول الكاش اطلق شي <br>وبدل عملتك في الدوله الي تروح لها .,Question,gpt-4o-mini,0.95,708.34,3e-05,training
+ينفع اطلب الاثنين مدي وفيزا .<br>وهل مجاني حقها,Question,gpt-4o-mini,0.95,785.21,2.7e-05,training
+كيف افعلها خارج السعوديه,Question,gpt-4o-mini,0.95,712.37,2.5e-05,training
+افضل بنك لتحويل العملات في تركيا ايش ؟,Question,gpt-4o-mini,0.95,916.42,2.5e-05,training
+السلام عليكم ورحمة الله وبركاته بطاقة مدى برق هل يمكن استخدامها خارج السعودية سحب فلوس وشراء من البطاقه,Question,gpt-4o-mini,0.95,923.46,2.7e-05,training
+انا ذحين ما عندي زي الايفون انا كل ما خشيت البطاقه احول ادفع لكن ما تندفع ايش السبب,Question,gpt-4o-mini,0.95,922.16,2.8e-05,training
+يا جماعة الخير حولت على برق عشر مرات مش عايزة تظهر عندى الكاش باك حد مر بنفس التجربة,Question,gpt-4o-mini,0.95,807.67,2.8e-05,training
+انا ما يطلع لي خيار طلب البطاقة البلاستيكيه وش الحل يطلع لي لاحقاً فقط,Question,gpt-4o-mini,0.95,830.56,2.7e-05,training
+اللي عليه ايقاف خدمات يقدر يحول لها عادي؟؟,Question,gpt-4o-mini,0.95,910.34,2.6e-05,training
+برق على كلام ناس أستعملتها يعني . أنا استخدمت ٣٦٠ جامده الحمدلله أموري طيبه والسيفتي فيها أوكي الموقع مايعلق التحويل والإسترجاع بنفس الوقت مايتأخر . بس السحب الدولي للأسف خذوا مني عموله قويه مع أني كنت ضامن أنها بدون رسوم . تسوق ولا أحلى بدون مشاكل,Statement,gpt-4o-mini,0.95,864.11,3.8e-05,training
+بالله عيب التطبيل والله انهم فاشلين برق مافيه عندهم خدمة عملاء واذا ماحد مصدق اتصل عليهم اذا ردو عليك اطبل لهم,Complaint,gpt-4o-mini,0.95,1146.77,3e-05,training
+سويت حساب جديد يقلي طلبك قيد الانتظار لها دحين يوم كامل وش الحل,Question,gpt-4o-mini,0.95,845.17,2.7e-05,training
+السلام عليكم ورحمة الله وبركاته<br>هل عند طلب البطاقه البلاستيكيه من برق بيكون فيه رسوم توصيل,Question,gpt-4o-mini,0.95,834.14,2.8e-05,training
+السلام عليكم ورحمة الله وبركاته<br>هل توصيلها مجاني,Question,gpt-4o-mini,0.95,4436.35,2.6e-05,training
+ما شا الله شرح وافي و كافي كل الشكر و التقدير لك و أقترح على شركة برق اضافة شرحك المتكامل إلى حساباتهم 👏🏼👏🏼👏🏼👌🏻,Praise,gpt-4o-mini,0.95,832.83,3e-05,training
+صراحه جباره المدى هذي مسويها اكترونيه والاحسن التحويل بدون ضرايب حول لمصر لوين ماتبي كله مجاني الراجحي يخي ضريبته ١٧ ريال على مصر اما برق مجاني وحتى تحويل رصيد على الشرايح الدوليه ارخص بكثير من مواقع ثانيه,Praise,gpt-4o-mini,0.95,877.05,3.4e-05,training
+طيب كيف تعبيها دولار او ريال مثلا سافرت اندونيسيا اسحب بعملة البلد اللي مسافر لها حتى لو فيها ريال او دولار ماني فاهم,Question,gpt-4o-mini,0.95,690.5,2.9e-05,training
+طيب لو حبيت اسافر لاي دوله هل احط فيها عملت بلدي او دولار وكيف,Question,gpt-4o-mini,0.95,725.18,2.7e-05,training
+السلام عليكم لاهنتو الحين انا عندي مخالفات وحجز ارصده بس اذا طلعت برق مدى بيكون نفس السالفه ولا عادي,Question,gpt-4o-mini,0.95,1331.5,2.9e-05,training
+بيض الله وجهك,Praise,gpt-4o-mini,0.95,808.71,2.4e-05,training
+لو عندي البطاقه الرقميه فقط اقدر احاسب ابل بي وانا مسافر بدون رسوم يعني مثل البلاستيكيه؟,Question,gpt-4o-mini,0.95,950.54,2.8e-05,training
+انا عندي مشكله في التطبيق نفسه هل يمديك تساعدني فيه لاهنت,Question,gpt-4o-mini,0.95,997.71,2.7e-05,training
+وش فرق بينها وبين الحمراء,Question,gpt-4o-mini,0.95,1130.0,2.5e-05,training
+وهل تسحب من صرافات بدون رسوم,Question,gpt-4o-mini,0.95,726.87,2.5e-05,training
+وربي والله على ما أقول شهيد <br>انتبهوا من الأشخاص الذين يطبلون لهذه البطاقه<br>من أسوأ البطاقات التي اتعاملت فيها<br>وخصوصا في عمليات الشراء على أنه في كاش باك<br>في كل عملية لكن فيها عمليات نصب وانت يالمسكين<br>تضحك على نفسك<br>جربوا stcpay وراح تعرفوا كلمة المصداقية ماذا تعني من أجمل و أسرع البطاقات<br>وفي بطاقة d360,Complaint,gpt-4o-mini,0.95,797.33,4.3e-05,training
+سحبت منها في بانكوك وخصم على ٢٥ ريال على كل سحبه,Complaint,gpt-4o-mini,0.95,1548.17,2.7e-05,training
+انا كنت في تايلند وسحبت من الصراف واخذوا على ٢٥ ريال على كل سحبه,Complaint,gpt-4o-mini,0.95,1282.28,2.8e-05,training
+كم المده بعد الطلب لحتى توصل البطاقه,Question,gpt-4o-mini,0.95,632.67,2.6e-05,training
+ما. شغالة اللعبة,Complaint,gpt-4o-mini,0.95,605.31,2.5e-05,training
+شلون بدون رسوم؟,Question,gpt-4o-mini,0.95,875.53,2.4e-05,training
+هل اقدر احاسب فيها شبكة في اوروبا؟,Question,gpt-4o-mini,0.95,886.81,2.5e-05,training
+سلام عليكم<br>هل في اندونوسيا اقدر استخدمها بطاقه برق وهل يأخذو مني نسبه على الصرف او السحب,Question,gpt-4o-mini,0.95,1123.22,2.9e-05,training
+بسالك ياخوي. ليه يرفضون رقم الجوال ايش الحل,Question,gpt-4o-mini,0.95,1472.93,2.6e-05,training
+انا حملت التطبيق بس اريد اعرف كيف  اخذ رمز الدعوة حتى ارسلها للأهل والأصدقاء؟,Question,gpt-4o-mini,0.95,768.24,2.7e-05,training
+بقدر استخدم برق مدى في مصر؟؟ ولا لازم برق فيزا؟؟,Question,gpt-4o-mini,0.95,828.45,2.6e-05,training
+طيب انا ماجاني خيار اطلب البطاقة البلاستيكيه,Complaint,gpt-4o-mini,0.95,1151.57,2.6e-05,training
+اقدر استخدم بالفلبين؟,Question,gpt-4o-mini,0.95,836.9,2.5e-05,training
+من وين اطلع الكود حقي ؟,Question,gpt-4o-mini,0.95,976.9,2.5e-05,training
+طيب لو عاوز تحول من برق الي البنك الاهلي حوالة بالدولار كيف,Question,gpt-4o-mini,0.95,969.48,2.7e-05,training
+للأسف في تركيا جربت أغلب الصرفات ما تصرف ابدا ..  فقط دفع في نقاط البيع,Complaint,gpt-4o-mini,0.95,1284.8,2.8e-05,training
+🎉سلام عليكم <br>خوي ممكن تفديني لماذا تطلع عندي رفض وفها رصيد,Question,gpt-4o-mini,0.95,1954.92,2.7e-05,training
+اسو تطبيق كاش باك,Question,gpt-4o-mini,0.95,1125.98,2.5e-05,training
+واحد يسحب مني حسابي من برق كيف الغيها مايسحب من عندي😢,Question,gpt-4o-mini,0.95,1019.06,2.7e-05,training
+هل بطاقتي مدي وفيزا بيكون فيهم نفس الرصيد <br>اللي اقدر استخدمه خارخ وداخل السعوديه ؟؟,Question,gpt-4o-mini,0.95,1217.41,2.9e-05,training
+طيب هي الفيزا مثل الأتمان اقدر اخذ منها فلوس بعدين اسدد,Question,gpt-4o-mini,0.95,669.16,2.7e-05,training
+بيض الله وجهك عاوز استعملها في مصر هل البطاقة البلاستيكية والا كيف دولي,Question,gpt-4o-mini,0.95,1023.25,2.7e-05,training
+ازاي اطلب بطاقه البيرق من مصر,Question,gpt-4o-mini,0.95,1183.99,2.6e-05,training
+تبع بنك ايه,Question,gpt-4o-mini,0.95,2102.66,2.5e-05,training
+تبع بنك ايه فى السعوديه,Question,gpt-4o-mini,0.95,865.21,2.5e-05,training
+كيف افعل بطاقه برق مدى البلاستكيه؛؟,Question,gpt-4o-mini,0.95,930.74,2.6e-05,training
+استطيع اسحب فلوس من البطاقة عبر اي مكينة سحب,Question,gpt-4o-mini,0.95,901.68,2.6e-05,training
+طيب فيه عندي بطايق ثانيه زي حقت عمله الريال السعودي يمديني اسحب منها وفيها كاش باك ؟ ولا مب زي مدى,Question,gpt-4o-mini,0.95,921.64,2.9e-05,training
+انا ابناء عندي بطاقه فيزا بس اقدر اطلع مدى,Question,gpt-4o-mini,0.95,715.84,2.6e-05,training
+انا يوصل لنفاذ ومايكمل 😢يقول سجلي خروج واذا سجلت خروج يكرر,Complaint,gpt-4o-mini,0.95,799.94,2.7e-05,training
+طيب ياخي الفيزا مكتوب عندها مجانا مدى الحياه بطاقه مدى موب موجود فيها الكلام ذا يعني,Complaint,gpt-4o-mini,0.95,820.75,2.7e-05,training
+طيب عند بطاقه فيزا مكتوب مجانا مدى الحياة اما مدى لا ليش ووش يعني الشي ذا,Question,gpt-4o-mini,0.95,856.1,2.7e-05,training
+برق فاشل وربي جمدو حسابي فيه ٨٠٠ريال,Complaint,gpt-4o-mini,0.95,807.68,2.7e-05,training
+برق فاشل حسابي تجمد فيه ٨٠٠ ريال,Complaint,gpt-4o-mini,0.95,702.76,2.6e-05,training
+ازاي استفيد من الكاش باك,Question,gpt-4o-mini,0.95,787.69,2.5e-05,training
+زائر ينفع؟,Question,gpt-4o-mini,0.95,1053.72,2.4e-05,training
+طيب كيف ادخل مدى رش,Question,gpt-4o-mini,0.95,643.77,2.5e-05,training
+يااخوي بالله عليك عادي الي عنده إيقاف خدمات يستخدمها بدون ما يجمدو الحساب,Question,gpt-4o-mini,0.95,796.87,2.7e-05,training
+طيب ليش دوله اليمن ماتطلع,Question,gpt-4o-mini,0.95,787.87,2.5e-05,training
+الله يعافيكم ودي اعرف وش حكم عجله الحظ ؟ لان المحفظه جازت لي بس متردد على موضوع العجله . بحثت وماحصلت اجابه,Question,gpt-4o-mini,0.95,647.13,3e-05,training
+ليش حذفتم اليمن من بين الدول للحوالات,Complaint,gpt-4o-mini,0.95,810.44,2.5e-05,training
+اليمن ليش ماهيه موجوده,Question,gpt-4o-mini,0.95,818.56,2.5e-05,training
+فاشل والله,Complaint,gpt-4o-mini,0.95,720.09,2.4e-05,training
+هلا,Statement,gpt-4o-mini,0.95,853.83,2.4e-05,training
+لو سمحتو انا استخدمت الصرافه ف مصر بس اتعطلت فجائه,Complaint,gpt-4o-mini,0.95,699.41,2.7e-05,training
+البطاقه كانت شغاله سحب من اي بنك والان شغااله مشتريات فقط,Statement,gpt-4o-mini,0.95,1284.83,2.7e-05,training
+لاحد يتعامل مع محفضة برق نصب وحتيال,Complaint,gpt-4o-mini,0.95,779.16,2.6e-05,training
+يعني اشحنها بالريال واسحب بأي عملة اجنبية؟<br>ما الفرق بينها وبين سفر بلس؟,Question,gpt-4o-mini,0.95,1277.36,2.8e-05,training
+"يوم قلت رسيم <a href=""https://www.youtube.com/watch?v=zbtyzmnbtsk&amp;t=170"">2:50</a> احسن شي بس لا تقول برسيم همن يوكل",Statement,gpt-4o-mini,0.95,1248.45,3.1e-05,training
+انا بالكويت يصير انزله,Question,gpt-4o-mini,0.95,964.1,2.5e-05,training
+كيف حالك استخدمها في السفر لازم بطاقه بلاستيكية,Suggestion,gpt-4o-mini,0.95,762.53,2.6e-05,training
+ابرقي ياعين<br><br>غناها المرحوم عبدالرحمن السعيد<br><br>الله<br>وين رجعتنا لهذي الاغنيه,Statement,gpt-4o-mini,0.95,864.71,2.9e-05,training
+لماذا تم حذف اليمن من التحويل الدولي <br>حيث انه اكثر مستخدمي برق من اليمن,Question,gpt-4o-mini,0.95,774.72,2.7e-05,training
+وكيف استفيد من المبالغ التوفيريه بحسابي <br>كيف اضيفها الى حسابي,Question,gpt-4o-mini,0.95,2568.42,2.7e-05,training
+يا غالي الحد 4000 في اليوم ولا كيف؟<br>في حد تاني جرب يسحب منها في مصر ؟,Question,gpt-4o-mini,0.95,1001.43,2.8e-05,training
+كيف اشحنها ؟؟ هل لها حد معين للشراء,Question,gpt-4o-mini,0.95,845.2,2.6e-05,training
+كم العمر المناسب أنه يطلع غير متطابق الهويه وا تاريخ الميلاد,Question,gpt-4o-mini,0.95,689.04,2.6e-05,training
+كيف اسدد فاتورة في برق,Question,gpt-4o-mini,0.95,905.61,2.5e-05,training
+هل الفيزا  برق هاته محلية والتسحيل بها خاص بالسعوديين فقط؟؟,Question,gpt-4o-mini,0.95,1149.11,2.7e-05,training
+طيب اي الحل لان جيت اسحب بصراف برق من البنك الاهلي المصري والفلوس لم تطلع من الماكينه واتخصمت من الحساب؟,Complaint,gpt-4o-mini,0.95,721.83,2.8e-05,training
+انا عندي مشكله كل ما احول اطلع بطاقة اسوي كل الإجراءات لما اخلص يرجعني من اول و جديد ايش الحل,Complaint,gpt-4o-mini,0.95,901.47,2.8e-05,training
+كيف اصدر بطاقة بلاستكية تجيني البيت انا اصدر البطاقة من التطبيق وطلعتلي بطلقة الرقمية فقط وانا احتاج نفس البطاقة توصل عندي,Question,gpt-4o-mini,0.95,794.89,2.9e-05,training
+البطافة وصلتني لكن اذا بفعلها عن طريق التطبيق سواء رسالة نصية او عن طريق ال nfc تطلع رسالة محتواها ( يرجى التحقق اذا كنت قد قمت بالفعل بطلب البطاقة و التحقق من حالتها ) مدري وش المشكلة  ؟؟؟,Question,gpt-4o-mini,0.95,865.52,3.3e-05,training
+الراجحي ياخذ رسوم اذا حولة على برق,Statement,gpt-4o-mini,0.95,848.34,2.5e-05,training
+انا جربتها لازم قبل ماتسحب تنتبه لشاشة الصراف لانه يعرض لك اذا كان فيه عموله ام لا,Suggestion,gpt-4o-mini,0.95,1398.66,2.8e-05,training
+احسن بطاقتين للسفر باختصار واريح ومرنه غطت على بطاقة السفر والمسافر والعملات,Suggestion,gpt-4o-mini,0.95,809.35,2.8e-05,training
+احلى بطاقة استخدمتها في اذربيجان والامارات ولاعمرها توقفت معي لا في نقاط البيع ولا سحب كاش,Praise,gpt-4o-mini,0.95,928.9,2.8e-05,training
+انا عندي مشكله بتسجيل  لم ادخل الرقم الاول بيفتح التطبيق وكل شئ بس لم بسجل باقي البيانات بيجيلي دولة برتخال بالرقم وبحاول اخير الدوله ما بيتخير,Complaint,gpt-4o-mini,0.95,2773.62,3.3e-05,training
+ما جيني السعودية ذي ما ظهر عند بالداخل,Question,gpt-4o-mini,0.95,1236.69,2.5e-05,training
+شكرا جزيلا على هذا الشرح الوافي والسريع بدون مطمطه زايده ممتن لك يا أخي الكريم,Praise,gpt-4o-mini,0.95,1055.26,2.8e-05,training
+اغير رقم التليفون ازاي,Question,gpt-4o-mini,0.95,636.87,2.5e-05,training
+وش احط في مكان الميلاد  وانا في السعودية لم يظرلي السعودية او مكة المكرمة,Question,gpt-4o-mini,0.95,1192.4,2.7e-05,training
+طيب انت طلعت البطاقة و حطيت عند البلاستيكه لا شكرا والحين ابيها كيف اطلعها ؟,Question,gpt-4o-mini,0.95,1034.46,2.8e-05,training
+بطاقة مدى برق تستخدم في دبي ؟؟؟,Question,gpt-4o-mini,0.95,974.75,2.5e-05,training
+هل تسحب حتى بعد انتهاء الاقامه ؟,Question,gpt-4o-mini,0.95,1192.38,2.5e-05,training
+مركز الألعاب ما طلعلي وابي اطلب بطاقة البلاستيكية ما طلع لي لمكان الي بيبينوه في لفيديوهات تواسلت مع دعم حاطين ربوت يرد على شي الي مبرمجينه عليه ما فادني بشي اتصل عليهم محد يرد برق شافشلين جدا الي باقي ما فتح فيه حساب ما انصحو اذا صار مع ايي مشكل ما في فرع ولى في احد يرد عليك فاشليييييين,Complaint,gpt-4o-mini,0.95,869.74,4.1e-05,training
+عندي حساب سويت تسجيل خروج وابغى ارجع رفض الا تسجيل جديد,Complaint,gpt-4o-mini,0.95,847.08,2.6e-05,training
+برق افضل شي ماتستخدمها الجمعه والسبت يصر غلط في العمليات,Complaint,gpt-4o-mini,0.95,969.21,2.6e-05,training
+ممكن شرح لان يقول لي تم الرفض ؟,Question,gpt-4o-mini,0.95,1095.19,2.5e-05,training
+كيف اطلع رقم الحساب والايبان ؟؟,Question,gpt-4o-mini,0.95,821.0,2.5e-05,training
+ابغى اعرف الايبان والحساب,Question,gpt-4o-mini,0.95,1261.95,2.5e-05,training
+كيف نودع في الحساب ؟؟اذا معانا كاش ونبغا نودع,Question,gpt-4o-mini,0.95,1331.59,2.7e-05,training
+كيف أنشط البطاقة؟,Question,gpt-4o-mini,0.95,908.09,2.5e-05,training
+ما جاني طلب البطاقة بالبلاستيكية,Complaint,gpt-4o-mini,0.95,741.34,2.5e-05,training
+يجيني تم حظر حسابك ايش الحل,Question,gpt-4o-mini,0.95,898.55,2.5e-05,training
+انا في السعودي لدي بطاقة برق هل يمكنلي ان اسحب من مصر ارجو الرد,Question,gpt-4o-mini,0.95,1024.54,2.6e-05,training
+ممكن فيديو لتعليم رفع التذكرة ضرورى إذا سمحت,Question,gpt-4o-mini,0.95,877.81,2.6e-05,training
+توثيق الشروط والاحكام  مايشتغل معي للحين معلقه البطاقة في الجوال ماقدر اسوي تأكيد ؟!,Question,gpt-4o-mini,0.95,666.69,2.8e-05,training
+‏برنامج مش راضي يفتح معايا,Complaint,gpt-4o-mini,0.95,1214.63,2.5e-05,training
+كيف اسوي ايداع في صرافه برق,Question,gpt-4o-mini,0.95,769.23,2.5e-05,training
+ينفع اسحب منها وانا ف مصر والاا المملكه بس,Question,gpt-4o-mini,0.95,885.95,2.6e-05,training
+المحفظة واحدة واذا عندك فيزا او مدى من برق كل عملياتك سواءا سحب او تحويل ولا تسديد الخصم يصير من المحفظة <br>صححو لي اذا غلطان,Question,gpt-4o-mini,0.95,1137.95,3e-05,training
+طيب كيف اعرف رقم حسباتي وانا عندي اكثر من بطاقه,Question,gpt-4o-mini,0.95,977.67,2.6e-05,training
+طلبتها ودخلت افعلها من التطبيق  ثلاث ايام ما تفعلات,Complaint,gpt-4o-mini,0.95,1227.24,2.7e-05,training
+الله يحفظكم والله افضل تطبيق🎉,Praise,gpt-4o-mini,0.95,1559.8,2.5e-05,training
+كم حد السحب اليومي خارج المملكة؟,Question,gpt-4o-mini,0.95,707.55,2.5e-05,training
+عندي سؤال.. الحين اذا جيت مسافرة كيف اسوي اصدار للبطاقة عشان توصلني,Question,gpt-4o-mini,0.95,625.12,2.8e-05,training
+يا اخي تطبيق برق انتهاء الاقامه وا توقف المحفظه وبعدين جددتها واجي احدث الملف الشخصي اجي اسوي تحدث ما يتحدث,Complaint,gpt-4o-mini,0.95,725.61,2.9e-05,training
+لماذا بطاقه فيز لاتقبلها مكينة الصراف الالى فى السعوديه,Question,gpt-4o-mini,0.95,792.31,2.7e-05,training
+طيب الصراف برق زي الصرافه الراجحي وكذا ولا بس لتطبيق ذا ؟,Question,gpt-4o-mini,0.95,1032.9,2.7e-05,training
+كيف اعمل ايداع من داخل مصر ؟ <br>وبيصير عن طريق atm ?داخل مصر,Question,gpt-4o-mini,0.95,811.35,2.7e-05,training
+متى تبدأ المسابقة؟,Question,gpt-4o-mini,0.95,1462.29,2.5e-05,training
+وين سعر الصرف..!!!,Question,gpt-4o-mini,0.95,782.13,2.5e-05,training
+أنا كنت قبل ايام في إسطنبول صرافات  البنوك ياخذون عمولة &quot;الكاش مشين&quot; تصل إلى ١٠٪؜ !! تبي تقول بدون إيصال او اظغط على يسار الشاشة فيك فيك العمولة لكن طبعاً المشتريات ليست عليها عمولةنفس  سعر الكاش 👍🏼 اقول الي يقدر يتحمل ولاهب مثلي يأخذ معه كاش 💵 قديمك نديمك لو جديدك أغناك 🎵,Statement,gpt-4o-mini,0.95,825.35,4.2e-05,training
+خانه الاسم بتجى المدخل غير صالح,Complaint,gpt-4o-mini,0.95,964.5,2.5e-05,training
+هل اقدر اضيف فيها فلوس من فيزا واحولها على الراجحي,Question,gpt-4o-mini,0.95,889.03,2.7e-05,training
+الذي يرغب في بطاقة بلاستيكية يختار البطاقة الخضراء مكتوب بطاقة برق وفيها علامة برق وفيزا فقط بدون علامة مدى,Statement,gpt-4o-mini,0.95,810.14,2.8e-05,training
+يا ادارة برق يا جماعة الخير <br><br>ايش صار لكم انا كنت دائم احول من عليكم وعملت تحويلات كتير اوي من عندكم بس المره دي من يوم ١٨ اكتوبر والتحويل ذلتوني عليه واكلم خدمة العملاء ويقولوا بنصعد المشكله <br><br><br><br>وعالحال ده من يوم ٢٠ اكتوبر <br><br><br><br>وفتحت تذكرة شكوي للتاخير وحوارات كتير ليه كده انا للاسف فقدت الثقه نهائيا بالبرنامج <br><br><br><br>ايه الي يذلني الذل ده برنامج شغال بمزاجه <br><br><br><br>وخذمة عملاء بمزاجها <br><br><br><br>والبرنامج اكيد شويه وهيسكر دام فيه مشاكل غير مفهومه <br><br><br><br>احذروا يا جماعه,Complaint,gpt-4o-mini,0.95,1052.95,5.8e-05,training
+ما يجيني رقم يجيني الهويه ويوم احطها يقول غلط وانا متأكد منها,Complaint,gpt-4o-mini,0.95,884.33,2.7e-05,training
+كيف اسجل,Question,gpt-4o-mini,0.95,1101.72,2.4e-05,training
+لو هويتي منتهيه اقدر استخدم الحساب او البطاقه,Question,gpt-4o-mini,0.95,772.29,2.6e-05,training
+نصابين مايطلع لي الا %0.4 في كل العمليات,Complaint,gpt-4o-mini,0.95,783.6,2.6e-05,training
+سويت كل شي وماجاني اتصال ايش الحل😢,Complaint,gpt-4o-mini,0.95,1329.07,2.6e-05,training
+انا سجلت الجوال وجيت عند التحقق من الهويه حطيت الهويه وتاريخ الميلاد ويقول غير متطابقه وانا متأكد منها الي عنده حل يساعدني,Question,gpt-4o-mini,0.95,1139.79,3e-05,training
+يقولي طلبي قيد الانتظار ما توثق بسرعة,Complaint,gpt-4o-mini,0.95,817.23,2.6e-05,training
+ليش ماتطلع عندي عجلت الحظ,Question,gpt-4o-mini,0.95,909.26,2.5e-05,training
+نصابين وربي اول مسدد فاتوره كهرباء بي 2200 معطيني 8 ريال يسوقون امها,Complaint,gpt-4o-mini,0.95,921.63,2.8e-05,training
+يا عيال تكفون حسابي محظور كيف افتح الحظر حتى خدمه العملا ما يردون,Complaint,gpt-4o-mini,0.95,921.63,2.8e-05,training
+معطله لها يومين,Complaint,gpt-4o-mini,0.95,818.04,2.5e-05,training
+طيب هل تربط البايبال وكيف السحب منه,Question,gpt-4o-mini,0.95,1820.14,2.5e-05,training
+انتبهو منهم نصابين ويجمدون الحسابات,Complaint,gpt-4o-mini,0.95,1353.51,2.6e-05,training
+بتشتغل في كل الدول؟؟؟,Question,gpt-4o-mini,0.95,900.55,2.5e-05,training
+طيب ليه ما اقدر اسحب ؟,Question,gpt-4o-mini,0.95,936.97,2.5e-05,training
+أنا عندي بطاقة اليوم الوطني كيف اقدر اسوي  لها طلب؟,Question,gpt-4o-mini,0.95,722.66,2.6e-05,training
+انا طلبت مدى او ضروري برق,Question,gpt-4o-mini,0.95,1257.32,2.5e-05,training
+كيف اطلع رمز الدعوة,Question,gpt-4o-mini,0.95,681.86,2.5e-05,training
+الزيك يا مدير الزاي أحوط فلوس ف بطاقه برق,Statement,gpt-4o-mini,0.95,920.53,2.6e-05,training
+كيف احط موقعي عشان استلم البطاقه بصرحه فيها صعوبه شويه لان الموقع مو راضي ينضاف,Question,gpt-4o-mini,0.95,1161.73,2.8e-05,training
+هل مكتوب فيها اسم الشخص؟,Question,gpt-4o-mini,0.95,806.4,2.5e-05,training
+على ساس بحط ٧٢ الف فيهل 😂  بحط مبلغ مقاضي ممكن  المبالغ القويه البنوك مثل الراجحي او الاهلي او بنك معروف الصدق,Statement,gpt-4o-mini,0.95,668.98,3e-05,training
+والحوالات البنكيه توصل في نفس الدقيقه وأقدر اخلي الناس تحول  لي من بنك على برق لانه فيه  رقم حساب 😍😍😍😍😍,Statement,gpt-4o-mini,0.95,689.71,3e-05,training
+توصيلهم سريع ومجانا البطاقه والتوصيل,Praise,gpt-4o-mini,0.95,868.18,2.6e-05,training
+ايش الفرق بين الثلاثه الوان,Question,gpt-4o-mini,0.95,920.56,2.5e-05,training
+برق نصابين ومحتالين اهربو منهم نصيحه,Complaint,gpt-4o-mini,0.95,806.34,2.6e-05,training
+ممكن طريقه طباعه الآيبان في برق,Question,gpt-4o-mini,0.95,831.56,2.6e-05,training
+لو سمحت أنا يوم كنت افعلها ضبطت معي لكن ونا ادخل المعلومات ما طلع لي البطاقه البلاستيكيه <br><br>البطاقه الي طلعتها الي عليها حرف الريال الجديده <br><br>خشيت الإعدادات احاول اطلبها ماعرفت ؟,Question,gpt-4o-mini,0.95,831.56,3.4e-05,training
+كذب,Statement,gpt-4o-mini,0.95,3157.55,2.4e-05,training
+كيف ارفع الحد,Question,gpt-4o-mini,0.95,1034.51,2.4e-05,training
+بصراحه سيئه فتحت لبنتي حساب ابناء حطيت في فلوس مو راضيه تحاسب ولا في مكان وماقدرت استرجع المبلغ اللي حطيته فيها حتى في محطه البنزين ماتشتغل خايسه بغير الاعدادات ماترضى اسواء بطاقه,Complaint,gpt-4o-mini,0.95,863.59,3.6e-05,training
+الله يعطيك العافية وجزاك الله خير ، بس عندي سؤال انا حسابي غير متاح يقولي اضغط على زر التحديث لتنشيط حسابك ، السؤال هو كيف انشط حسابي ؟,Question,gpt-4o-mini,0.95,761.13,3e-05,training
+طلبت البطاقة ولم تصلني من 3 ايام هل بتتاخر,Complaint,gpt-4o-mini,0.95,932.14,2.6e-05,training
+كيف أنشط البطاقة,Question,gpt-4o-mini,0.95,1395.82,2.5e-05,training
+في مصر بدون رسوم فقط من صرافات بنك مصر والبنك الاهلي ..  والبقيه ياخذو عموله انتبهو اللي مسافر مصر,Statement,gpt-4o-mini,0.95,845.58,2.9e-05,training
+هل أقدر أضيفها ل سامسونق باي وقوقل باي لن حاولت وقالو غير مدعوم الدفع اللمسي,Question,gpt-4o-mini,0.95,890.43,2.8e-05,training
+سلام عليكم انا فتحت حساب برق وطلبت بطاقه ولان انا خايف يقولون اذا دخلت فيها فلوس يتوقف حسابك,Question,gpt-4o-mini,0.95,847.32,2.8e-05,training
+جزاك الله خيرا,Praise,gpt-4o-mini,0.95,713.83,2.5e-05,training
+التطبيق محضور عندي ايش المشكلة,Question,gpt-4o-mini,0.95,923.23,2.5e-05,training
+الله ياخذكم ليتني معرفت محفضه برق قفلو حسابي وفيها فلوسي,Complaint,gpt-4o-mini,0.95,639.7,2.7e-05,training
+كيف اطلعها,Question,gpt-4o-mini,0.95,790.55,2.4e-05,training
+عندي بالجوال بس كيف اطلع الفيزا <br>كل ماسوت الخطوط مايعطيني,Question,gpt-4o-mini,0.95,921.25,2.7e-05,training
+بس انا بل يمن ويقول للاسف لنخدم المستفيدين الجدد علا هاذا الموقع تكفى طريقه لتخطي,Suggestion,gpt-4o-mini,0.95,1028.95,2.8e-05,training
+عندنا مساطيل <br>مسهلين كل شي للعمالة علشان تحول اموالها بكل سعولة وبدون ضرايب,Statement,gpt-4o-mini,0.95,878.92,2.9e-05,training
+هل مجانا أحصل عليها أو يوجد رسوم للحصول ع البطاقة البلاستيكيه,Question,gpt-4o-mini,0.95,768.84,2.6e-05,training
+هل مناسبه في بوكينج وعلي اكسبرس وعلي بابا,Question,gpt-4o-mini,0.95,815.22,2.6e-05,training
+هل اقدر اضيفها مثلا في تابي او تمارا,Question,gpt-4o-mini,0.95,1007.44,2.6e-05,training
+يخي حد يفيدني هل يشتغل في عمان,Question,gpt-4o-mini,0.95,783.26,2.6e-05,training
+ممكن رابط,Question,gpt-4o-mini,0.95,750.54,2.4e-05,training
+المشكله في برق تعديل المستفيد لايوجد حوالات برق,Complaint,gpt-4o-mini,0.95,3281.45,2.6e-05,training
+أنا عندي ايقاف خدمات وينزلي راتب يقدر احد يحولي,Question,gpt-4o-mini,0.95,770.38,2.6e-05,training
+الأكثر توفيراً لفلوسك هو: جلبها كاش بالعملة السعودية وتحويلها في محلات الصرافة المعتمدة . برق وغيرها تاخذ على كل عمليه دفع شبكه تاخذ منك عموله ٢،٥ ٪ وكل عمليه سحب من مكائن الصراف atm ياخذون منك اكثر واكثر بينما لو اخذت فلوسك كاش فلوس سعوديه وحولتها طبيعي من محلات الصرافه ماياخذون الا هامش ربح رمزي<br>إقرا التالي 👎🏻<br>&quot;رسوم تحويل العملة الأجنبية: نسبة مئوية تتراوح بين 2.5% إلى 3% تفرضها الجهة المصدرة لبطاقتك (البنك السعودي) على كل عملية&quot;,Suggestion,gpt-4o-mini,0.95,1150.83,5.1e-05,training
+احذروا من دجاجله التسويق 😊<br>الأكثر توفيراً لفلوسك هو: جلبها كاش بالعملة السعودية وتحويلها في محلات الصرافة المعتمدة . برق وغيرها تاخذ على كل عمليه دفع شبكه(نقاط بيع) تاخذ منك عموله ٢،٥ ٪ وكل عمليه سحب من مكائن الصراف atm ياخذون منك اكثر واكثر(تصل الى ٣٠ ريال) بينما لو اخذت فلوسك كاش فلوس سعوديه وحولتها طبيعي من محلات الصرافه ماياخذون الصرافين الا هامش ربح رمزي برق وغيرها ما استبعد انها تدفع اكثر من نصف ارباحها  لاغراق وسائل التواصل الاجتماعي  بمعلنين دجاجلة فقط لمهمة اقناعك انك ربحان بالكذب والدجل إقرا التالي 👎🏻<br>&quot;رسوم تحويل العملة الأجنبية: نسبة مئوية تتراوح بين 2.5% إلى 3% تفرضها الجهة المصدرة لبطاقتك (البنك السعودي) على كل عملية&quot;,Complaint,gpt-4o-mini,0.95,931.64,6.1e-05,training
+😊 احذروا دجاجله التسويق <br>نعم، يوجد رسوم تحويل عملة في بطاقة &quot;برق&quot; عندما تستخدمها في إندونيسيا (أو أي بلد خارج المملكة العربية السعودية).<br>بطاقة &quot;برق&quot; هي بطاقة خصم أو ائتمان عادية صادرة محلياً (ليست بطاقة عملات متعددة مثل &quot;بطاقة المسافر&quot;).<br>تفاصيل الرسوم:<br>رسوم تحويل العملة الأجنبية (foreign exchange fee): هذه هي الرسوم الرئيسية، وهي عبارة عن نسبة مئوية تفرضها الجهة المصدرة للبطاقة (البنك السعودي) على كل عملية شراء أو سحب تجريها بعملة غير الريال السعودي (مثل الروبية الإندونيسية).<br>النسبة الشائعة لهذه الرسوم تتراوح بين 2.5% إلى 3% من قيمة العملية.<br>رسوم الصرف (mark-up on exchange rate): بالإضافة إلى الرسوم المئوية، فإن البنك يطبق سعر صرف مختلف عن سعر السوق الحقيقي، وهذا يعتبر هامش ربح إضافي له.<br>الخلاصة:<br>كل مرة تدفع فيها بواسطة بطاقة &quot;برق&quot; في إندونيسيا، يتم خصم قيمة المشتريات مضافاً إليها ما يقارب 3% من إجمالي المبلغ كرسوم تحويل عملة. ولهذا السبب، يظل الدفع النقدي (الكاش) بعد الصرافة في مكاتب موثوقة هو الخيار الأوفر.,Statement,gpt-4o-mini,0.95,1027.38,6.9e-05,training
+احذروا دجاجلة التسويق 😊<br>نعم، يوجد رسوم تحويل عملة في بطاقة &quot;برق&quot; عندما تستخدمها في إندونيسيا (أو أي بلد خارج المملكة العربية السعودية).<br>​بطاقة &quot;برق&quot; هي بطاقة خصم أو ائتمان عادية صادرة محلياً .<br>​تفاصيل الرسوم:<br>​رسوم تحويل العملة الأجنبية (foreign exchange fee): هذه هي الرسوم الرئيسية، وهي عبارة عن نسبة مئوية تفرضها الجهة المصدرة للبطاقة (البنك السعودي) على كل عملية شراء أو سحب تجريها بعملة غير الريال السعودي (مثل الروبية الإندونيسية).<br>​النسبة الشائعة لهذه الرسوم تتراوح بين 2.5% إلى 3% من قيمة العملية.<br>​رسوم الصرف (mark-up on exchange rate): بالإضافة إلى الرسوم المئوية، فإن البنك يطبق سعر صرف مختلف عن سعر السوق الحقيقي، وهذا يعتبر هامش ربح إضافي له.<br>​الخلاصة:<br>كل مرة تدفع فيها بواسطة بطاقة &quot;برق&quot; في إندونيسيا، يتم خصم قيمة المشتريات مضافاً إليها ما يقارب 3% من إجمالي المبلغ كرسوم تحويل عملة. ولهذا السبب، يظل الدفع النقدي (الكاش) بعد الصرافة في مكاتب موثوقة هو الخيار الأوفر.,Statement,gpt-4o-mini,0.95,1006.75,7.1e-05,training
+افضل بنك في المملكه العربيه السعوديه برق,Praise,gpt-4o-mini,0.95,1454.49,2.6e-05,training
+ما وضحت كيف نستخرج كشف حساب,Question,gpt-4o-mini,0.95,788.18,2.5e-05,training
+فيزا ولامدى,Question,gpt-4o-mini,0.95,821.86,2.5e-05,training
+ليه ماتشتغل عندي,Question,gpt-4o-mini,0.95,622.55,2.5e-05,training
+كيف افعل الكاش باك؟,Question,gpt-4o-mini,0.95,704.81,2.5e-05,training
+كذابين ولله ماتصدقون هالكلام أنا محول اكتر من ٢٥٠٠ريال وما جاني شي,Complaint,gpt-4o-mini,0.95,1025.78,2.8e-05,training
+المستلم كيف يستلمها ؟,Question,gpt-4o-mini,0.95,737.34,2.5e-05,training
+شباب انا لما احاول اسحب بها فالمنصورة في مصر <br> يقولي تجاوزت الحد اليومي<br>وانا اخر مرة ساحب بها قبل اسبوع اساسا هل في احد واجهته المشكلة هذي وايش حلها<br>يوم احاول,Question,gpt-4o-mini,0.95,1036.87,3.3e-05,training
+الموسيقى ازعاااج🤦‍♂️,Complaint,gpt-4o-mini,0.95,989.79,2.6e-05,training
+عندها عيب تصرف ٥ صرفات في الشهر بس,Complaint,gpt-4o-mini,0.95,961.64,2.6e-05,training
+سلام اخي من فظلك هل فيها فيزا افتراضية وهل ينفع نطلبها من الجزائر وهل تفعل البايبال. مشكور .,Question,gpt-4o-mini,0.95,872.41,2.8e-05,training
+تصرف امنه 😅,Statement,gpt-4o-mini,0.95,1127.01,2.5e-05,training
+فيها دخول صلات,Statement,gpt-4o-mini,0.95,808.05,2.5e-05,training
+عليه رسوم,Statement,gpt-4o-mini,0.95,925.77,2.4e-05,training
+مشكله برق اذا حولت بنك محلي لاتوصل الحواله الي بعد 10ساعات,Complaint,gpt-4o-mini,0.95,638.2,2.7e-05,training
+المشكله متقدر تعل بها ايداع,Complaint,gpt-4o-mini,0.95,1345.94,2.5e-05,training
+حاليا يور بي افضل من برق 👌🏻,Praise,gpt-4o-mini,0.95,1089.42,2.5e-05,training
+ازى اكلم خدمة العملاء في مصر لأنها مبتسحبش في فلوس,Complaint,gpt-4o-mini,0.95,1204.66,2.6e-05,training

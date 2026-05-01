@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Column, String, Integer, DateTime, ForeignKey
+from sqlalchemy import Column, String, Integer, DateTime, ForeignKey, Boolean
 
 from .base import Base
 
@@ -38,3 +38,5 @@ class Comment(Base):
     
     # When this comment record was added to the database
     created_at = Column(DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
+
+    used_in_training = Column(Boolean, default=False, nullable=False)

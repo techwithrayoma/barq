@@ -3,8 +3,12 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 from alembic import context
 from app.core.config import get_settings
-from app.entities.base import Base
 
+from app.entities.base import Base
+from app.entities.comment import Comment
+from app.entities.video import Video
+from app.entities.model import Model
+from app.entities.model_prediction import ModelPrediction
 
 # Load application settings (e.g., DB URL)
 settings = get_settings()

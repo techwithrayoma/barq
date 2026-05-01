@@ -1,4 +1,4 @@
-from ladybug.core.config import Settings
+from core.config import Settings
 from .llm_enum import LLMEnum
 from .providers.openai_provider import OpenAIProvider
 
@@ -11,6 +11,8 @@ class LLMProviderFactory:
         if provider == LLMEnum.OPENAI.value:
             return OpenAIProvider(
                 api_key=self.config.OPENAI_API_KEY,
+                input_pricing=self.config.OPENAI_INPUT_PRICING,
+                output_pricing=self.config.OPENAI_OUTPUT_PRICING,
                 api_url=self.config.OPENAI_API_BASE_URL,
                 default_input_max_characters=self.config.OPENAI_MAX_INPUT_CHARS,
                 default_generation_max_output_token=self.config.OPENAI_MAX_OUTPUT_TOKENS,

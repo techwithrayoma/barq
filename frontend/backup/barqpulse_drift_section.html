@@ -1,0 +1,508 @@
+
+<style>
+:root{--blue:#1A56FF;--blue-dark:#1240CC;--blue-light:#EEF3FF;--blue-mid:#C7D7FF;--text:#0D1526;--text2:#4A5568;--text3:#9AA3B2;--bg:#F7F8FC;--white:#FFFFFF;--border:#E5E9F2;--border2:#CDD3E0;--green:#12B76A;--green-bg:#ECFDF5;--red:#F04438;--red-bg:#FEF3F2;--amber:#F79009;--amber-bg:#FFFAEB;--purple:#7C3AED;--purple-bg:#F5F3FF;--radius:14px;--radius-sm:8px;--shadow-sm:0 1px 3px rgba(13,21,38,0.08);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans','IBM Plex Sans Arabic',sans-serif;font-size:14px;padding:24px;}
+
+.section-hd{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.section-title{font-weight:600;font-size:13px;color:var(--text);white-space:nowrap;}
+.section-line{flex:1;height:1px;background:var(--border);}
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;box-shadow:var(--shadow-sm);}
+.card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.card-title{font-weight:600;font-size:14px;}
+
+/* DRIFT HERO */
+.drift-hero{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;}
+.drift-hero::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--red));}
+.drift-status-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:3px 12px;border-radius:20px;font-weight:600;margin-bottom:14px;}
+.status-warn{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(247,144,9,.25);}
+.status-ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(18,183,106,.2);}
+.status-crit{background:var(--red-bg);color:var(--red);border:1px solid rgba(240,68,56,.2);}
+.drift-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.drift-stat{padding:12px;background:var(--bg);border-radius:var(--radius-sm);border:1px solid var(--border);text-align:center;}
+.drift-stat-val{font-size:22px;font-weight:700;line-height:1;margin-bottom:3px;}
+.drift-stat-lbl{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;}
+.drift-stat-trend{font-size:11px;font-weight:500;margin-top:3px;}
+
+/* TWO COL */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px;}
+
+/* DRIFT CHART SPARKLINE */
+.spark-row{display:flex;flex-direction:column;gap:10px;margin-top:4px;}
+.spark-item{display:flex;align-items:center;gap:10px;}
+.spark-lbl{font-size:12px;color:var(--text2);width:110px;flex-shrink:0;text-align:right;}
+.spark-track{flex:1;height:24px;position:relative;}
+.spark-canvas-wrap{height:24px;width:100%;}
+.spark-val{font-size:11px;font-weight:600;width:36px;flex-shrink:0;}
+.spark-pill{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;flex-shrink:0;white-space:nowrap;}
+.pill-ok{background:var(--green-bg);color:var(--green);border:1px solid rgba(18,183,106,.2);}
+.pill-warn{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(247,144,9,.2);}
+.pill-crit{background:var(--red-bg);color:var(--red);border:1px solid rgba(240,68,56,.2);}
+
+/* FEATURE DRIFT HEATMAP */
+.heatmap-wrap{overflow-x:auto;margin-top:4px;}
+.heatmap-table{width:100%;border-collapse:collapse;font-size:12px;}
+.heatmap-table th{font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.6px;padding:6px 8px;text-align:center;font-weight:500;border-bottom:1px solid var(--border);}
+.heatmap-table th:first-child{text-align:right;}
+.heatmap-table td{padding:7px 8px;text-align:center;border-bottom:1px solid var(--border);}
+.heatmap-table td:first-child{text-align:right;font-weight:500;font-size:12px;color:var(--text2);}
+.hm-cell{display:inline-flex;align-items:center;justify-content:center;width:44px;height:24px;border-radius:6px;font-size:10px;font-weight:700;}
+.hm-0{background:#ECFDF5;color:#065F46;}
+.hm-1{background:#FEF9C3;color:#854D0E;}
+.hm-2{background:#FEF3F2;color:#9B1C1C;}
+.hm-3{background:#FFF1F2;color:#881337;}
+
+/* DISTRIBUTION SHIFT */
+.dist-compare{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+.dist-row{display:flex;align-items:center;gap:8px;}
+.dist-lbl{font-size:12px;color:var(--text2);width:90px;flex-shrink:0;text-align:right;}
+.dist-bars{flex:1;display:flex;flex-direction:column;gap:3px;}
+.dist-bar-wrap{display:flex;align-items:center;gap:6px;}
+.dist-bar{height:12px;border-radius:3px;}
+.dist-bar-lbl{font-size:10px;width:28px;flex-shrink:0;font-weight:600;}
+
+/* ALERT ITEMS */
+.drift-alerts{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+.drift-alert-item{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid;}
+.da-warn{background:var(--amber-bg);border-color:rgba(247,144,9,.25);}
+.da-crit{background:var(--red-bg);border-color:rgba(240,68,56,.2);}
+.da-ok{background:var(--green-bg);border-color:rgba(18,183,106,.2);}
+.da-icon{font-size:14px;flex-shrink:0;margin-top:1px;}
+.da-title{font-size:13px;font-weight:600;margin-bottom:2px;}
+.da-desc{font-size:11px;line-height:1.5;}
+.da-action{margin-top:6px;}
+.da-btn{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid;cursor:pointer;font-family:inherit;font-weight:500;background:transparent;}
+.da-btn-warn{color:var(--amber);border-color:rgba(247,144,9,.4);}
+.da-btn-crit{color:var(--red);border-color:rgba(240,68,56,.4);}
+.da-btn-ok{color:var(--green);border-color:rgba(18,183,106,.4);}
+
+/* RETRAIN PANEL */
+.retrain-panel{background:var(--white);border:2px solid var(--blue-mid);border-radius:var(--radius);padding:20px;margin-bottom:18px;box-shadow:var(--shadow-sm);}
+.retrain-badge{display:inline-flex;align-items:center;gap:6px;background:var(--blue-light);color:var(--blue);font-size:11px;padding:3px 12px;border-radius:20px;border:1px solid var(--blue-mid);font-weight:600;margin-bottom:14px;}
+.retrain-checks{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;}
+.rc-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--bg);}
+.rc-icon{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.rc-pass{background:var(--green-bg);color:var(--green);}
+.rc-fail{background:var(--red-bg);color:var(--red);}
+.rc-pending{background:var(--amber-bg);color:var(--amber);}
+.rc-text{flex:1;font-size:12px;color:var(--text);}
+.rc-val{font-size:11px;font-weight:600;}
+.retrain-timeline{display:flex;gap:0;margin-top:4px;}
+.rt-step{flex:1;text-align:center;position:relative;}
+.rt-step::after{content:'';position:absolute;top:14px;left:50%;right:-50%;height:2px;background:var(--border);z-index:0;}
+.rt-step:last-child::after{display:none;}
+.rt-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;margin:0 auto 6px;position:relative;z-index:1;}
+.rt-done{background:var(--green);color:#fff;}
+.rt-active{background:var(--blue);color:#fff;box-shadow:0 0 0 4px var(--blue-light);}
+.rt-next{background:var(--bg);color:var(--text3);border:2px solid var(--border);}
+.rt-lbl{font-size:10px;color:var(--text3);}
+.rt-date{font-size:10px;font-weight:600;color:var(--text2);margin-top:1px;}
+
+/* LIVE BADGE */
+.live-badge{display:inline-flex;align-items:center;gap:5px;background:#EEF3FF;color:var(--blue);font-size:10px;padding:2px 8px;border-radius:20px;border:1px solid var(--blue-mid);font-weight:600;}
+.live-pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 2s infinite;display:inline-block;}
+@keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.3);}}
+</style>
+
+<h2 style="font-size:11px;position:absolute;width:1px;height:1px;overflow:hidden;">Model drift monitoring section for Barq AI Engine Performance tab</h2>
+
+<!-- SECTION HEADER -->
+<div class="section-hd">
+  <span class="section-title">🔄 Model Drift Monitoring</span>
+  <div class="section-line"></div>
+  <div class="live-badge"><span class="live-pulse"></span>Live • updated hourly</div>
+</div>
+
+<!-- DRIFT HERO -->
+<div class="drift-hero">
+  <div class="drift-status-badge status-warn">⚠ 1 drift signal detected — monitor closely</div>
+  <div class="drift-grid">
+    <div class="drift-stat">
+      <div class="drift-stat-val" style="color:var(--green)">87.1%</div>
+      <div class="drift-stat-lbl">Current accuracy</div>
+      <div class="drift-stat-trend" style="color:var(--green)">↔ stable (±0.4%)</div>
+    </div>
+    <div class="drift-stat">
+      <div class="drift-stat-val" style="color:var(--amber)">+5.2pp</div>
+      <div class="drift-stat-lbl">Label dist. shift</div>
+      <div class="drift-stat-trend" style="color:var(--amber)">⚠ complaints ↑</div>
+    </div>
+    <div class="drift-stat">
+      <div class="drift-stat-val" style="color:var(--green)">0.031</div>
+      <div class="drift-stat-lbl">PSI score</div>
+      <div class="drift-stat-trend" style="color:var(--green)">below 0.1 threshold</div>
+    </div>
+    <div class="drift-stat">
+      <div class="drift-stat-val" style="color:var(--blue)">306</div>
+      <div class="drift-stat-lbl">New labels queued</div>
+      <div class="drift-stat-trend" style="color:var(--blue)">ready for retrain</div>
+    </div>
+  </div>
+</div>
+
+<!-- METRIC DRIFT + LABEL SHIFT -->
+<div class="two-col">
+
+  <!-- METRIC DRIFT SPARKLINES -->
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title">Metric drift — last 30 days</div>
+    </div>
+    <div class="spark-row">
+      <div class="spark-item">
+        <div class="spark-lbl">Accuracy</div>
+        <div class="spark-track"><canvas id="sp1" height="24" role="img" aria-label="Accuracy sparkline over 30 days">Stable around 87%</canvas></div>
+        <div class="spark-val" style="color:var(--green)">87%</div>
+        <div class="spark-pill pill-ok">stable</div>
+      </div>
+      <div class="spark-item">
+        <div class="spark-lbl">F1 Score</div>
+        <div class="spark-track"><canvas id="sp2" height="24" role="img" aria-label="F1 score sparkline">Stable around 0.84</canvas></div>
+        <div class="spark-val" style="color:var(--green)">0.84</div>
+        <div class="spark-pill pill-ok">stable</div>
+      </div>
+      <div class="spark-item">
+        <div class="spark-lbl">Precision</div>
+        <div class="spark-track"><canvas id="sp3" height="24" role="img" aria-label="Precision sparkline">Slight decline</canvas></div>
+        <div class="spark-val" style="color:var(--amber)">81%</div>
+        <div class="spark-pill pill-warn">watch</div>
+      </div>
+      <div class="spark-item">
+        <div class="spark-lbl">Recall</div>
+        <div class="spark-track"><canvas id="sp4" height="24" role="img" aria-label="Recall sparkline">Slightly declining</canvas></div>
+        <div class="spark-val" style="color:var(--amber)">78%</div>
+        <div class="spark-pill pill-warn">watch</div>
+      </div>
+      <div class="spark-item">
+        <div class="spark-lbl">Confidence avg</div>
+        <div class="spark-track"><canvas id="sp5" height="24" role="img" aria-label="Confidence average sparkline">Stable high</canvas></div>
+        <div class="spark-val" style="color:var(--green)">91%</div>
+        <div class="spark-pill pill-ok">stable</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LABEL DISTRIBUTION SHIFT -->
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title">Label distribution shift</div>
+      <div style="font-size:11px;color:var(--text3);">train vs live</div>
+    </div>
+    <div class="dist-compare">
+      <div class="dist-row">
+        <div class="dist-lbl">Complaints</div>
+        <div class="dist-bars">
+          <div class="dist-bar-wrap">
+            <div class="dist-bar-lbl" style="color:var(--text3);">train</div>
+            <div class="dist-bar" style="width:32%;background:#C7D7FF;"></div>
+            <div style="font-size:10px;color:var(--text3);margin-right:4px;">32%</div>
+          </div>
+          <div class="dist-bar-wrap">
+            <div class="dist-bar-lbl" style="color:var(--red);">live</div>
+            <div class="dist-bar" style="width:38.2%;background:var(--red);"></div>
+            <div style="font-size:10px;color:var(--red);font-weight:700;">38.2% ↑</div>
+          </div>
+        </div>
+      </div>
+      <div class="dist-row">
+        <div class="dist-lbl">Questions</div>
+        <div class="dist-bars">
+          <div class="dist-bar-wrap">
+            <div class="dist-bar-lbl" style="color:var(--text3);">train</div>
+            <div class="dist-bar" style="width:26%;background:#C7D7FF;"></div>
+            <div style="font-size:10px;color:var(--text3);">26%</div>
+          </div>
+          <div class="dist-bar-wrap">
+            <div class="dist-bar-lbl" style="color:var(--blue);">live</div>
+            <div class="dist-bar" style="width:24.7%;background:var(--blue);"></div>
+            <div style="font-size:10px;color:var(--blue);">24.7% ↔</div>
+          </div>
+        </div>
+      </div>
+      <div class="dist-row">
+        <div class="dist-lbl">Praise</div>
+        <div class="dist-bars">
+          <div class="dist-bar-wrap">
+            <div class="dist-bar-lbl" style="color:var(--text3);">train</div>
+            <div class="dist-bar" style="width:24%;background:#C7D7FF;"></div>
+            <div style="font-size:10px;color:var(--text3);">24%</div>
+          </div>
+          <div class="dist-bar-wrap">
+            <div class="dist-bar-lbl" style="color:var(--green);">live</div>
+            <div class="dist-bar" style="width:20%;background:var(--green);"></div>
+            <div style="font-size:10px;color:var(--green);">20% ↓</div>
+          </div>
+        </div>
+      </div>
+      <div class="dist-row">
+        <div class="dist-lbl">Suggestions</div>
+        <div class="dist-bars">
+          <div class="dist-bar-wrap">
+            <div class="dist-bar-lbl" style="color:var(--text3);">train</div>
+            <div class="dist-bar" style="width:10%;background:#C7D7FF;"></div>
+            <div style="font-size:10px;color:var(--text3);">10%</div>
+          </div>
+          <div class="dist-bar-wrap">
+            <div class="dist-bar-lbl" style="color:var(--amber);">live</div>
+            <div class="dist-bar" style="width:12%;background:var(--amber);"></div>
+            <div style="font-size:10px;color:var(--amber);">12% ↑</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:12px;padding:8px 10px;background:var(--amber-bg);border-radius:var(--radius-sm);font-size:11px;color:var(--amber);border:1px solid rgba(247,144,9,.2);">
+      ⚠ Complaint class is 6.2pp above training distribution — the primary drift signal. PSI = 0.031 (low severity, but trending up).
+    </div>
+  </div>
+</div>
+
+<!-- FEATURE DRIFT HEATMAP + DRIFT TIMELINE -->
+<div class="two-col">
+
+  <!-- HEATMAP -->
+  <div class="card">
+    <div class="card-hd">
+      <div class="card-title">Feature drift heatmap</div>
+      <div style="display:flex;gap:6px;align-items:center;font-size:10px;color:var(--text3);">
+        <span style="width:10px;height:10px;border-radius:2px;background:#ECFDF5;display:inline-block;border:1px solid #D1FAE5;"></span>none
+        <span style="width:10px;height:10px;border-radius:2px;background:#FEF9C3;display:inline-block;border:1px solid #FEF08A;"></span>low
+        <span style="width:10px;height:10px;border-radius:2px;background:#FEF3F2;display:inline-block;border:1px solid #FECACA;"></span>medium
+        <span style="width:10px;height:10px;border-radius:2px;background:#FFF1F2;display:inline-block;border:1px solid #FDA4AF;"></span>high
+      </div>
+    </div>
+    <div class="heatmap-wrap">
+      <table class="heatmap-table">
+        <thead>
+          <tr>
+            <th>Feature</th>
+            <th>Week 1</th><th>Week 2</th><th>Week 3</th><th>Week 4</th><th>Now</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Comment length</td>
+            <td><span class="hm-cell hm-0">0.01</span></td>
+            <td><span class="hm-cell hm-0">0.01</span></td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+          </tr>
+          <tr>
+            <td>Negative words %</td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+            <td><span class="hm-cell hm-0">0.03</span></td>
+            <td><span class="hm-cell hm-1">0.06</span></td>
+            <td><span class="hm-cell hm-1">0.07</span></td>
+            <td><span class="hm-cell hm-2">0.11</span></td>
+          </tr>
+          <tr>
+            <td>Payment keywords</td>
+            <td><span class="hm-cell hm-0">0.01</span></td>
+            <td><span class="hm-cell hm-1">0.04</span></td>
+            <td><span class="hm-cell hm-2">0.09</span></td>
+            <td><span class="hm-cell hm-2">0.12</span></td>
+            <td><span class="hm-cell hm-3">0.19</span></td>
+          </tr>
+          <tr>
+            <td>Emoji presence</td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+            <td><span class="hm-cell hm-0">0.03</span></td>
+            <td><span class="hm-cell hm-0">0.03</span></td>
+            <td><span class="hm-cell hm-0">0.03</span></td>
+          </tr>
+          <tr>
+            <td>Question marks</td>
+            <td><span class="hm-cell hm-0">0.01</span></td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+            <td><span class="hm-cell hm-1">0.05</span></td>
+            <td><span class="hm-cell hm-1">0.06</span></td>
+          </tr>
+          <tr>
+            <td>Comment source</td>
+            <td><span class="hm-cell hm-0">0.01</span></td>
+            <td><span class="hm-cell hm-0">0.01</span></td>
+            <td><span class="hm-cell hm-0">0.01</span></td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+            <td><span class="hm-cell hm-0">0.02</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:var(--text2);">Values are PSI scores. <strong style="color:var(--red);">Payment keywords</strong> is the only feature approaching the 0.2 retraining threshold — driven by the May 14 card update surge.</div>
+  </div>
+
+  <!-- DRIFT TIMELINE CHART -->
+  <div class="card">
+    <div class="card-hd"><div class="card-title">Accuracy + complaint ratio over time</div></div>
+    <div style="position:relative;height:200px;"><canvas id="driftTimelineChart" role="img" aria-label="Accuracy and complaint ratio trend over 30 days">Drift over time showing accuracy stable and complaint ratio rising.</canvas></div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;">
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:18px;height:3px;background:#1A56FF;display:inline-block;border-radius:2px"></span>Accuracy %</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text2)"><span style="width:18px;height:3px;background:#F04438;display:inline-block;border-radius:2px;border-top:2px dashed #F04438;height:0"></span>Complaint ratio %</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--amber)"><span style="width:18px;height:1px;background:var(--amber);display:inline-block;border-top:2px dashed var(--amber);height:0"></span>Retrain threshold</span>
+    </div>
+  </div>
+</div>
+
+<!-- DRIFT ALERTS + RETRAIN RECOMMENDATION -->
+<div class="two-col">
+
+  <!-- DRIFT ALERTS -->
+  <div class="card">
+    <div class="card-hd"><div class="card-title">Drift alerts</div></div>
+    <div class="drift-alerts">
+      <div class="drift-alert-item da-warn">
+        <div class="da-icon">⚠</div>
+        <div style="flex:1;">
+          <div class="da-title" style="color:var(--amber);">Label distribution shift — Complaints</div>
+          <div class="da-desc" style="color:var(--amber);">Complaint ratio drifted +6.2pp above training distribution. PSI 0.031 — low severity but trending. Triggered by May 14 card update.</div>
+          <div class="da-action"><button class="da-btn da-btn-warn" onclick="this.textContent='Queued for review ✓'">Queue for active learning →</button></div>
+        </div>
+      </div>
+      <div class="drift-alert-item da-warn">
+        <div class="da-icon">📊</div>
+        <div style="flex:1;">
+          <div class="da-title" style="color:var(--amber);">Feature drift — Payment keywords</div>
+          <div class="da-desc" style="color:var(--amber);">PSI 0.19 — approaching the 0.20 retraining threshold. New payment-related vocabulary (Apple Pay, Samsung Pay errors) not well represented in v3 dataset.</div>
+          <div class="da-action"><button class="da-btn da-btn-warn" onclick="this.textContent='Flagged ✓'">Flag for dataset update →</button></div>
+        </div>
+      </div>
+      <div class="drift-alert-item da-ok">
+        <div class="da-icon">✓</div>
+        <div style="flex:1;">
+          <div class="da-title" style="color:var(--green);">Accuracy — no significant drift</div>
+          <div class="da-desc" style="color:var(--green);">Model accuracy has been stable at 87 ± 0.4% for 30 days. No retraining required based on accuracy alone.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RETRAIN RECOMMENDATION -->
+  <div class="card" style="border-color:var(--blue-mid);">
+    <div class="card-hd">
+      <div class="card-title">Retraining recommendation</div>
+      <div style="font-size:11px;padding:2px 8px;border-radius:20px;background:var(--blue-light);color:var(--blue);border:1px solid var(--blue-mid);font-weight:600;">Barq v3</div>
+    </div>
+    <div class="retrain-checks">
+      <div class="rc-row">
+        <div class="rc-icon rc-pass">✓</div>
+        <div class="rc-text">New labeled samples available</div>
+        <div class="rc-val" style="color:var(--green);">306 ready</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-icon rc-fail">!</div>
+        <div class="rc-text">Label distribution drift above 5pp</div>
+        <div class="rc-val" style="color:var(--red);">+6.2pp</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-icon rc-pending">~</div>
+        <div class="rc-text">Payment feature PSI near threshold</div>
+        <div class="rc-val" style="color:var(--amber);">0.19 / 0.20</div>
+      </div>
+      <div class="rc-row">
+        <div class="rc-icon rc-pass">✓</div>
+        <div class="rc-text">Accuracy still above 85% floor</div>
+        <div class="rc-val" style="color:var(--green);">87.1%</div>
+      </div>
+    </div>
+    <div style="padding:10px 12px;background:var(--blue-light);border-radius:var(--radius-sm);font-size:12px;color:var(--blue);border:1px solid var(--blue-mid);margin-bottom:14px;">
+      <strong>Recommendation:</strong> Schedule retrain before June 1. Add 306 new labels + augment payment-vocabulary samples. Expected improvement: +2–3% accuracy on complaint class.
+    </div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:10px;text-transform:uppercase;letter-spacing:.6px;">Retrain pipeline progress</div>
+    <div class="retrain-timeline">
+      <div class="rt-step">
+        <div class="rt-dot rt-done">✓</div>
+        <div class="rt-lbl">Data v3</div>
+        <div class="rt-date">May 10</div>
+      </div>
+      <div class="rt-step">
+        <div class="rt-dot rt-done">✓</div>
+        <div class="rt-lbl">Barq v2</div>
+        <div class="rt-date">May 10</div>
+      </div>
+      <div class="rt-step">
+        <div class="rt-dot rt-active">→</div>
+        <div class="rt-lbl">Monitoring</div>
+        <div class="rt-date">Now</div>
+      </div>
+      <div class="rt-step">
+        <div class="rt-dot rt-next">4</div>
+        <div class="rt-lbl">Label v4</div>
+        <div class="rt-date">Jun 1</div>
+      </div>
+      <div class="rt-step">
+        <div class="rt-dot rt-next">5</div>
+        <div class="rt-lbl">Barq v3</div>
+        <div class="rt-date">Jun 8</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function sparkline(id, data, color, min, max) {
+  const ctx = document.getElementById(id);
+  if (!ctx) return;
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: data.map((_,i) => i),
+      datasets: [{ data, borderColor: color, borderWidth: 1.5, pointRadius: 0, tension: 0.4, fill: true, backgroundColor: color + '18' }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { enabled: false } },
+      scales: {
+        x: { display: false },
+        y: { display: false, min: min || Math.min(...data) * 0.95, max: max || Math.max(...data) * 1.05 }
+      }
+    }
+  });
+}
+
+sparkline('sp1', [87,88,87,86,87,88,87,87,88,87,87,86,87,87,88,87,87,87,86,87,88,87,87,88,87,86,87,87,88,87], '#12B76A', 80, 95);
+sparkline('sp2', [0.84,0.85,0.84,0.83,0.84,0.85,0.84,0.84,0.85,0.84,0.84,0.83,0.84,0.84,0.85,0.84,0.84,0.84,0.83,0.84], '#12B76A', 0.75, 0.92);
+sparkline('sp3', [84,84,83,83,82,83,82,82,81,82,82,81,81,81,82,81,81,80,81,81,81,80,81,81,80,81,81,81,80,81], '#F79009', 74, 90);
+sparkline('sp4', [80,80,79,80,79,78,79,79,78,78,79,78,78,78,79,78,78,77,78,78,78,78,78,77,78,78,78,78,78,78], '#F79009', 70, 88);
+sparkline('sp5', [92,91,92,91,91,92,91,91,92,91,91,91,92,91,91,91,91,92,91,91,91,91,92,91,91,91,91,92,91,91], '#12B76A', 85, 98);
+
+new Chart(document.getElementById('driftTimelineChart'), {
+  type: 'line',
+  data: {
+    labels: ['D1','D3','D5','D7','D9','D11','D13','D15','D17','D19','D21','D23','D25','D27','D30'],
+    datasets: [
+      {
+        label: 'Accuracy %',
+        data: [87,88,87,87,86,87,88,87,87,86,87,87,88,87,87],
+        borderColor: '#1A56FF', backgroundColor: 'rgba(26,86,255,0.06)',
+        tension: 0.4, fill: true, borderWidth: 2, pointRadius: 2, yAxisID: 'y'
+      },
+      {
+        label: 'Complaint ratio %',
+        data: [32,33,33,34,34,35,35,36,36,37,37,37,38,38,38.2],
+        borderColor: '#F04438', backgroundColor: 'rgba(240,68,56,0.04)',
+        tension: 0.4, fill: true, borderWidth: 2, pointRadius: 2, borderDash: [5,3], yAxisID: 'y2'
+      },
+      {
+        label: 'Retrain threshold',
+        data: [40,40,40,40,40,40,40,40,40,40,40,40,40,40,40],
+        borderColor: '#F79009', borderWidth: 1.5, borderDash: [6,4],
+        pointRadius: 0, fill: false, tension: 0, yAxisID: 'y2'
+      }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#9AA3B2', font: { size: 10 } } },
+      y: { position: 'right', min: 75, max: 95, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { color: '#1A56FF', font: { size: 10 }, callback: v => v + '%' } },
+      y2: { position: 'left', min: 20, max: 50, grid: { display: false }, ticks: { color: '#F04438', font: { size: 10 }, callback: v => v + '%' } }
+    }
+  }
+});
+</script>

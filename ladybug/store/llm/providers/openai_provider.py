@@ -7,6 +7,8 @@ from openai import OpenAI
 class OpenAIProvider(LLMInterface):
     def __init__(self, 
         api_key: str, 
+        input_pricing: float,
+        output_pricing: float,
         api_url: str=None, 
         default_input_max_characters: int=1000, 
         default_generation_max_output_token: int=20,
@@ -27,10 +29,20 @@ class OpenAIProvider(LLMInterface):
             api_key=self.api_key, 
         )
 
+        self.input_pricing = input_pricing
+        self.output_pricing = output_pricing
 
+
+        
     def set_generation_model(self, model_id: str):
         self.generation_model_id = model_id
     
+
+    def estimate_cost(self, prompt_tokens: int, completion_tokens: int) -> float:
+        return (
+            prompt_tokens * self.input_pricing +
+            completion_tokens * self.output_pricing
+        )
 
     def generate_text(
         self,

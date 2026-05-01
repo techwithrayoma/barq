@@ -1,31 +1,32 @@
 #!/bin/bash
-# ---------------------------------------------------------------
-# RunPod GPU Worker Startup Script
-# Connects to your RabbitMQ broker and listens ONLY on gpu queue
-# ---------------------------------------------------------------
+# ════════════════════════════════════════════════════════════════
+#  Ladybug — RunPod GPU Worker Startup Script
+#  Connects to CloudAMQP broker and listens ONLY on the gpu queue
+# ════════════════════════════════════════════════════════════════
 set -e
 
-echo "=============================================="
-echo "  RunPod GPU Worker — Ladybug LLM Training"
-echo "=============================================="
+echo "══════════════════════════════════════════════"
+echo "  Ladybug GPU Worker — RunPod"
+echo "══════════════════════════════════════════════"
 
-# ---- Show GPU info so you can confirm the pod is correct ----
+# ── Show GPU info ────────────────────────────────────────────────
 echo ""
-echo ">>> GPU Info:"
+echo ">>> GPU:"
 nvidia-smi
 echo ""
 
-# ---- Confirm env vars are present ----
+# ── Confirm env vars loaded ──────────────────────────────────────
 echo ">>> Broker  : $CELERY_BROKER_URL"
 echo ">>> Backend : $CELERY_RESULT_BACKEND"
-echo ">>> Project : /app"
+echo ">>> S3 Bucket: $S3_BUCKET_NAME"
+echo ">>> PYTHONPATH: $PYTHONPATH"
 echo ""
 
-# ---- Give broker 5s to be fully reachable after pod start ----
-echo ">>> Waiting 5s for broker to be reachable..."
+# ── Brief pause to let network settle after pod start ────────────
+echo ">>> Waiting 5s for network..."
 sleep 5
 
-# ---- Start Celery worker — ONLY the gpu queue ----
+# ── Start Celery GPU worker ───────────────────────────────────────
 echo ">>> Starting Celery GPU worker..."
 cd /app
 
@@ -35,5 +36,5 @@ celery -A app.celery_app:celery_app worker \
   --hostname=gpu-worker@%h \
   --concurrency=1 \
   --pool=solo
-# concurrency=1   → one GPU task at a time (correct for single GPU)
-# pool=solo       → avoids fork issues with PyTorch / CUDA in subprocesses
+# concurrency=1  → one GPU task at a time (correct for single GPU)
+# pool=solo      → avoids PyTorch/CUDA fork issues in subprocesses

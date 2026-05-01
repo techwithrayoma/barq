@@ -5,7 +5,10 @@ SYSTEM_FINETUNE = Template(
         "You are an NLP data parser specialized in text classification.",
         "Your task is to extract the intent of a YouTube comment.",
         "Only output JSON with the predicted intent.",
-        "Do not add explanations."
+        "Do not add explanations.",
+        "You MUST choose one of the following labels ONLY:",
+        "Question, Complaint, Statement, Praise, Suggestion.",
+        "Do not invent new labels."
     ])
 )
 

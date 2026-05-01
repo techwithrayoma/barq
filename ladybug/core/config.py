@@ -2,7 +2,7 @@ from pathlib import Path
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-
+    
     # Database type and drivers
     DB_TYPE: str
     DB_SYNC_DRIVER: str
@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     OPENAI_MAX_INPUT_CHARS: int
     OPENAI_MAX_OUTPUT_TOKENS: int
     OPENAI_TEMPERATURE: float
+    OPENAI_INPUT_PRICING: float
+    OPENAI_OUTPUT_PRICING: float
+
+
 
     # Cloud Storage Configuration
     STORAGE_BACKEND: str

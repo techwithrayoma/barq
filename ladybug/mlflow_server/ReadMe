@@ -1,0 +1,58 @@
+
+
+
+conda create -n mlflow_server python=3.11 -y
+
+conda activate mlflow_server
+
+pip install mlflow
+
+
+mlflow_server env
+    ↓
+MLflow tracking server (local)
+    ↓
+SQLite DB (runs)
+    ↓
+Artifacts folder (models/files)
+    ↓
+ngrok tunnel (RunPod access)
+
+
+cd ~/mlflow_server
+
+
+mlflow server \
+  --host 0.0.0.0 \
+  --port 56288 \
+  --backend-store-uri sqlite:///mlflow.db \
+  --default-artifact-root ./artifacts \
+  --serve-artifacts
+
+
+✅ Step 1 — Create ngrok account
+
+
+Go here:
+
+👉 https://dashboard.ngrok.com/signup
+
+Sign up (Google login is fastest).
+
+✅ Step 2 — Get your authtoken
+
+Go here:
+
+👉 https://dashboard.ngrok.com/get-started/your-authtoken
+
+You’ll see a command like:
+ngrok config add-authtoken YOUR_TOKEN_HERE
+
+
+  ngrok http 56288
+
+  Always:
+
+Start MLflow → note port
+Start ngrok → same port
+Keep both running

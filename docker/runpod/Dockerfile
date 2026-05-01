@@ -1,41 +1,43 @@
-# ---------------------------------------------------------------
-# RunPod GPU Worker — Qwen2.5 + LLaMA-Factory fine-tuning
-# ---------------------------------------------------------------
+# ════════════════════════════════════════════════════════════════
+#  Ladybug — RunPod GPU Worker
+#  Base: RunPod PyTorch (CUDA 11.8, Python 3.10)
+#  Runs: Celery GPU worker → LLaMA-Factory fine-tuning
+# ════════════════════════════════════════════════════════════════
 
 FROM runpod/pytorch:2.1.0-py3.10-cuda11.8.0-devel-ubuntu22.04
 
 WORKDIR /app
 
-# ---- System deps ----
+# ── System deps ──────────────────────────────────────────────────
 RUN apt-get update && apt-get install -y \
     git \
     curl \
     wget \
     && rm -rf /var/lib/apt/lists/*
 
-# ---- Copy project FIRST ----
+# ── Copy project ─────────────────────────────────────────────────
 COPY . .
 
-# ---- Upgrade pip ----
+# ── Upgrade pip ──────────────────────────────────────────────────
 RUN pip install --no-cache-dir --upgrade pip
 
-# ---- Install project dependencies (your pipeline, celery, etc.) ----
+# ── Project dependencies (pipeline, celery, pydantic-settings…) ──
 RUN pip install --no-cache-dir -r requirements.txt
 
-# ---- Install GPU / LLM training stack ----
+# ── GPU / LLM training stack ─────────────────────────────────────
 RUN pip install --no-cache-dir \
     "llamafactory[torch,metrics]" \
     deepspeed \
     bitsandbytes \
     peft \
     trl \
-    wandb \
-    accelerate
+    accelerate \
+    wandb
 
-# ---- Make startup script executable ----
-RUN chmod +x docker/runpod/start.sh
-
-# ---- Workspace (persistent volume mount) ----
+# ── Persistent workspace (network volume mounts here on RunPod) ──
 RUN mkdir -p /workspace
+
+# ── Startup script ───────────────────────────────────────────────
+RUN chmod +x docker/runpod/start.sh
 
 CMD ["bash", "docker/runpod/start.sh"]

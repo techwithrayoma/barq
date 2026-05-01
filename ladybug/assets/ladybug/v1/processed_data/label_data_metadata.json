@@ -1,0 +1,14 @@
+{
+  "cost_tracker": {
+    "total_cost": 0.015518700000000005,
+    "llm_cost": 0.015518700000000005,
+    "llm_count": 567,
+    "rule_model_count": 0,
+    "total_tokens_in": 75706,
+    "total_tokens_out": 6938
+  },
+  "rows": 567,
+  "model_name": "ladybug",
+  "version": "v1",
+  "stage": "labeling"
+}
