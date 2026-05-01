@@ -115,9 +115,8 @@ services:
       retries: 10
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-ladybug_redis_2222}
 
+
   # ---------------- CELERY CPU WORKER ----------------
-  # Handles: ingestion, clean, labeling, transform, prepare_training_assets
-  # Does NOT handle gpu queue — that runs on RunPod
   celery_worker:
     build:
       context: ../
@@ -136,40 +135,10 @@ services:
     env_file:
       - ./env/.env.ladybug
     depends_on:
-      rabbitmq:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
       postgres:
         condition: service_healthy
       ladybug:
         condition: service_started
-    networks:
-      - backend
-    restart: always
-
-  celery_gpu_worker:
-    build:
-      context: ../
-      dockerfile: docker/ladybug/Dockerfile
-    container_name: celery_gpu_worker
-    environment:
-      - PYTHONPATH=/app
-    volumes:
-      - ../:/app
-    command: >
-      celery -A app.celery_app:celery_app worker
-      --loglevel=info
-      --queues=gpu
-      --hostname=gpu-worker@%h
-      --concurrency=1
-    env_file:
-      - ./env/.env.ladybug
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
     networks:
       - backend
     restart: always

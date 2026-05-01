@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  gpu_worker:
+    build:
+      context: ..
+      dockerfile: docker/runpod/Dockerfile
+    container_name: gpu_worker
+    env_file:
+      - ./env/.env.gpu_worker
+    volumes:
+      - /workspace:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    command: >
+      celery -A app.celery_app:celery_app worker
+      --loglevel=info
+      --queues=gpu
+      --hostname=gpu-worker@%h
+      --concurrency=1
+      --pool=solo

@@ -26,16 +26,13 @@ class Settings(BaseSettings):
     OPENAI_OUTPUT_PRICING: float
 
 
-
     # Cloud Storage Configuration
     STORAGE_BACKEND: str
     AWS_SECRET_ACCESS_KEY: str
     AWS_ACCESS_KEY_ID: str
     AWS_REGION: str
     S3_BUCKET_NAME: str
-    
-    # Cloud Training Configuration
-    TRAINING_BACKEND: str
+
 
     # Celery Configuration
     CELERY_BROKER_URL: str
