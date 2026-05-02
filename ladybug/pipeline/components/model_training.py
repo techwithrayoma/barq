@@ -202,7 +202,7 @@ class ModelTraining:
 
     def run_llamafactory_training(self, config_path: str):
         
-        mlflow.set_tracking_uri("http://0.0.0.0:57321")
+        mlflow.set_tracking_uri("https://sternness-entrust-crying.ngrok-free.dev")
 
         mlflow.set_experiment(f"{self.project}-{self.version}")
 

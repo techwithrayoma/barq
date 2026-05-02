@@ -1,47 +1,42 @@
-FROM runpod/pytorch:2.1.0-py3.10-cuda11.8.0-devel-ubuntu22.04
+# ---------------- CUDA + PyTorch base ----------------
+FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime
 
 WORKDIR /app
 
-# ─────────────────────────────
-# System dependencies
-# ─────────────────────────────
+# ---------------- System deps ----------------
 RUN apt-get update && apt-get install -y \
-    git curl wget build-essential \
+    build-essential \
+    gcc \
+    git \
+    curl \
+    libffi-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# ─────────────────────────────
-# Copy project
-# ─────────────────────────────
-COPY . .
-
-# ─────────────────────────────
-# Python tooling
-# ─────────────────────────────
-RUN pip install --no-cache-dir --upgrade pip
-
-# ─────────────────────────────
-# Install your project
-# ─────────────────────────────
+# ---------------- Python deps ----------------
+# (your existing requirements)
+COPY ladybug/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# ─────────────────────────────
-# ML / GPU stack
-# ─────────────────────────────
+# ---------------- LLM / training deps ----------------
 RUN pip install --no-cache-dir \
-    llamafactory[torch,metrics] \
-    deepspeed \
+    "transformers>=4.49.0,<=4.57.1,!=4.52.0,!=4.57.0" \
+    "peft>=0.14.0,<=0.17.1" \
+    "datasets>=2.16.0,<=4.0.0" \
+    "accelerate>=1.3.0,<=1.11.0" \
+    scikit-learn \
+    tqdm \
+    "pandas>=2.0.0" \
     bitsandbytes \
-    peft \
-    trl \
-    accelerate \
-    wandb \
-    mlflow \
-    celery \
-    redis \
-    boto3
+    wandb
 
-# ─────────────────────────────
-# RunPod persistent storage
-# ─────────────────────────────
-RUN mkdir -p /workspace
+# ---------------- LLaMA Factory ----------------
+RUN git clone --depth 1 https://github.com/hiyouga/LLaMA-Factory.git \
+    && cd LLaMA-Factory \
+    && pip install -e .
 
+# ---------------- Your code ----------------
+COPY ladybug /app/ladybug
+
+# ---------------- ENV ----------------
+COPY docker/env/.env.gpu_worker /app/.env
+ENV PYTHONPATH=/app

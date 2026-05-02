@@ -74,6 +74,12 @@ services:
     networks:
       - backend
     restart: always
+    command: >
+      mlflow server
+      --host 0.0.0.0
+      --port 5000
+      --backend-store-uri sqlite:///mlflow.db
+      --default-artifact-root s3://your_bucket/mlflow
 
   # ---------------- RABBITMQ ----------------
   rabbitmq:
